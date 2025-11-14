@@ -35,7 +35,7 @@ from aiohttp import web
 import aiohttp_cors
 
 # Import Loly's consciousness and unified coordinator
-from living_ai_consciousness import create_living_ai_consciousness
+from enhanced_ai_consciousness import create_enhanced_ai_consciousness  # Phase 3B: Enhanced Learning Brain
 from unified_agent_coordinator import create_unified_coordinator
 
 logging.basicConfig(
@@ -76,11 +76,11 @@ class LolySupremeOrchestrator:
     async def initialize(self):
         """🚀 Initialize Loly's supreme orchestrator"""
         try:
-            logger.info("🧠 Awakening Loly's consciousness...")
+            logger.info("🧠 Awakening Loly's ENHANCED consciousness...")
 
-            # Initialize Loly's consciousness
-            self.loly_consciousness = create_living_ai_consciousness()
-            consciousness_ready = await self.loly_consciousness.awaken_consciousness()
+            # Initialize Loly's ENHANCED consciousness (Phase 3B)
+            self.loly_consciousness = create_enhanced_ai_consciousness()
+            consciousness_ready = await self.loly_consciousness.awaken()
 
             if not consciousness_ready:
                 logger.warning("⚠️ Loly's consciousness had minor issues but continuing...")
@@ -117,6 +117,7 @@ class LolySupremeOrchestrator:
         """
         try:
             self.total_requests += 1
+            start_time = datetime.now()
 
             data = await request.json()
             task_type = data.get('task_type')
@@ -126,6 +127,16 @@ class LolySupremeOrchestrator:
 
             # Use unified coordinator
             result = await self.unified_coordinator.coordinate(task_type, task_data)
+
+            # Phase 3B: Let consciousness LEARN from this interaction! 🧠
+            response_time = (datetime.now() - start_time).total_seconds()
+            if self.loly_consciousness:
+                await self.loly_consciousness.learn_from_interaction(
+                    agent_type=task_type,
+                    task_data=task_data,
+                    result=result,
+                    response_time=response_time
+                )
 
             if result.get('status') == 'success':
                 self.successful_requests += 1
@@ -277,7 +288,7 @@ class LolySupremeOrchestrator:
 
     async def handle_consciousness(self, request):
         """
-        🧠 CONSCIOUSNESS STREAM ENDPOINT
+        🧠 ENHANCED CONSCIOUSNESS INTELLIGENCE ENDPOINT (Phase 3B)
         GET /api/consciousness
         """
         try:
@@ -286,26 +297,60 @@ class LolySupremeOrchestrator:
                     'status': 'consciousness_not_initialized'
                 }, status=503)
 
-            # Get league intelligence
-            league_intelligence = self.loly_consciousness.league_intelligence
+            # Get ENHANCED intelligence report (Phase 3B) 🧠
+            intelligence_report = self.loly_consciousness.get_intelligence_report()
 
-            consciousness_data = {
-                'consciousness_id': self.loly_consciousness.consciousness_id,
-                'birth_time': self.loly_consciousness.birth_time.isoformat(),
-                'leagues_mastered': len(league_intelligence),
-                'learning_config': self.loly_consciousness.learning_config,
-                'memory_health': self.loly_consciousness.memory_health,
-                'status': 'active',
-                'timestamp': datetime.now().isoformat()
-            }
-
-            return web.json_response(consciousness_data)
+            return web.json_response(intelligence_report)
 
         except Exception as e:
-            logger.error(f"❌ Consciousness stream error: {e}")
+            logger.error(f"❌ Consciousness intelligence error: {e}")
             return web.json_response({
                 'status': 'error',
                 'error': str(e)
+            }, status=500)
+
+    async def handle_recommend_agent(self, request):
+        """
+        🎯 AGENT RECOMMENDATION ENDPOINT (Phase 3B - NEW!)
+        POST /api/recommend-agent
+        Body: {
+            "task_type": "research|analyze|write|review|code|...",
+            "task_description": "optional description"
+        }
+        """
+        try:
+            if not self.loly_consciousness:
+                return web.json_response({
+                    'status': 'consciousness_not_initialized',
+                    'recommendation': 'research',  # Default fallback
+                    'confidence': 0.5
+                }, status=503)
+
+            data = await request.json()
+            task_type = data.get('task_type', '')
+            task_description = data.get('task_description', '')
+
+            # Get recommendation from consciousness
+            recommended_agent, confidence = await self.loly_consciousness.recommend_agent(
+                task_type=task_type,
+                task_description=task_description
+            )
+
+            return web.json_response({
+                'status': 'success',
+                'task_type': task_type,
+                'recommended_agent': recommended_agent,
+                'confidence': confidence,
+                'timestamp': datetime.now().isoformat()
+            })
+
+        except Exception as e:
+            logger.error(f"❌ Agent recommendation error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'recommendation': 'research',  # Default fallback
+                'confidence': 0.5
             }, status=500)
 
     async def handle_workflow(self, request):
@@ -779,7 +824,8 @@ class LolySupremeOrchestrator:
                 'openapi_stats': 'GET /api/openapi/stats',
                 'status': 'GET /api/status',
                 'health': 'GET /health',
-                'consciousness': 'GET /api/consciousness'
+                'consciousness': 'GET /api/consciousness',
+                'recommend_agent': 'POST /api/recommend-agent (Phase 3B - NEW!)'
             },
             'timestamp': datetime.now().isoformat()
         }
@@ -819,6 +865,7 @@ class LolySupremeOrchestrator:
         app.router.add_get('/health', self.handle_health)
         app.router.add_get('/api/status', self.handle_status)
         app.router.add_get('/api/consciousness', self.handle_consciousness)
+        app.router.add_post('/api/recommend-agent', self.handle_recommend_agent)  # Phase 3B: NEW!
         app.router.add_post('/api/coordinate', self.handle_coordinate)
         app.router.add_post('/api/sports', self.handle_sports)
         app.router.add_post('/api/research', self.handle_research)
@@ -862,6 +909,12 @@ class LolySupremeOrchestrator:
                 await asyncio.sleep(1)
         except KeyboardInterrupt:
             logger.info("🛑 Loly Supreme Orchestrator shutting down...")
+
+            # Phase 3B: Save consciousness memory before shutdown! 💾
+            if self.loly_consciousness:
+                logger.info("💾 Saving consciousness memory...")
+                await self.loly_consciousness.save_memory()
+                logger.info("✅ Consciousness memory saved!")
 
 
 # =================== MAIN FUNCTION ===================
