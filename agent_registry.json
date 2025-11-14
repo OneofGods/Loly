@@ -66,12 +66,14 @@
       "research_agent": {
         "type": "mcp_server",
         "port": 3201,
-        "capabilities": ["web_research", "data_gathering", "source_validation"],
-        "status": "WIP",
+        "capabilities": ["web_research", "data_gathering", "source_validation", "multi_source_search", "cross_reference"],
+        "status": "active",
+        "module": "research_agent",
         "endpoints": {
           "research": "/api/research",
-          "validate": "/api/validate_source",
-          "summarize": "/api/summarize"
+          "validate": "/api/validate",
+          "stats": "/api/stats",
+          "health": "/health"
         }
       }
     }
@@ -84,12 +86,14 @@
       "writer_agent": {
         "type": "mcp_server",
         "port": 3203,
-        "capabilities": ["content_writing", "report_generation", "documentation"],
-        "status": "NOT_BUILT",
+        "capabilities": ["content_writing", "report_generation", "documentation", "multi_format", "template_based", "style_formatting"],
+        "status": "active",
+        "module": "writer_agent",
         "endpoints": {
           "write": "/api/write",
-          "edit": "/api/edit",
-          "format": "/api/format"
+          "format": "/api/format",
+          "stats": "/api/stats",
+          "health": "/health"
         }
       }
     }
@@ -102,12 +106,15 @@
       "reviewer_agent": {
         "type": "mcp_server",
         "port": 3204,
-        "capabilities": ["code_review", "quality_check", "bug_detection"],
-        "status": "WIP",
+        "capabilities": ["code_review", "quality_check", "bug_detection", "quality_metrics", "improvement_suggestions", "multi_strictness"],
+        "status": "active",
+        "module": "reviewer_agent",
         "endpoints": {
           "review": "/api/review",
           "analyze": "/api/analyze",
-          "suggest": "/api/suggest_improvements"
+          "suggest": "/api/suggest",
+          "stats": "/api/stats",
+          "health": "/health"
         }
       }
     }
