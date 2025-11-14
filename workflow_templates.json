@@ -1,0 +1,427 @@
+{
+  "templates_version": "1.0.0",
+  "description": "Pre-built workflow templates for Loly's Workflow Engine",
+  "created": "2025-11-14",
+
+  "templates": {
+    "content_pipeline": {
+      "name": "Content Creation Pipeline",
+      "description": "Research → Write → Review workflow for creating quality content",
+      "workflow_type": "sequential",
+      "steps": [
+        {
+          "step_id": "research_phase",
+          "name": "Research Phase",
+          "agent_type": "research",
+          "task_data": {
+            "research_query": "${topic}",
+            "sources": ["web", "academic", "news"],
+            "validation_level": "standard"
+          },
+          "retry_count": 3,
+          "timeout_seconds": 180
+        },
+        {
+          "step_id": "writing_phase",
+          "name": "Writing Phase",
+          "agent_type": "writer",
+          "task_data": {
+            "content_type": "${content_type}",
+            "specifications": {
+              "style": "${style}",
+              "length": "${length}"
+            }
+          },
+          "depends_on": ["research_phase"],
+          "use_previous_output": true,
+          "retry_count": 2,
+          "timeout_seconds": 240
+        },
+        {
+          "step_id": "review_phase",
+          "name": "Review Phase",
+          "agent_type": "reviewer",
+          "task_data": {
+            "review_type": "content",
+            "strictness": "${strictness}"
+          },
+          "depends_on": ["writing_phase"],
+          "use_previous_output": true,
+          "retry_count": 2,
+          "timeout_seconds": 120
+        }
+      ],
+      "rollback_on_failure": true,
+      "variables": {
+        "topic": "string - Topic to research and write about",
+        "content_type": "string - Type of content (blog_post, article, report)",
+        "style": "string - Writing style (formal, casual, technical)",
+        "length": "string - Content length (short, medium, long)",
+        "strictness": "string - Review strictness (low, standard, high)"
+      }
+    },
+
+    "sports_analysis_comprehensive": {
+      "name": "Comprehensive Sports Analysis",
+      "description": "Parallel sports data gathering followed by unified analysis",
+      "workflow_type": "hybrid",
+      "steps": [
+        {
+          "step_id": "team_performance",
+          "name": "Team Performance Analysis",
+          "agent_type": "sports",
+          "task_data": {
+            "home_team": "${home_team}",
+            "away_team": "${away_team}",
+            "sport": "${sport}"
+          },
+          "retry_count": 3,
+          "timeout_seconds": 120
+        },
+        {
+          "step_id": "sentiment_analysis",
+          "name": "Sentiment Analysis",
+          "agent_type": "sports",
+          "task_data": {
+            "home_team": "${home_team}",
+            "away_team": "${away_team}",
+            "sport": "${sport}"
+          },
+          "retry_count": 2,
+          "timeout_seconds": 90
+        },
+        {
+          "step_id": "historical_data",
+          "name": "Historical Matchup Analysis",
+          "agent_type": "sports",
+          "task_data": {
+            "home_team": "${home_team}",
+            "away_team": "${away_team}",
+            "sport": "${sport}"
+          },
+          "retry_count": 2,
+          "timeout_seconds": 90
+        }
+      ],
+      "rollback_on_failure": false,
+      "variables": {
+        "home_team": "string - Home team name",
+        "away_team": "string - Away team name",
+        "sport": "string - Sport type (UEFA, EPL, NBA, etc.)"
+      }
+    },
+
+    "code_review_fix_cycle": {
+      "name": "Code Review & Fix Cycle",
+      "description": "Review code → If issues found → Research fixes → Apply fixes → Re-review",
+      "workflow_type": "sequential",
+      "steps": [
+        {
+          "step_id": "initial_review",
+          "name": "Initial Code Review",
+          "agent_type": "reviewer",
+          "task_data": {
+            "code": "${code}",
+            "review_type": "code",
+            "strictness": "high"
+          },
+          "retry_count": 2,
+          "timeout_seconds": 180
+        },
+        {
+          "step_id": "research_fixes",
+          "name": "Research Fix Solutions",
+          "agent_type": "research",
+          "task_data": {
+            "research_query": "Best practices for fixing identified code issues"
+          },
+          "depends_on": ["initial_review"],
+          "use_previous_output": true,
+          "condition": {
+            "field": "result.review.issues_found",
+            "operator": ">",
+            "value": 0
+          },
+          "retry_count": 2,
+          "timeout_seconds": 120
+        },
+        {
+          "step_id": "document_changes",
+          "name": "Document Recommended Changes",
+          "agent_type": "writer",
+          "task_data": {
+            "content_type": "technical_documentation",
+            "specifications": {
+              "style": "technical",
+              "format": "markdown"
+            }
+          },
+          "depends_on": ["research_fixes"],
+          "use_previous_output": true,
+          "retry_count": 2,
+          "timeout_seconds": 150
+        }
+      ],
+      "rollback_on_failure": false,
+      "variables": {
+        "code": "string - Code to review and potentially fix"
+      }
+    },
+
+    "multi_source_research": {
+      "name": "Multi-Source Parallel Research",
+      "description": "Research from multiple sources in parallel, then synthesize findings",
+      "workflow_type": "hybrid",
+      "steps": [
+        {
+          "step_id": "web_research",
+          "name": "Web Research",
+          "agent_type": "research",
+          "task_data": {
+            "research_query": "${query}",
+            "sources": ["web"],
+            "validation_level": "standard"
+          },
+          "retry_count": 3,
+          "timeout_seconds": 120
+        },
+        {
+          "step_id": "academic_research",
+          "name": "Academic Research",
+          "agent_type": "research",
+          "task_data": {
+            "research_query": "${query}",
+            "sources": ["academic"],
+            "validation_level": "high"
+          },
+          "retry_count": 3,
+          "timeout_seconds": 180
+        },
+        {
+          "step_id": "news_research",
+          "name": "News Research",
+          "agent_type": "research",
+          "task_data": {
+            "research_query": "${query}",
+            "sources": ["news"],
+            "validation_level": "standard"
+          },
+          "retry_count": 2,
+          "timeout_seconds": 90
+        },
+        {
+          "step_id": "synthesize_findings",
+          "name": "Synthesize All Findings",
+          "agent_type": "writer",
+          "task_data": {
+            "content_type": "research_synthesis",
+            "specifications": {
+              "style": "academic",
+              "format": "report"
+            }
+          },
+          "depends_on": ["web_research", "academic_research", "news_research"],
+          "use_previous_output": true,
+          "retry_count": 2,
+          "timeout_seconds": 240
+        }
+      ],
+      "rollback_on_failure": false,
+      "variables": {
+        "query": "string - Research query/topic"
+      }
+    },
+
+    "crypto_trading_analysis": {
+      "name": "Comprehensive Crypto Trading Analysis",
+      "description": "Parallel crypto analysis: indicators + prices + sentiment",
+      "workflow_type": "parallel",
+      "steps": [
+        {
+          "step_id": "technical_indicators",
+          "name": "Technical Indicators Analysis",
+          "agent_type": "crypto",
+          "task_data": {
+            "analysis_type": "indicators",
+            "symbols": ["${symbol}"],
+            "timeframe": "${timeframe}"
+          },
+          "retry_count": 3,
+          "timeout_seconds": 90
+        },
+        {
+          "step_id": "price_analysis",
+          "name": "Price Action Analysis",
+          "agent_type": "crypto",
+          "task_data": {
+            "analysis_type": "prices",
+            "symbols": ["${symbol}"],
+            "timeframe": "${timeframe}"
+          },
+          "retry_count": 3,
+          "timeout_seconds": 90
+        },
+        {
+          "step_id": "sentiment_check",
+          "name": "Market Sentiment Check",
+          "agent_type": "research",
+          "task_data": {
+            "research_query": "${symbol} cryptocurrency sentiment",
+            "sources": ["news", "social_media"],
+            "validation_level": "standard"
+          },
+          "retry_count": 2,
+          "timeout_seconds": 120
+        }
+      ],
+      "rollback_on_failure": false,
+      "variables": {
+        "symbol": "string - Cryptocurrency symbol (BTC, ETH, etc.)",
+        "timeframe": "string - Analysis timeframe (1h, 4h, 1d, etc.)"
+      }
+    },
+
+    "api_integration_test": {
+      "name": "External API Integration Test",
+      "description": "Test external API integration with fallback and validation",
+      "workflow_type": "sequential",
+      "steps": [
+        {
+          "step_id": "api_call",
+          "name": "Call External API",
+          "agent_type": "utility",
+          "task_data": {
+            "task_type": "api_call",
+            "api_url": "${api_url}",
+            "method": "${method}",
+            "headers": "${headers}",
+            "body": "${body}"
+          },
+          "retry_count": 3,
+          "timeout_seconds": 60
+        },
+        {
+          "step_id": "validate_response",
+          "name": "Validate API Response",
+          "agent_type": "reviewer",
+          "task_data": {
+            "review_type": "data_validation",
+            "strictness": "high"
+          },
+          "depends_on": ["api_call"],
+          "use_previous_output": true,
+          "retry_count": 1,
+          "timeout_seconds": 30
+        },
+        {
+          "step_id": "document_api_usage",
+          "name": "Document API Usage",
+          "agent_type": "writer",
+          "task_data": {
+            "content_type": "api_documentation",
+            "specifications": {
+              "style": "technical",
+              "format": "markdown"
+            }
+          },
+          "depends_on": ["validate_response"],
+          "use_previous_output": true,
+          "retry_count": 2,
+          "timeout_seconds": 120
+        }
+      ],
+      "rollback_on_failure": true,
+      "variables": {
+        "api_url": "string - API endpoint URL",
+        "method": "string - HTTP method (GET, POST, etc.)",
+        "headers": "object - Request headers",
+        "body": "object - Request body (for POST/PUT)"
+      }
+    },
+
+    "automated_reporting": {
+      "name": "Automated Report Generation",
+      "description": "Gather data from multiple sources and generate comprehensive report",
+      "workflow_type": "sequential",
+      "steps": [
+        {
+          "step_id": "data_collection",
+          "name": "Collect All Data",
+          "agent_type": "research",
+          "task_data": {
+            "research_query": "${data_topic}",
+            "sources": ["web", "news", "academic"],
+            "validation_level": "high"
+          },
+          "retry_count": 3,
+          "timeout_seconds": 300
+        },
+        {
+          "step_id": "analysis_phase",
+          "name": "Analyze Collected Data",
+          "agent_type": "reviewer",
+          "task_data": {
+            "review_type": "data_analysis",
+            "strictness": "standard"
+          },
+          "depends_on": ["data_collection"],
+          "use_previous_output": true,
+          "retry_count": 2,
+          "timeout_seconds": 180
+        },
+        {
+          "step_id": "report_generation",
+          "name": "Generate Final Report",
+          "agent_type": "writer",
+          "task_data": {
+            "content_type": "comprehensive_report",
+            "specifications": {
+              "style": "${report_style}",
+              "length": "long",
+              "format": "professional"
+            }
+          },
+          "depends_on": ["analysis_phase"],
+          "use_previous_output": true,
+          "retry_count": 2,
+          "timeout_seconds": 300
+        }
+      ],
+      "rollback_on_failure": false,
+      "variables": {
+        "data_topic": "string - Topic for data collection",
+        "report_style": "string - Report style (formal, technical, executive)"
+      }
+    }
+  },
+
+  "usage_examples": {
+    "content_pipeline": {
+      "workflow_name": "Create Blog Post about AI",
+      "template": "content_pipeline",
+      "variables": {
+        "topic": "Latest developments in AI and machine learning",
+        "content_type": "blog_post",
+        "style": "casual",
+        "length": "medium",
+        "strictness": "standard"
+      }
+    },
+    "sports_analysis_comprehensive": {
+      "workflow_name": "Analyze Real Madrid vs Barcelona",
+      "template": "sports_analysis_comprehensive",
+      "variables": {
+        "home_team": "Real Madrid",
+        "away_team": "Barcelona",
+        "sport": "UEFA"
+      }
+    },
+    "multi_source_research": {
+      "workflow_name": "Research Climate Change Impact",
+      "template": "multi_source_research",
+      "variables": {
+        "query": "Climate change impact on global economies"
+      }
+    }
+  }
+}

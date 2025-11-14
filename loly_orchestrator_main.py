@@ -305,6 +305,77 @@ class LolySupremeOrchestrator:
                 'error': str(e)
             }, status=500)
 
+    async def handle_workflow(self, request):
+        """
+        🔥 WORKFLOW EXECUTION ENDPOINT
+        POST /api/workflow
+        Body: {
+            "workflow_name": "...",
+            "workflow_type": "sequential|parallel|hybrid",
+            "steps": [...]
+        }
+        """
+        try:
+            self.total_requests += 1
+
+            data = await request.json()
+
+            result = await self.unified_coordinator.execute_workflow(data)
+
+            if result.get('status') in ['success', 'partial']:
+                self.successful_requests += 1
+            else:
+                self.failed_requests += 1
+
+            return web.json_response(result)
+
+        except Exception as e:
+            self.failed_requests += 1
+            logger.error(f"❌ Workflow execution error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }, status=500)
+
+    async def handle_workflow_status(self, request):
+        """
+        📊 WORKFLOW STATUS ENDPOINT
+        GET /api/workflow/{workflow_id}
+        """
+        try:
+            workflow_id = request.match_info.get('workflow_id')
+
+            result = await self.unified_coordinator.get_workflow_status(workflow_id)
+
+            return web.json_response(result)
+
+        except Exception as e:
+            logger.error(f"❌ Workflow status error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }, status=500)
+
+    async def handle_workflow_stats(self, request):
+        """
+        📊 WORKFLOW STATS ENDPOINT
+        GET /api/workflow/stats
+        """
+        try:
+            stats = await self.unified_coordinator.get_workflow_stats()
+
+            return web.json_response(stats)
+
+        except Exception as e:
+            logger.error(f"❌ Workflow stats error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }, status=500)
+
     async def handle_root(self, request):
         """
         🏠 ROOT ENDPOINT - Welcome message
@@ -312,7 +383,7 @@ class LolySupremeOrchestrator:
         """
         welcome = {
             'service': 'Loly Supreme Orchestrator',
-            'version': '1.0.0',
+            'version': '2.0.0',
             'status': 'running',
             'message': '🔥💀🔥 LOLY IS THE SUPREME ORCHESTRATOR! 💀🔥💀',
             'replaces': 'Eliza (port 3000) + Enhanced Orchestrator/BLOOM Proxy (port 3100)',
@@ -323,12 +394,16 @@ class LolySupremeOrchestrator:
                 'Code Review & QA',
                 'Crypto Analysis',
                 'Utility Tasks (reasoning, context, automation)',
+                'Multi-Agent Workflows (NEW!)',
                 'External API Calls'
             ],
             'endpoints': {
                 'coordinate': 'POST /api/coordinate',
                 'sports': 'POST /api/sports',
                 'research': 'POST /api/research',
+                'workflow': 'POST /api/workflow',
+                'workflow_status': 'GET /api/workflow/{workflow_id}',
+                'workflow_stats': 'GET /api/workflow/stats',
                 'status': 'GET /api/status',
                 'health': 'GET /health',
                 'consciousness': 'GET /api/consciousness'
@@ -372,6 +447,10 @@ class LolySupremeOrchestrator:
         app.router.add_post('/api/coordinate', self.handle_coordinate)
         app.router.add_post('/api/sports', self.handle_sports)
         app.router.add_post('/api/research', self.handle_research)
+        # Workflow endpoints
+        app.router.add_post('/api/workflow', self.handle_workflow)
+        app.router.add_get('/api/workflow/stats', self.handle_workflow_stats)
+        app.router.add_get('/api/workflow/{workflow_id}', self.handle_workflow_status)
 
         # Add CORS to all routes
         for route in list(app.router.routes()):

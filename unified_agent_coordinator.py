@@ -53,6 +53,9 @@ class UnifiedAgentCoordinator:
         self.agent_connections = {}
         self.agent_health = {}
 
+        # Workflow engine (imported lazily to avoid circular dependency)
+        self.workflow_engine = None
+
         # Coordination metrics
         self.coordination_stats = {
             'total_coordinations': 0,
@@ -62,6 +65,7 @@ class UnifiedAgentCoordinator:
             'reviewer_coordinations': 0,
             'crypto_coordinations': 0,
             'utility_coordinations': 0,
+            'workflow_coordinations': 0,
             'failed_coordinations': 0,
             'average_response_time': 0.0
         }
@@ -549,6 +553,9 @@ class UnifiedAgentCoordinator:
             elif task_type == 'utility':
                 return await self.coordinate_utility_task(**task_data)
 
+            elif task_type == 'workflow':
+                return await self.execute_workflow(**task_data)
+
             else:
                 raise Exception(f"Unknown task type: {task_type}")
 
@@ -557,6 +564,99 @@ class UnifiedAgentCoordinator:
             return {
                 'coordination_type': task_type,
                 'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }
+
+    # =================== WORKFLOW ORCHESTRATION ===================
+
+    def _initialize_workflow_engine(self):
+        """🔧 Initialize workflow engine (lazy loading)"""
+        if self.workflow_engine is None:
+            from agent_workflow_engine import create_workflow_engine
+            self.workflow_engine = create_workflow_engine(self)
+            logger.info("🔥 Workflow engine initialized!")
+
+    async def execute_workflow(self, workflow_config: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        🔥💀🔥 EXECUTE MULTI-AGENT WORKFLOW! 💀🔥💀
+
+        Orchestrates complex multi-step tasks across multiple agents!
+
+        workflow_config: {
+            "workflow_name": "...",
+            "workflow_type": "sequential|parallel|hybrid",
+            "steps": [...]
+        }
+        """
+        try:
+            logger.info(f"🔥 Executing workflow: {workflow_config.get('workflow_name', 'unnamed')}")
+
+            # Initialize workflow engine if needed
+            self._initialize_workflow_engine()
+
+            # Execute workflow
+            result = await self.workflow_engine.execute_workflow(workflow_config)
+
+            # Update stats
+            self.coordination_stats['total_coordinations'] += 1
+            self.coordination_stats['workflow_coordinations'] += 1
+
+            return {
+                'coordination_type': 'workflow',
+                'status': 'success' if result.get('status') in ['success', 'completed'] else 'partial',
+                'result': result,
+                'timestamp': datetime.now().isoformat()
+            }
+
+        except Exception as e:
+            logger.error(f"💀 Workflow execution failed: {e}")
+            self.coordination_stats['failed_coordinations'] += 1
+            return {
+                'coordination_type': 'workflow',
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }
+
+    async def get_workflow_status(self, workflow_id: str) -> Dict[str, Any]:
+        """📊 Get status of a running or completed workflow"""
+        try:
+            self._initialize_workflow_engine()
+
+            status = self.workflow_engine.get_workflow_status(workflow_id)
+
+            if status:
+                return {
+                    'status': 'success',
+                    'workflow_status': status,
+                    'timestamp': datetime.now().isoformat()
+                }
+            else:
+                return {
+                    'status': 'not_found',
+                    'error': f'Workflow {workflow_id} not found',
+                    'timestamp': datetime.now().isoformat()
+                }
+
+        except Exception as e:
+            logger.error(f"💀 Get workflow status error: {e}")
+            return {
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }
+
+    async def get_workflow_stats(self) -> Dict[str, Any]:
+        """📊 Get workflow engine statistics"""
+        try:
+            self._initialize_workflow_engine()
+
+            return self.workflow_engine.get_stats()
+
+        except Exception as e:
+            logger.error(f"💀 Get workflow stats error: {e}")
+            return {
                 'error': str(e),
                 'timestamp': datetime.now().isoformat()
             }
