@@ -210,6 +210,23 @@
           "call": "/api/openapi/call",
           "discover": "/api/openapi/discover"
         }
+      },
+      "builder_agent": {
+        "type": "mcp_server",
+        "port": 3205,
+        "capabilities": ["code_generation", "bug_detection", "code_fixing", "test_generation", "documentation_generation", "deployment", "optimization"],
+        "status": "active",
+        "module": "builder_agent",
+        "description": "Loly's Senior Developer - handles ALL coding tasks!",
+        "endpoints": {
+          "generate": "/api/generate",
+          "detect_bugs": "/api/detect-bugs",
+          "fix": "/api/fix",
+          "generate_tests": "/api/generate-tests",
+          "generate_docs": "/api/generate-docs",
+          "stats": "/api/stats",
+          "health": "/health"
+        }
       }
     }
   },
