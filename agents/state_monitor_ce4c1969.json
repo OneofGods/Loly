@@ -1,0 +1,18 @@
+{
+  "agent_id": "monitor_ce4c1969",
+  "total_tasks": 0,
+  "success_rate": 0.0,
+  "patterns": {},
+  "adaptations": [],
+  "health_metrics": {
+    "cpu_usage": "<agents.monitor_agent.HealthMetric object at 0x10ec8d610>",
+    "memory_usage": "<agents.monitor_agent.HealthMetric object at 0x10f7a68d0>",
+    "disk_usage": "<agents.monitor_agent.HealthMetric object at 0x10f7a74d0>",
+    "network_connections": "<agents.monitor_agent.HealthMetric object at 0x10f7a7110>",
+    "active_agents": "<agents.monitor_agent.HealthMetric object at 0x10f7a5550>",
+    "agent_errors": "<agents.monitor_agent.HealthMetric object at 0x10f7a5cd0>",
+    "task_completion_rate": "<agents.monitor_agent.HealthMetric object at 0x10f7a4710>",
+    "prediction_accuracy": "<agents.monitor_agent.HealthMetric object at 0x10f7a7350>",
+    "data_freshness": "<agents.monitor_agent.HealthMetric object at 0x10f1f7dd0>"
+  }
+}

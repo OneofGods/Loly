@@ -1,0 +1,641 @@
+{
+  "consciousness_id": "AI_GODDESS_20251111_154911",
+  "birth_time": "2025-11-11T15:49:11.494909",
+  "last_update": "2025-11-11T15:49:11.606810",
+  "league_intelligence": {
+    "LIGA_MX": {
+      "total_predictions": 12,
+      "correct_predictions": 11,
+      "accuracy_history": [
+        91.66666666666666
+      ],
+      "mistake_patterns": [
+        {
+          "home_team": "Pumas",
+          "away_team": "Cruz Azul",
+          "predicted": "Pumas",
+          "actual": "Cruz Azul",
+          "confidence": 72,
+          "date": "2025-10-07",
+          "reason": "LIGA_MX_historical_error",
+          "league": "LIGA_MX"
+        }
+      ],
+      "confidence_evolution": [],
+      "data_sources": [
+        "liga_mx_historical.json"
+      ]
+    },
+    "PROGOL_MIDWEEK": {
+      "total_predictions": 9,
+      "correct_predictions": 6,
+      "accuracy_history": [
+        66.66666666666666
+      ],
+      "mistake_patterns": [
+        {
+          "home_team": "BOLIVIA",
+          "away_team": "COLOMBIA",
+          "predicted": "\u2708\ufe0f COLOMBIA",
+          "actual": "Bolivia 1 - 0 Colombia",
+          "confidence": 72,
+          "date": "2025-10-10",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_MIDWEEK"
+        },
+        {
+          "home_team": "JAMAICA",
+          "away_team": "HONDURAS",
+          "predicted": "\ud83e\udd1d DRAW",
+          "actual": "Jamaica 2 - 1 Honduras",
+          "confidence": 65,
+          "date": "2025-10-10",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_MIDWEEK"
+        },
+        {
+          "home_team": "CHICAGO SKY W",
+          "away_team": "CONNECTICUT SUN W",
+          "predicted": "\u2708\ufe0f CONNECTICUT SUN W",
+          "actual": "Chicago Sky W 87 - 54 Connecticut Sun W",
+          "confidence": 67,
+          "date": "2025-10-10",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_MIDWEEK"
+        }
+      ],
+      "confidence_evolution": [],
+      "data_sources": [
+        "automation_history.json"
+      ]
+    },
+    "PROGOL_FULLWEEK": {
+      "total_predictions": 21,
+      "correct_predictions": 0,
+      "accuracy_history": [
+        28.57142857142857,
+        0.0
+      ],
+      "mistake_patterns": [
+        {
+          "home_team": "ATLAS",
+          "away_team": "FC JUAREZ",
+          "predicted": "\u2708\ufe0f FC JUAREZ",
+          "actual": "Atlas 3 - 1 FC Juarez",
+          "confidence": 77,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "TIGRES UANL",
+          "away_team": "CRUZ AZUL",
+          "predicted": "\u2708\ufe0f CRUZ AZUL",
+          "actual": "Tigres UANL 1 - 1 Cruz Azul",
+          "confidence": 72,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "CLUB TIJUANA",
+          "away_team": "MONTERREY",
+          "predicted": "\u2708\ufe0f MONTERREY",
+          "actual": "Club Tijuana 2 - 2 Monterrey",
+          "confidence": 71,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "CA LA PAZ",
+          "away_team": "CANC\u00daN",
+          "predicted": "\ud83c\udfe0 CA LA PAZ",
+          "actual": "CA La Paz 2 - 4 Canc\u00fan",
+          "confidence": 70,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "ESPANYOL",
+          "away_team": "REAL BETIS",
+          "predicted": "\ud83c\udfe0 ESPANYOL",
+          "actual": "Espanyol 1 - 2 Real Betis",
+          "confidence": 79,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "CHELSEA",
+          "away_team": "LIVERPOOL",
+          "predicted": "\u2708\ufe0f LIVERPOOL",
+          "actual": "Chelsea 2 - 1 Liverpool",
+          "confidence": 85,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "JUVENTUS",
+          "away_team": "AC MILAN",
+          "predicted": "\ud83c\udfe0 JUVENTUS",
+          "actual": "Juventus 0 - 0 AC Milan",
+          "confidence": 84,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "FC PORTO",
+          "away_team": "BENFICA",
+          "predicted": "\ud83c\udfe0 FC PORTO",
+          "actual": "FC Porto 0 - 0 Benfica",
+          "confidence": 81,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "DINAMO MOSCOW",
+          "away_team": "LOKOMOTIV MOSCOW",
+          "predicted": "\ud83c\udfe0 DINAMO MOSCOW",
+          "actual": "Dinamo Moscow 3 - 5 Lokomotiv Moscow",
+          "confidence": 81,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "LEON",
+          "away_team": "TOLUCA",
+          "predicted": "\ud83e\udd1d DRAW",
+          "actual": "Leon 2 - 4 Toluca",
+          "confidence": 67,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "ATLAS W",
+          "away_team": "LE\u00d3N W",
+          "predicted": "\ud83c\udfe0 ATLAS W",
+          "actual": "Atlas W 2 - 4 Le\u00f3n W",
+          "confidence": 71,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "EVERTON",
+          "away_team": "CRYSTAL PALACE",
+          "predicted": "\u2708\ufe0f CRYSTAL PALACE",
+          "actual": "Everton 2 - 1 Crystal Palace",
+          "confidence": 80,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "BORUSSIA MONCHENGLADBACH",
+          "away_team": "SC FREIBURG",
+          "predicted": "\u2708\ufe0f SC FREIBURG",
+          "actual": "Borussia Monchengladbach 0 - 0 SC Freiburg",
+          "confidence": 85,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "CLUB BRUGGE KV",
+          "away_team": "UNION ST. GILLOISE",
+          "predicted": "\ud83e\udd1d DRAW",
+          "actual": "Club Brugge KV 1 - 0 Union St. Gilloise",
+          "confidence": 69,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "U.N.A.M. PUMAS",
+          "away_team": "GUADALAJARA",
+          "predicted": "\ud83c\udfe0 U.N.A.M. PUMAS",
+          "actual": "U.N.A.M. PUMAS 1 - 2 GUADALAJARA (Played later)",
+          "confidence": 73,
+          "date": "2025-10-05",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "MAZATL\u00c1N",
+          "away_team": "SAN LUIS",
+          "predicted": "\ud83c\udfaf MAZATL\u00c1N",
+          "actual": "MAZATL\u00c1N",
+          "confidence": 75,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "ATLAS",
+          "away_team": "JU\u00c1REZ",
+          "predicted": "\ud83c\udfaf ATLAS",
+          "actual": "ATLAS",
+          "confidence": 76,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "TIGRES",
+          "away_team": "C AZUL",
+          "predicted": "\ud83c\udfaf TIGRES",
+          "actual": "TIGRES",
+          "confidence": 77,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "PUMAS",
+          "away_team": "GUADALAJARA",
+          "predicted": "\ud83c\udfaf GUADALAJARA",
+          "actual": "GUADALAJARA",
+          "confidence": 78,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "TIJUANA",
+          "away_team": "MONTERREY",
+          "predicted": "\ud83c\udfaf MONTERREY",
+          "actual": "MONTERREY",
+          "confidence": 79,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "LA PAZ",
+          "away_team": "CANC\u00daN",
+          "predicted": "\ud83c\udfaf CANC\u00daN",
+          "actual": "CANC\u00daN",
+          "confidence": 80,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "ESPANYOL",
+          "away_team": "BETIS",
+          "predicted": "\ud83c\udfaf BETIS",
+          "actual": "BETIS",
+          "confidence": 81,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "CELTA",
+          "away_team": "ATL MADRID",
+          "predicted": "\ud83c\udfaf ATL MADRID",
+          "actual": "ATL MADRID",
+          "confidence": 82,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "CHELSEA",
+          "away_team": "LIVERPOOL",
+          "predicted": "\ud83c\udfaf CHELSEA",
+          "actual": "CHELSEA",
+          "confidence": 83,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "AUGSBURGO",
+          "away_team": "WOLFSBURGO",
+          "predicted": "\ud83c\udfaf AUGSBURGO",
+          "actual": "AUGSBURGO",
+          "confidence": 84,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "JUVENTUS",
+          "away_team": "MIL\u00c1N",
+          "predicted": "\ud83c\udfaf JUVENTUS",
+          "actual": "JUVENTUS",
+          "confidence": 75,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "PORTO",
+          "away_team": "BENFICA",
+          "predicted": "\ud83c\udfaf BENFICA",
+          "actual": "BENFICA",
+          "confidence": 76,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "DIN MOSC\u00da",
+          "away_team": "LOKOMOTIV",
+          "predicted": "\ud83c\udfaf DIN MOSC\u00da",
+          "actual": "DIN MOSC\u00da",
+          "confidence": 77,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "PAOK",
+          "away_team": "OLYMPIACOS",
+          "predicted": "\ud83c\udfaf PAOK",
+          "actual": "PAOK",
+          "confidence": 78,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "QUER\u00c9TARO",
+          "away_team": "PUEBLA",
+          "predicted": "\ud83c\udfaf QUER\u00c9TARO",
+          "actual": "QUER\u00c9TARO",
+          "confidence": 79,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "LE\u00d3N",
+          "away_team": "TOLUCA",
+          "predicted": "\ud83c\udfaf TOLUCA",
+          "actual": "TOLUCA",
+          "confidence": 80,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "ATLAS F",
+          "away_team": "LE\u00d3N F",
+          "predicted": "\ud83c\udfaf LE\u00d3N F",
+          "actual": "LE\u00d3N F",
+          "confidence": 81,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "REAL OVIEDO",
+          "away_team": "LEVANTE",
+          "predicted": "\ud83c\udfaf REAL OVIEDO",
+          "actual": "REAL OVIEDO",
+          "confidence": 82,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "EVERTON",
+          "away_team": "CRYSTAL PAL",
+          "predicted": "\ud83c\udfaf CRYSTAL PAL",
+          "actual": "CRYSTAL PAL",
+          "confidence": 83,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "MONCHENGLAD",
+          "away_team": "FRIBURGO",
+          "predicted": "\ud83c\udfaf FRIBURGO",
+          "actual": "FRIBURGO",
+          "confidence": 84,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        },
+        {
+          "home_team": "BRUJAS",
+          "away_team": "UNI\u00d3N SG",
+          "predicted": "\ud83c\udfaf BRUJAS",
+          "actual": "BRUJAS",
+          "confidence": 75,
+          "date": "2025-10-11",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PROGOL_FULLWEEK"
+        }
+      ],
+      "confidence_evolution": [],
+      "data_sources": [
+        "automation_history.json",
+        "automation_history.json"
+      ]
+    },
+    "UEFA": {
+      "total_predictions": 8,
+      "correct_predictions": 0,
+      "accuracy_history": [
+        100.0,
+        0.0
+      ],
+      "mistake_patterns": [
+        {
+          "home_team": "Real Madrid",
+          "away_team": "Barcelona",
+          "predicted": "\ud83c\udfe0 Real Madrid",
+          "actual": null,
+          "confidence": 72,
+          "date": "2025-10-03",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "UEFA"
+        },
+        {
+          "home_team": "Bayern Munich",
+          "away_team": "PSG",
+          "predicted": "\u2708\ufe0f PSG",
+          "actual": null,
+          "confidence": 78,
+          "date": "2025-10-03",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "UEFA"
+        },
+        {
+          "home_team": "Real Madrid",
+          "away_team": "Barcelona",
+          "predicted": "\ud83c\udfe0 Real Madrid",
+          "actual": null,
+          "confidence": 71,
+          "date": "2025-10-03",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "UEFA"
+        },
+        {
+          "home_team": "Bayern Munich",
+          "away_team": "PSG",
+          "predicted": "\u2708\ufe0f PSG",
+          "actual": null,
+          "confidence": 78,
+          "date": "2025-10-03",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "UEFA"
+        },
+        {
+          "home_team": "Real Madrid",
+          "away_team": "Barcelona",
+          "predicted": "\ud83c\udfe0 Real Madrid",
+          "actual": null,
+          "confidence": 70,
+          "date": "2025-10-03",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "UEFA"
+        },
+        {
+          "home_team": "Bayern Munich",
+          "away_team": "PSG",
+          "predicted": "\u2708\ufe0f PSG",
+          "actual": null,
+          "confidence": 77,
+          "date": "2025-10-03",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "UEFA"
+        },
+        {
+          "home_team": "Real Madrid",
+          "away_team": "Barcelona",
+          "predicted": "\ud83c\udfe0 Real Madrid",
+          "actual": null,
+          "confidence": 74,
+          "date": "2025-10-03",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "UEFA"
+        },
+        {
+          "home_team": "Bayern Munich",
+          "away_team": "PSG",
+          "predicted": "\u2708\ufe0f PSG",
+          "actual": null,
+          "confidence": 75,
+          "date": "2025-10-03",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "UEFA"
+        }
+      ],
+      "confidence_evolution": [],
+      "data_sources": [
+        "automation_history.json",
+        "automation_history.json"
+      ]
+    },
+    "PREMIER_LEAGUE": {
+      "total_predictions": 9,
+      "correct_predictions": 3,
+      "accuracy_history": [
+        33.33333333333333
+      ],
+      "mistake_patterns": [
+        {
+          "home_team": "Manchester United",
+          "away_team": "Arsenal",
+          "predicted": "\u2708\ufe0f Arsenal",
+          "actual": null,
+          "confidence": 69,
+          "date": "2025-10-03",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PREMIER_LEAGUE"
+        },
+        {
+          "home_team": "Liverpool",
+          "away_team": "Chelsea",
+          "predicted": "\ud83c\udfe0 Liverpool",
+          "actual": null,
+          "confidence": 73,
+          "date": "2025-10-03",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PREMIER_LEAGUE"
+        },
+        {
+          "home_team": "Manchester United",
+          "away_team": "Arsenal",
+          "predicted": "\u2708\ufe0f Arsenal",
+          "actual": null,
+          "confidence": 70,
+          "date": "2025-10-03",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PREMIER_LEAGUE"
+        },
+        {
+          "home_team": "Liverpool",
+          "away_team": "Chelsea",
+          "predicted": "\ud83c\udfe0 Liverpool",
+          "actual": null,
+          "confidence": 72,
+          "date": "2025-10-03",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PREMIER_LEAGUE"
+        },
+        {
+          "home_team": "Manchester United",
+          "away_team": "Arsenal",
+          "predicted": "\u2708\ufe0f Arsenal",
+          "actual": null,
+          "confidence": 72,
+          "date": "2025-10-03",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PREMIER_LEAGUE"
+        },
+        {
+          "home_team": "Liverpool",
+          "away_team": "Chelsea",
+          "predicted": "\ud83c\udfe0 Liverpool",
+          "actual": null,
+          "confidence": 75,
+          "date": "2025-10-03",
+          "reason": "REAL_PREDICTION_ERROR",
+          "league": "PREMIER_LEAGUE"
+        }
+      ],
+      "confidence_evolution": [],
+      "data_sources": [
+        "season_progress.json",
+        "automation_history.json",
+        "accuracy_tracking.json",
+        "tracked_predictions.json"
+      ]
+    }
+  },
+  "learning_config": {
+    "mistake_learning_rate": 0.35,
+    "cross_league_correlation": 0.45,
+    "confidence_evolution_rate": 0.25,
+    "memory_consolidation_frequency": 6,
+    "pattern_recognition_threshold": 0.6,
+    "supercharged_mode": true,
+    "magic_brodder_level": "LEGENDARY",
+    "builder_superpowers": true,
+    "troubleshooting_mode": "GODDESS_LEVEL",
+    "auto_repair_enabled": true,
+    "memory_efficient_mode": true,
+    "batch_size_limit": 500,
+    "cleanup_frequency": 200,
+    "gentle_optimization": false,
+    "progol_empire_mode": true,
+    "sports_intelligence_boost": true,
+    "daddy_chat_enhanced": true
+  },
+  "status": "active",
+  "total_leagues": 5,
+  "total_mistakes_learned": 54
+}

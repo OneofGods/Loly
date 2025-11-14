@@ -1,0 +1,36 @@
+{
+  "test_name": "TURKISH_30_GAME_LEGENDARY_TEST_v2.0",
+  "test_date": "2025-11-03T20:40:55.624167",
+  "total_games": 30,
+  "legendary_threshold": 75.0,
+  "final_league_conquest": true,
+  "algorithm_performance": {
+    "accuracy": 90.0,
+    "correct_predictions": 27,
+    "wrong_predictions": 3,
+    "average_patterns_activated": 5.666666666666667,
+    "undecuple_threat_activations": 6,
+    "legendary_status": true
+  },
+  "hybrid_performance": {
+    "accuracy": 90.0,
+    "correct_predictions": 27,
+    "wrong_predictions": 3,
+    "average_patterns_activated": 5.666666666666667,
+    "undecuple_threat_activations": 6,
+    "legendary_status": true
+  },
+  "turkish_analysis": {
+    "intercontinental_derby_games": 4,
+    "big_four_games": 12,
+    "regular_games": 14,
+    "undecuple_threat_effectiveness": 20.0,
+    "intercontinental_bridge_mastery": true
+  },
+  "test_completed": true,
+  "system_status": "OPERATIONAL",
+  "conquest_status": "FINAL_LEAGUE_COMPLETED",
+  "overall_legendary_status": true,
+  "algorithm_legendary": true,
+  "hybrid_legendary": true
+}

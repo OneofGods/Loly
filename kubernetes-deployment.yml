@@ -1,0 +1,577 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: autonomous-agents
+  labels:
+    name: autonomous-agents
+    phase: "2"
+
+---
+# 🔥💀 PHASE 2: KUBERNETES PRODUCTION DEPLOYMENT 💀🔥
+# High-availability autonomous agent system with auto-scaling
+
+# =================== MESSAGE BUS SERVICE ===================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-bus
+  namespace: autonomous-agents
+  labels:
+    app: message-bus
+    tier: infrastructure
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: message-bus
+  template:
+    metadata:
+      labels:
+        app: message-bus
+        tier: infrastructure
+    spec:
+      containers:
+      - name: message-bus
+        image: autonomous-agents:latest
+        command: ["python", "-c", "from core.message_bus import run_standalone_bus; import asyncio; asyncio.run(run_standalone_bus())"]
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SERVICE_TYPE
+          value: "message_bus"
+        - name: LOG_LEVEL
+          value: "INFO"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        volumeMounts:
+        - name: logs
+          mountPath: /app/logs
+      volumes:
+      - name: logs
+        emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: message-bus-service
+  namespace: autonomous-agents
+spec:
+  selector:
+    app: message-bus
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+  type: ClusterIP
+
+---
+# =================== SWARM COORDINATOR ===================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swarm-coordinator
+  namespace: autonomous-agents
+  labels:
+    app: swarm-coordinator
+    tier: coordination
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: swarm-coordinator
+  template:
+    metadata:
+      labels:
+        app: swarm-coordinator
+        tier: coordination
+    spec:
+      containers:
+      - name: swarm-coordinator
+        image: autonomous-agents:latest
+        command: ["python", "-c", "from core.swarm_intelligence import SwarmIntelligenceCoordinator; import asyncio; asyncio.run(SwarmIntelligenceCoordinator().run())"]
+        env:
+        - name: SERVICE_TYPE
+          value: "swarm_coordinator"
+        - name: MESSAGE_BUS_URL
+          value: "http://message-bus-service:8080"
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+        volumeMounts:
+        - name: logs
+          mountPath: /app/logs
+      volumes:
+      - name: logs
+        emptyDir: {}
+
+---
+# =================== DATA COLLECTORS ===================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-collectors
+  namespace: autonomous-agents
+  labels:
+    app: data-collectors
+    tier: agents
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: data-collectors
+  template:
+    metadata:
+      labels:
+        app: data-collectors
+        tier: agents
+    spec:
+      containers:
+      - name: data-collector
+        image: autonomous-agents:latest
+        command: ["python", "-c", "from agents.enhanced_data_collector_agent import EnhancedDataCollectorAgent; import asyncio; import os; agent = EnhancedDataCollectorAgent(f'collector_{os.environ.get(\"HOSTNAME\", \"unknown\")}'); asyncio.run(agent.run())"]
+        env:
+        - name: SERVICE_TYPE
+          value: "data_collector"
+        - name: MESSAGE_BUS_URL
+          value: "http://message-bus-service:8080"
+        - name: LOG_LEVEL
+          value: "INFO"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        livenessProbe:
+          exec:
+            command:
+            - python
+            - -c
+            - "import requests; requests.get('http://localhost:8080/health')"
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        volumeMounts:
+        - name: logs
+          mountPath: /app/logs
+        - name: data
+          mountPath: /app/data
+      volumes:
+      - name: logs
+        emptyDir: {}
+      - name: data
+        emptyDir: {}
+
+---
+# =================== HORIZONTAL POD AUTOSCALER ===================
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: data-collectors-hpa
+  namespace: autonomous-agents
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: data-collectors
+  minReplicas: 2
+  maxReplicas: 20
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+# =================== DYNAMIC SCALING MANAGER ===================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scaling-manager
+  namespace: autonomous-agents
+  labels:
+    app: scaling-manager
+    tier: management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scaling-manager
+  template:
+    metadata:
+      labels:
+        app: scaling-manager
+        tier: management
+    spec:
+      containers:
+      - name: scaling-manager
+        image: autonomous-agents:latest
+        command: ["python", "-c", "from core.dynamic_scaling import DynamicScalingManager; import asyncio; asyncio.run(DynamicScalingManager().start_monitoring())"]
+        env:
+        - name: SERVICE_TYPE
+          value: "scaling_manager"
+        - name: MESSAGE_BUS_URL
+          value: "http://message-bus-service:8080"
+        - name: KUBERNETES_SERVICE_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+        volumeMounts:
+        - name: logs
+          mountPath: /app/logs
+        - name: ml-models
+          mountPath: /app/ml_models
+      serviceAccountName: scaling-manager-sa
+      volumes:
+      - name: logs
+        emptyDir: {}
+      - name: ml-models
+        emptyDir: {}
+
+---
+# =================== SERVICE ACCOUNT FOR SCALING ===================
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: scaling-manager-sa
+  namespace: autonomous-agents
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: scaling-manager-role
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "update", "patch"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["autoscaling"]
+  resources: ["horizontalpodautoscalers"]
+  verbs: ["get", "list", "watch", "update", "patch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: scaling-manager-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: scaling-manager-role
+subjects:
+- kind: ServiceAccount
+  name: scaling-manager-sa
+  namespace: autonomous-agents
+
+---
+# =================== ML ANALYTICS COORDINATOR ===================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-coordinator
+  namespace: autonomous-agents
+  labels:
+    app: ml-coordinator
+    tier: analytics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ml-coordinator
+  template:
+    metadata:
+      labels:
+        app: ml-coordinator
+        tier: analytics
+    spec:
+      containers:
+      - name: ml-coordinator
+        image: autonomous-agents:latest
+        command: ["python", "-c", "from core.ml_analytics_coordinator import MLAnalyticsCoordinator; import asyncio; asyncio.run(MLAnalyticsCoordinator().start_analytics_loop())"]
+        env:
+        - name: SERVICE_TYPE
+          value: "ml_coordinator"
+        - name: MESSAGE_BUS_URL
+          value: "http://message-bus-service:8080"
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+        volumeMounts:
+        - name: logs
+          mountPath: /app/logs
+        - name: ml-models
+          mountPath: /app/ml_models
+        - name: data
+          mountPath: /app/data
+      volumes:
+      - name: logs
+        emptyDir: {}
+      - name: ml-models
+        persistentVolumeClaim:
+          claimName: ml-models-pvc
+      - name: data
+        persistentVolumeClaim:
+          claimName: agent-data-pvc
+
+---
+# =================== PERSISTENT VOLUMES ===================
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ml-models-pvc
+  namespace: autonomous-agents
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: agent-data-pvc
+  namespace: autonomous-agents
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: standard
+
+---
+# =================== SPORTS PANEL (Legacy Integration) ===================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sports-panel
+  namespace: autonomous-agents
+  labels:
+    app: sports-panel
+    tier: application
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sports-panel
+  template:
+    metadata:
+      labels:
+        app: sports-panel
+        tier: application
+    spec:
+      containers:
+      - name: sports-panel
+        image: autonomous-agents:latest
+        command: ["python", "memory_optimized_sports_panel.py"]
+        ports:
+        - containerPort: 3005
+        env:
+        - name: SERVICE_TYPE
+          value: "sports_panel"
+        - name: MESSAGE_BUS_URL
+          value: "http://message-bus-service:8080"
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3005
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3005
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        volumeMounts:
+        - name: logs
+          mountPath: /app/logs
+        - name: data
+          mountPath: /app/data
+      volumes:
+      - name: logs
+        emptyDir: {}
+      - name: data
+        persistentVolumeClaim:
+          claimName: agent-data-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sports-panel-service
+  namespace: autonomous-agents
+spec:
+  selector:
+    app: sports-panel
+  ports:
+  - protocol: TCP
+    port: 3005
+    targetPort: 3005
+  type: LoadBalancer
+
+---
+# =================== MONITORING STACK ===================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metrics-collector
+  namespace: autonomous-agents
+  labels:
+    app: metrics-collector
+    tier: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metrics-collector
+  template:
+    metadata:
+      labels:
+        app: metrics-collector
+        tier: monitoring
+    spec:
+      containers:
+      - name: metrics-collector
+        image: autonomous-agents:latest
+        command: ["python", "-c", "from core.metrics_collector import run_metrics_server; import asyncio; asyncio.run(run_metrics_server())"]
+        ports:
+        - containerPort: 8081
+        env:
+        - name: SERVICE_TYPE
+          value: "metrics"
+        - name: MESSAGE_BUS_URL
+          value: "http://message-bus-service:8080"
+        - name: METRICS_PORT
+          value: "8081"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        volumeMounts:
+        - name: logs
+          mountPath: /app/logs
+      volumes:
+      - name: logs
+        emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metrics-service
+  namespace: autonomous-agents
+spec:
+  selector:
+    app: metrics-collector
+  ports:
+  - protocol: TCP
+    port: 8081
+    targetPort: 8081
+  type: ClusterIP
+
+---
+# =================== NETWORK POLICIES ===================
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: agent-network-policy
+  namespace: autonomous-agents
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: autonomous-agents
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: autonomous-agents
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 80
+    - protocol: TCP
+      port: 443
+
+---
+# =================== RESOURCE QUOTAS ===================
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: agent-quota
+  namespace: autonomous-agents
+spec:
+  hard:
+    requests.cpu: "4"
+    requests.memory: 8Gi
+    limits.cpu: "16"
+    limits.memory: 32Gi
+    persistentvolumeclaims: "10"
+    pods: "50"

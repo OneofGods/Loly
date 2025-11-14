@@ -1,0 +1,14 @@
+{
+  "agent_id": "coordinator_80ea16fa",
+  "total_tasks": 0,
+  "success_rate": 0.0,
+  "patterns": {},
+  "adaptations": [],
+  "health_metrics": {
+    "cpu_usage": 0.0,
+    "memory_usage": 191.328125,
+    "message_throughput": 0.0,
+    "error_rate": 0.0,
+    "last_error": null
+  }
+}

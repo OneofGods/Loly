@@ -1,0 +1,23 @@
+node_modules/
+__pycache__/
+*.pyc
+.env
+*.log
+venv/
+.venv/
+
+# Loly's runtime data - don't commit
+.swarm/
+*.db
+*.sqlite
+*.sqlite3
+data/
+logs/
+__pycache__/
+*.pyc
+.env
+*.log
+venv/
+.venv/
+node_modules/
+

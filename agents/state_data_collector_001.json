@@ -1,0 +1,43 @@
+{
+  "agent_id": "data_collector_001",
+  "total_tasks": 4,
+  "success_rate": 0.75,
+  "patterns": {
+    "collect_NFL": {
+      "success_count": 1,
+      "failure_count": 0,
+      "avg_duration": 0.0,
+      "common_issues": {},
+      "best_practices": {}
+    },
+    "collect_EPL": {
+      "success_count": 1,
+      "failure_count": 0,
+      "avg_duration": 0.0,
+      "common_issues": {},
+      "best_practices": {}
+    },
+    "collect_MLB": {
+      "success_count": 0,
+      "failure_count": 1,
+      "avg_duration": 0.0,
+      "common_issues": {},
+      "best_practices": {}
+    },
+    "collect_NBA": {
+      "success_count": 1,
+      "failure_count": 0,
+      "avg_duration": 0.0,
+      "common_issues": {},
+      "best_practices": {}
+    }
+  },
+  "adaptations": [],
+  "health_metrics": {
+    "cpu_usage": 0.0,
+    "memory_usage": 124.34375,
+    "message_throughput": 0.0,
+    "error_rate": 0.0,
+    "last_error": null
+  }
+}

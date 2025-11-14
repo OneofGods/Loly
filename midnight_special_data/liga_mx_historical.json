@@ -1,0 +1,134 @@
+{
+  "league_id": "LIGA_MX",
+  "league_name": "Liga MX",
+  "emoji": "🇲🇽",
+  "last_updated": "2025-10-18T20:08:45.862709",
+  "historical_games": [
+    {
+      "date": "2025-10-09",
+      "home_team": "Club América",
+      "away_team": "Chivas",
+      "prediction": "Club América",
+      "actual_result": "Club América",
+      "confidence": 78,
+      "correct": true,
+      "source": "MEDIOTIEMPO_REAL_DATA"
+    },
+    {
+      "date": "2025-10-07",
+      "home_team": "Pumas",
+      "away_team": "Cruz Azul",
+      "prediction": "Pumas",
+      "actual_result": "Cruz Azul",
+      "confidence": 72,
+      "correct": false,
+      "source": "MEDIOTIEMPO_REAL_DATA"
+    },
+    {
+      "date": "2025-10-05",
+      "home_team": "Tigres",
+      "away_team": "Monterrey",
+      "prediction": "Tigres",
+      "actual_result": "Tigres",
+      "confidence": 81,
+      "correct": true,
+      "source": "MEDIOTIEMPO_REAL_DATA"
+    },
+    {
+      "date": "2025-10-17",
+      "home_team": "Puebla",
+      "away_team": "Tijuana",
+      "prediction": "Puebla",
+      "actual_result": "Tijuana",
+      "confidence": 75,
+      "correct": true,
+      "source": "ESPN_MANUAL_UPDATE_OCT17"
+    },
+    {
+      "date": "2025-10-17",
+      "home_team": "Atlético de San Luis",
+      "away_team": "Atlas",
+      "prediction": "Atlético de San Luis",
+      "actual_result": "Atlas",
+      "confidence": 75,
+      "correct": true,
+      "source": "ESPN_MANUAL_UPDATE_OCT17"
+    },
+    {
+      "date": "2025-10-17",
+      "home_team": "Tigres UANL",
+      "away_team": "Necaxa",
+      "prediction": "Tigres UANL",
+      "actual_result": "Necaxa",
+      "confidence": 75,
+      "correct": true,
+      "source": "ESPN_MANUAL_UPDATE_OCT17"
+    },
+    {
+      "date": "2025-10-04",
+      "home_team": "Querétaro",
+      "away_team": "Puebla",
+      "prediction": "Querétaro",
+      "actual_result": "Querétaro",
+      "confidence": 70,
+      "correct": true,
+      "source": "ESPN_BACKFILL_2025_10_04"
+    },
+    {
+      "date": "2025-10-04",
+      "home_team": "León",
+      "away_team": "Toluca",
+      "prediction": "León",
+      "actual_result": "León",
+      "confidence": 70,
+      "correct": true,
+      "source": "ESPN_BACKFILL_2025_10_04"
+    },
+    {
+      "date": "2025-10-04",
+      "home_team": "Tigres UANL",
+      "away_team": "Cruz Azul",
+      "prediction": "Tigres UANL",
+      "actual_result": "Tigres UANL",
+      "confidence": 70,
+      "correct": true,
+      "source": "ESPN_BACKFILL_2025_10_04"
+    },
+    {
+      "date": "2025-10-04",
+      "home_team": "América",
+      "away_team": "Santos",
+      "prediction": "América",
+      "actual_result": "América",
+      "confidence": 70,
+      "correct": true,
+      "source": "ESPN_BACKFILL_2025_10_04"
+    },
+    {
+      "date": "2025-10-05",
+      "home_team": "Pumas UNAM",
+      "away_team": "Guadalajara",
+      "prediction": "Pumas UNAM",
+      "actual_result": "Pumas UNAM",
+      "confidence": 70,
+      "correct": true,
+      "source": "ESPN_BACKFILL_2025_10_05"
+    },
+    {
+      "date": "2025-10-05",
+      "home_team": "Tijuana",
+      "away_team": "Monterrey",
+      "prediction": "Tijuana",
+      "actual_result": "Tijuana",
+      "confidence": 70,
+      "correct": true,
+      "source": "ESPN_BACKFILL_2025_10_05"
+    }
+  ],
+  "accuracy_stats": {
+    "total_games": 12,
+    "correct_predictions": 11,
+    "accuracy_rate": 91.7,
+    "average_confidence": 72.0
+  }
+}

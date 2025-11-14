@@ -1,0 +1,19 @@
+{
+  "agent_id": "monitor_46e054a5",
+  "total_tasks": 0,
+  "success_rate": 0.0,
+  "patterns": {},
+  "adaptations": [],
+  "health_metrics": {
+    "cpu_usage": 0.0,
+    "memory_usage": 174.640625,
+    "disk_usage": "<agents.monitor_agent.HealthMetric object at 0x125424c50>",
+    "network_connections": "<agents.monitor_agent.HealthMetric object at 0x125425850>",
+    "active_agents": "<agents.monitor_agent.HealthMetric object at 0x125426b10>",
+    "agent_errors": "<agents.monitor_agent.HealthMetric object at 0x125426a50>",
+    "task_completion_rate": "<agents.monitor_agent.HealthMetric object at 0x125427dd0>",
+    "prediction_accuracy": "<agents.monitor_agent.HealthMetric object at 0x125427c50>",
+    "data_freshness": "<agents.monitor_agent.HealthMetric object at 0x125425910>",
+    "last_error": "'float' object has no attribute 'values'"
+  }
+}

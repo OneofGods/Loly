@@ -1,0 +1,14 @@
+{
+  "agent_id": "coordinator_73abefb8",
+  "total_tasks": 0,
+  "success_rate": 0.0,
+  "patterns": {},
+  "adaptations": [],
+  "health_metrics": {
+    "cpu_usage": 0.0,
+    "memory_usage": 138.390625,
+    "message_throughput": 0.0,
+    "error_rate": 0.0,
+    "last_error": null
+  }
+}

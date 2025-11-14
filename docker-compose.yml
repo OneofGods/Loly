@@ -1,0 +1,233 @@
+version: '3.8'
+
+# 🔥💀 PHASE 2: PRODUCTION DEPLOYMENT STACK 💀🔥
+# High-availability autonomous agent system with monitoring
+
+services:
+  # =================== MESSAGE BUS ===================
+  message-bus:
+    build: .
+    container_name: agent_message_bus
+    command: ["python", "-c", "from core.message_bus import run_standalone_bus; import asyncio; asyncio.run(run_standalone_bus())"]
+    ports:
+      - "8080:8080"
+    environment:
+      - SERVICE_TYPE=message_bus
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - agent_network
+
+  # =================== AGENT ORCHESTRATOR ===================
+  orchestrator:
+    build: .
+    container_name: agent_orchestrator
+    command: ["python", "core/agent_orchestrator.py"]
+    depends_on:
+      - message-bus
+    environment:
+      - SERVICE_TYPE=orchestrator
+      - MESSAGE_BUS_URL=http://message-bus:8080
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    restart: unless-stopped
+    networks:
+      - agent_network
+
+  # =================== DATA COLLECTOR AGENTS ===================
+  data-collector-1:
+    build: .
+    container_name: enhanced_data_collector_1
+    command: ["python", "-c", "from agents.enhanced_data_collector_agent import EnhancedDataCollectorAgent; import asyncio; agent = EnhancedDataCollectorAgent('collector_001'); asyncio.run(agent.run())"]
+    depends_on:
+      - message-bus
+      - orchestrator
+    environment:
+      - SERVICE_TYPE=data_collector
+      - AGENT_ID=collector_001
+      - MESSAGE_BUS_URL=http://message-bus:8080
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    restart: unless-stopped
+    networks:
+      - agent_network
+
+  data-collector-2:
+    build: .
+    container_name: enhanced_data_collector_2
+    command: ["python", "-c", "from agents.enhanced_data_collector_agent import EnhancedDataCollectorAgent; import asyncio; agent = EnhancedDataCollectorAgent('collector_002'); asyncio.run(agent.run())"]
+    depends_on:
+      - message-bus
+      - orchestrator
+    environment:
+      - SERVICE_TYPE=data_collector
+      - AGENT_ID=collector_002
+      - MESSAGE_BUS_URL=http://message-bus:8080
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    restart: unless-stopped
+    networks:
+      - agent_network
+
+  # =================== SWARM INTELLIGENCE ===================
+  swarm-coordinator:
+    build: .
+    container_name: swarm_intelligence_coordinator
+    command: ["python", "-c", "from core.swarm_intelligence import SwarmIntelligenceCoordinator; from core.message_bus import get_message_bus; import asyncio; async def run(): bus = await get_message_bus(); coordinator = SwarmIntelligenceCoordinator(bus); await coordinator.monitor_swarm_health(); asyncio.run(run())"]
+    depends_on:
+      - message-bus
+    environment:
+      - SERVICE_TYPE=swarm_coordinator
+      - MESSAGE_BUS_URL=http://message-bus:8080
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - agent_network
+
+  # =================== DYNAMIC SCALING ===================
+  scaling-manager:
+    build: .
+    container_name: dynamic_scaling_manager
+    command: ["python", "-c", "from core.dynamic_scaling import DynamicScalingManager; import asyncio; async def run(): manager = DynamicScalingManager(None, None, None); await manager.start_monitoring(); asyncio.run(run())"]
+    depends_on:
+      - message-bus
+      - swarm-coordinator
+    environment:
+      - SERVICE_TYPE=scaling_manager
+      - MESSAGE_BUS_URL=http://message-bus:8080
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+      - ./ml_models:/app/ml_models
+    restart: unless-stopped
+    networks:
+      - agent_network
+
+  # =================== ML ANALYTICS ===================
+  ml-coordinator:
+    build: .
+    container_name: ml_analytics_coordinator
+    command: ["python", "-c", "from core.ml_analytics_coordinator import MLAnalyticsCoordinator; import asyncio; async def run(): coordinator = MLAnalyticsCoordinator(None, None, None); await coordinator.start_analytics_loop(); asyncio.run(run())"]
+    depends_on:
+      - message-bus
+      - swarm-coordinator
+      - scaling-manager
+    environment:
+      - SERVICE_TYPE=ml_coordinator
+      - MESSAGE_BUS_URL=http://message-bus:8080
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+      - ./ml_models:/app/ml_models
+      - ./data:/app/data
+    restart: unless-stopped
+    networks:
+      - agent_network
+
+  # =================== SPORTS PANEL (Legacy Integration) ===================
+  sports-panel:
+    build: .
+    container_name: sports_panel_legacy
+    command: ["python", "real_agents/complete_real_dashboard.py"]
+    ports:
+      - "3005:3005"
+    depends_on:
+      - message-bus
+    environment:
+      - SERVICE_TYPE=sports_panel
+      - MESSAGE_BUS_URL=http://message-bus:8080
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    restart: unless-stopped
+    networks:
+      - agent_network
+
+  # =================== MONITORING & METRICS ===================
+  metrics-collector:
+    build: .
+    container_name: metrics_collector
+    command: ["python", "-c", "from core.metrics_collector import run_metrics_server; import asyncio; asyncio.run(run_metrics_server())"]
+    ports:
+      - "8081:8081"
+    depends_on:
+      - message-bus
+    environment:
+      - SERVICE_TYPE=metrics
+      - MESSAGE_BUS_URL=http://message-bus:8080
+      - METRICS_PORT=8081
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - agent_network
+
+  # =================== HEALTH CHECK SERVICE ===================
+  health-monitor:
+    build: .
+    container_name: health_monitor
+    command: ["python", "-c", "from core.health_monitor import run_health_server; import asyncio; asyncio.run(run_health_server())"]
+    ports:
+      - "8082:8082"
+    environment:
+      - SERVICE_TYPE=health_monitor
+      - HEALTH_PORT=8082
+      - MESSAGE_BUS_URL=http://message-bus:8080
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - agent_network
+
+  # =================== PORTFOLIO MANAGER ===================
+  portfolio-manager:
+    build: .
+    container_name: portfolio_manager
+    command: ["python", "portfolio_manager.py"]
+    depends_on:
+      - message-bus
+    ports:
+      - "8004:8004"
+    environment:
+      - SERVICE_TYPE=portfolio_manager
+      - MESSAGE_BUS_URL=http://message-bus:8080
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    restart: unless-stopped
+    networks:
+      - agent_network
+
+# =================== VOLUMES ===================
+volumes:
+  logs_data:
+    driver: local
+  agent_data:
+    driver: local
+  ml_models:
+    driver: local
+
+# =================== NETWORKS ===================
+networks:
+  agent_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

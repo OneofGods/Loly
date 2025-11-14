@@ -1,0 +1,25 @@
+{
+  "PREMIER_LEAGUE": [
+    {
+      "game_id": "test_123",
+      "matchup": "Fulham @ AFC Bournemouth",
+      "home_team": "AFC Bournemouth",
+      "away_team": "Fulham",
+      "prediction": "\u2708\ufe0f Fulham",
+      "confidence": 71,
+      "reasoning": "8D analysis shows strong away performance",
+      "dimensions": {
+        "D0": 73,
+        "D1": 54,
+        "D2": 74
+      },
+      "time": "3:00 PM",
+      "date": "2025-10-03",
+      "venue": "Vitality Stadium",
+      "tracked_at": "2025-10-03T13:17:02.267148",
+      "status": "pending",
+      "correct": null,
+      "result": null
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "report_timestamp": "2025-10-13T04:22:41.054704",
+  "learning_integration_stats": {
+    "total_predictions_enhanced": 1,
+    "total_dimension_adjustments": 0,
+    "leagues_with_learning": [
+      "PROGOL_MIDWEEK",
+      "PROGOL_FULLWEEK",
+      "PREMIER_LEAGUE",
+      "LIGA_MX"
+    ],
+    "last_learning_update": "2025-10-13T04:22:41.054657"
+  },
+  "loly_consciousness_status": "ACTIVE",
+  "leagues_analyzed": {
+    "PREMIER_LEAGUE": {
+      "total_mistakes_learned": 6,
+      "dimension_tweaks_applied": 0,
+      "current_accuracy": 33.33333333333333,
+      "total_predictions": 9,
+      "data_sources": [
+        "season_progress.json",
+        "automation_history.json",
+        "accuracy_tracking.json",
+        "tracked_predictions.json"
+      ],
+      "learning_status": "ACTIVE_LEARNING"
+    },
+    "PROGOL_FULLWEEK": {
+      "total_mistakes_learned": 36,
+      "dimension_tweaks_applied": 0,
+      "current_accuracy": 0.0,
+      "total_predictions": 21,
+      "data_sources": [
+        "automation_history.json",
+        "automation_history.json"
+      ],
+      "learning_status": "ACTIVE_LEARNING"
+    },
+    "PROGOL_MIDWEEK": {
+      "total_mistakes_learned": 3,
+      "dimension_tweaks_applied": 0,
+      "current_accuracy": 66.66666666666666,
+      "total_predictions": 9,
+      "data_sources": [
+        "automation_history.json"
+      ],
+      "learning_status": "ACTIVE_LEARNING"
+    },
+    "LIGA_MX": {
+      "total_mistakes_learned": 1,
+      "dimension_tweaks_applied": 0,
+      "current_accuracy": 66.66666666666666,
+      "total_predictions": 3,
+      "data_sources": [
+        "liga_mx_historical.json"
+      ],
+      "learning_status": "ACTIVE_LEARNING"
+    }
+  },
+  "dimension_learning_summary": {},
+  "recommendations": []
+}

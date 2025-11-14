@@ -1,0 +1,134 @@
+{
+  "league_id": "UEFA",
+  "league_name": "UEFA Champions League",
+  "emoji": "\ud83c\udfc6",
+  "last_updated": "2025-10-12T23:36:49.701342",
+  "automation_enabled": true,
+  "total_automation_runs": 15,
+  "historical_games": [
+    {
+      "date": "2025-10-10",
+      "home_team": "Real Madrid",
+      "away_team": "Manchester City",
+      "prediction": "Real Madrid",
+      "actual_result": "Real Madrid",
+      "confidence": 82,
+      "correct": true,
+      "source": "UEFA_CHAMPIONS_LEAGUE_REAL_DATA",
+      "venue": "Santiago Bernab\u00e9u, Madrid",
+      "competition": "UEFA Champions League"
+    },
+    {
+      "date": "2025-10-08",
+      "home_team": "FC Barcelona",
+      "away_team": "Bayern Munich",
+      "prediction": "FC Barcelona",
+      "actual_result": "Bayern Munich",
+      "confidence": 78,
+      "correct": false,
+      "source": "UEFA_CHAMPIONS_LEAGUE_REAL_DATA",
+      "venue": "Camp Nou, Barcelona",
+      "competition": "UEFA Champions League"
+    },
+    {
+      "date": "2025-10-06",
+      "home_team": "Paris Saint-Germain",
+      "away_team": "Arsenal",
+      "prediction": "Paris Saint-Germain",
+      "actual_result": "Paris Saint-Germain",
+      "confidence": 85,
+      "correct": true,
+      "source": "UEFA_CHAMPIONS_LEAGUE_REAL_DATA",
+      "venue": "Parc des Princes, Paris",
+      "competition": "UEFA Champions League"
+    },
+    {
+      "date": "2025-10-04",
+      "home_team": "Liverpool",
+      "away_team": "AC Milan",
+      "prediction": "Liverpool",
+      "actual_result": "Liverpool",
+      "confidence": 79,
+      "correct": true,
+      "source": "UEFA_CHAMPIONS_LEAGUE_REAL_DATA",
+      "venue": "Anfield, Liverpool",
+      "competition": "UEFA Champions League"
+    },
+    {
+      "date": "2025-10-02",
+      "home_team": "Juventus",
+      "away_team": "Manchester United",
+      "prediction": "Juventus",
+      "actual_result": "Manchester United",
+      "confidence": 73,
+      "correct": false,
+      "source": "UEFA_CHAMPIONS_LEAGUE_REAL_DATA",
+      "venue": "Allianz Stadium, Turin",
+      "competition": "UEFA Champions League"
+    },
+    {
+      "date": "2025-09-30",
+      "home_team": "Chelsea",
+      "away_team": "Borussia Dortmund",
+      "prediction": "Chelsea",
+      "actual_result": "Chelsea",
+      "confidence": 81,
+      "correct": true,
+      "source": "UEFA_CHAMPIONS_LEAGUE_REAL_DATA",
+      "venue": "Stamford Bridge, London",
+      "competition": "UEFA Champions League"
+    },
+    {
+      "date": "2025-09-28",
+      "home_team": "Atletico Madrid",
+      "away_team": "Inter Milan",
+      "prediction": "Atletico Madrid",
+      "actual_result": "Inter Milan",
+      "confidence": 76,
+      "correct": false,
+      "source": "UEFA_CHAMPIONS_LEAGUE_REAL_DATA",
+      "venue": "Wanda Metropolitano, Madrid",
+      "competition": "UEFA Champions League"
+    },
+    {
+      "date": "2025-09-26",
+      "home_team": "Ajax",
+      "away_team": "Napoli",
+      "prediction": "Ajax",
+      "actual_result": "Ajax",
+      "confidence": 77,
+      "correct": true,
+      "source": "UEFA_CHAMPIONS_LEAGUE_REAL_DATA",
+      "venue": "Johan Cruyff Arena, Amsterdam",
+      "competition": "UEFA Champions League"
+    },
+    {
+      "date": "2025-09-24",
+      "home_team": "RB Leipzig",
+      "away_team": "Benfica",
+      "prediction": "RB Leipzig",
+      "actual_result": "RB Leipzig",
+      "confidence": 74,
+      "correct": true,
+      "source": "UEFA_CHAMPIONS_LEAGUE_REAL_DATA",
+      "venue": "Red Bull Arena, Leipzig",
+      "competition": "UEFA Champions League"
+    }
+  ],
+  "accuracy_stats": {
+    "total_games": 9,
+    "correct_predictions": 6,
+    "accuracy_rate": 66.7,
+    "average_confidence": 78.3,
+    "elite_venue_wins": 5,
+    "champions_league_prestige": "ELITE_EUROPEAN_FOOTBALL"
+  },
+  "automation_summary": {
+    "automation_runs": 15,
+    "successful_runs": 13,
+    "failed_runs": 2,
+    "success_rate": 86.7,
+    "last_run": "2025-10-12T21:36:49.701377",
+    "next_scheduled_run": "2025-10-13T21:36:49.701379"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "test_name": "PORTUGUESE_30_GAME_LEGENDARY_TEST_v2.0",
+  "test_date": "2025-11-03T20:29:37.470340",
+  "total_games": 30,
+  "legendary_threshold": 75.0,
+  "algorithm_performance": {
+    "accuracy": 90.0,
+    "correct_predictions": 27,
+    "wrong_predictions": 3,
+    "average_patterns_activated": 6.3,
+    "undecuple_threat_activations": 5,
+    "legendary_status": true
+  },
+  "hybrid_performance": {
+    "accuracy": 90.0,
+    "correct_predictions": 27,
+    "wrong_predictions": 3,
+    "average_patterns_activated": 6.3,
+    "undecuple_threat_activations": 5,
+    "legendary_status": true
+  },
+  "portuguese_analysis": {
+    "o_classico_games": 4,
+    "big_four_games": 12,
+    "regular_games": 14,
+    "undecuple_threat_effectiveness": 16.666666666666664
+  },
+  "test_completed": true,
+  "system_status": "OPERATIONAL",
+  "overall_legendary_status": true,
+  "algorithm_legendary": true,
+  "hybrid_legendary": true
+}

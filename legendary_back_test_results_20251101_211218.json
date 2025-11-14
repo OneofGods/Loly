@@ -1,0 +1,615 @@
+{
+  "MLS": {
+    "league": "MLS",
+    "algorithm_name": "MLS American Soccer Cultural Mastery v2.0",
+    "games_tested": 20,
+    "correct_predictions": 11,
+    "accuracy_percentage": 55.00000000000001,
+    "average_confidence": 73.23999999999998,
+    "predictions": [
+      {
+        "game_number": 1,
+        "matchup": "Austin FC @ LAFC",
+        "algorithm_prediction": "\ud83c\udfe0 TRAVEL ADVANTAGE: LAFC",
+        "confidence": 80.5,
+        "actual_winner": "\ud83c\udfe0 LAFC",
+        "correct": true,
+        "home_score": 2,
+        "away_score": 1
+      },
+      {
+        "game_number": 2,
+        "matchup": "New York City FC @ Charlotte FC",
+        "algorithm_prediction": "\ud83c\uddfa\ud83c\uddf8 Charlotte FC",
+        "confidence": 69.0,
+        "actual_winner": "\u2708\ufe0f New York City FC",
+        "correct": false,
+        "home_score": 0,
+        "away_score": 1
+      },
+      {
+        "game_number": 3,
+        "matchup": "Columbus Crew @ FC Cincinnati",
+        "algorithm_prediction": "\ud83c\uddfa\ud83c\uddf8 FC Cincinnati",
+        "confidence": 71.4,
+        "actual_winner": "\ud83c\udfe0 FC Cincinnati",
+        "correct": true,
+        "home_score": 1,
+        "away_score": 0
+      },
+      {
+        "game_number": 4,
+        "matchup": "Seattle Sounders FC @ Minnesota United FC",
+        "algorithm_prediction": "\ud83c\udfe0 TRAVEL ADVANTAGE: Minnesota United FC",
+        "confidence": 70.6,
+        "actual_winner": "\ud83e\udd1d DRAW",
+        "correct": false,
+        "home_score": 0,
+        "away_score": 0
+      },
+      {
+        "game_number": 5,
+        "matchup": "Chicago Fire FC @ Philadelphia Union",
+        "algorithm_prediction": "\ud83c\udfe0 TRAVEL ADVANTAGE: Philadelphia Union",
+        "confidence": 70.1,
+        "actual_winner": "\ud83e\udd1d DRAW",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 2
+      },
+      {
+        "game_number": 6,
+        "matchup": "FC Dallas @ Vancouver Whitecaps",
+        "algorithm_prediction": "\ud83c\udfe0 TRAVEL ADVANTAGE: Vancouver Whitecaps",
+        "confidence": 71.2,
+        "actual_winner": "\ud83c\udfe0 Vancouver Whitecaps",
+        "correct": true,
+        "home_score": 3,
+        "away_score": 0
+      },
+      {
+        "game_number": 7,
+        "matchup": "Portland Timbers @ San Diego FC",
+        "algorithm_prediction": "\ud83c\uddfa\ud83c\uddf8 San Diego FC",
+        "confidence": 71.5,
+        "actual_winner": "\ud83c\udfe0 San Diego FC",
+        "correct": true,
+        "home_score": 2,
+        "away_score": 1
+      },
+      {
+        "game_number": 8,
+        "matchup": "Nashville SC @ Inter Miami CF",
+        "algorithm_prediction": "\ud83c\udf1f MESSI MAGIC",
+        "confidence": 82.3,
+        "actual_winner": "\ud83c\udfe0 Inter Miami CF",
+        "correct": false,
+        "home_score": 3,
+        "away_score": 1
+      },
+      {
+        "game_number": 9,
+        "matchup": "Orlando City SC @ Chicago Fire FC",
+        "algorithm_prediction": "\ud83c\udfe0 TRAVEL ADVANTAGE: Chicago Fire FC",
+        "confidence": 67.8,
+        "actual_winner": "\ud83c\udfe0 Chicago Fire FC",
+        "correct": true,
+        "home_score": 3,
+        "away_score": 1
+      },
+      {
+        "game_number": 10,
+        "matchup": "Real Salt Lake @ Portland Timbers",
+        "algorithm_prediction": "\ud83c\uddfa\ud83c\uddf8 Portland Timbers",
+        "confidence": 74.0,
+        "actual_winner": "\ud83c\udfe0 Portland Timbers",
+        "correct": true,
+        "home_score": 3,
+        "away_score": 1
+      },
+      {
+        "game_number": 11,
+        "matchup": "D.C. United @ Atlanta United FC",
+        "algorithm_prediction": "\u2696\ufe0f MLS PARITY BATTLE",
+        "confidence": 77.1,
+        "actual_winner": "\ud83e\udd1d DRAW",
+        "correct": false,
+        "home_score": 1,
+        "away_score": 1
+      },
+      {
+        "game_number": 12,
+        "matchup": "Philadelphia Union @ Charlotte FC",
+        "algorithm_prediction": "\ud83c\uddfa\ud83c\uddf8 Charlotte FC",
+        "confidence": 71.3,
+        "actual_winner": "\ud83c\udfe0 Charlotte FC",
+        "correct": true,
+        "home_score": 2,
+        "away_score": 0
+      },
+      {
+        "game_number": 13,
+        "matchup": "New York Red Bulls @ Columbus Crew",
+        "algorithm_prediction": "\ud83c\udfe0 TRAVEL ADVANTAGE: Columbus Crew",
+        "confidence": 69.0,
+        "actual_winner": "\ud83c\udfe0 Columbus Crew",
+        "correct": true,
+        "home_score": 3,
+        "away_score": 1
+      },
+      {
+        "game_number": 14,
+        "matchup": "CF Montr\u00e9al @ FC Cincinnati",
+        "algorithm_prediction": "\ud83c\uddfa\ud83c\uddf8 FC Cincinnati",
+        "confidence": 69.0,
+        "actual_winner": "\ud83c\udfe0 FC Cincinnati",
+        "correct": true,
+        "home_score": 3,
+        "away_score": 0
+      },
+      {
+        "game_number": 15,
+        "matchup": "Inter Miami CF @ Nashville SC",
+        "algorithm_prediction": "\ud83d\ude80 MESSI AWAY POWER",
+        "confidence": 82.3,
+        "actual_winner": "\u2708\ufe0f Inter Miami CF",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 5
+      },
+      {
+        "game_number": 16,
+        "matchup": "Chicago Fire FC @ New England Revolution",
+        "algorithm_prediction": "\ud83c\udfe0 TRAVEL ADVANTAGE: New England Revolution",
+        "confidence": 68.6,
+        "actual_winner": "\ud83e\udd1d DRAW",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 2
+      },
+      {
+        "game_number": 17,
+        "matchup": "Seattle Sounders FC @ New York City FC",
+        "algorithm_prediction": "\ud83c\uddfa\ud83c\uddf8 New York City FC",
+        "confidence": 71.6,
+        "actual_winner": "\u2708\ufe0f Seattle Sounders FC",
+        "correct": false,
+        "home_score": 1,
+        "away_score": 2
+      },
+      {
+        "game_number": 18,
+        "matchup": "Orlando City SC @ Toronto FC",
+        "algorithm_prediction": "\ud83c\uddfa\ud83c\uddf8 Toronto FC",
+        "confidence": 72.9,
+        "actual_winner": "\ud83c\udfe0 Toronto FC",
+        "correct": true,
+        "home_score": 4,
+        "away_score": 2
+      },
+      {
+        "game_number": 19,
+        "matchup": "LAFC @ Colorado Rapids",
+        "algorithm_prediction": "\ud83c\udfe0 TRAVEL ADVANTAGE: Colorado Rapids",
+        "confidence": 79.3,
+        "actual_winner": "\ud83e\udd1d DRAW",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 2
+      },
+      {
+        "game_number": 20,
+        "matchup": "Minnesota United FC @ LA Galaxy",
+        "algorithm_prediction": "\ud83c\udfe0 TRAVEL ADVANTAGE: LA Galaxy",
+        "confidence": 75.3,
+        "actual_winner": "\ud83c\udfe0 LA Galaxy",
+        "correct": true,
+        "home_score": 2,
+        "away_score": 1
+      }
+    ],
+    "legendary_validated": false
+  },
+  "LIGUE1": {
+    "league": "LIGUE1",
+    "algorithm_name": "Ligue 1 French Football Cultural Mastery v2.0",
+    "games_tested": 20,
+    "correct_predictions": 6,
+    "accuracy_percentage": 30.0,
+    "average_confidence": 72.74,
+    "predictions": [
+      {
+        "game_number": 1,
+        "matchup": "Brest @ Le Havre AC",
+        "algorithm_prediction": "\ud83c\udfe0\ud83c\uddeb\ud83c\uddf7 Le Havre AC (French Home)",
+        "confidence": 65.0,
+        "actual_winner": "\ud83c\udfe0 Le Havre AC",
+        "correct": true,
+        "home_score": 1,
+        "away_score": 0
+      },
+      {
+        "game_number": 2,
+        "matchup": "Paris Saint-Germain @ Lorient",
+        "algorithm_prediction": "\ud83d\udcb0\ud83d\ude80 Paris Saint-Germain (Qatari Dominance)",
+        "confidence": 81.5,
+        "actual_winner": "\ud83e\udd1d DRAW",
+        "correct": false,
+        "home_score": 1,
+        "away_score": 1
+      },
+      {
+        "game_number": 3,
+        "matchup": "Lens @ Metz",
+        "algorithm_prediction": "\ud83c\udfe0\ud83c\uddeb\ud83c\uddf7 Metz (French Home)",
+        "confidence": 66.5,
+        "actual_winner": "\ud83c\udfe0 Metz",
+        "correct": true,
+        "home_score": 2,
+        "away_score": 0
+      },
+      {
+        "game_number": 4,
+        "matchup": "Lille @ Nice",
+        "algorithm_prediction": "\ud83c\udf93\u26bd French Academy Excellence",
+        "confidence": 78.6,
+        "actual_winner": "\ud83c\udfe0 Nice",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 0
+      },
+      {
+        "game_number": 5,
+        "matchup": "Angers @ Marseille",
+        "algorithm_prediction": "\ud83c\udfdf\ufe0f\ud83d\udd25 Marseille (Stadium Magic)",
+        "confidence": 79.9,
+        "actual_winner": "\ud83e\udd1d DRAW",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 2
+      },
+      {
+        "game_number": 6,
+        "matchup": "AS Monaco @ Nantes",
+        "algorithm_prediction": "\ud83c\udf93\u26bd French Academy Excellence",
+        "confidence": 79.4,
+        "actual_winner": "\u2708\ufe0f AS Monaco",
+        "correct": false,
+        "home_score": 3,
+        "away_score": 5
+      },
+      {
+        "game_number": 7,
+        "matchup": "Lyon @ Paris FC",
+        "algorithm_prediction": "\ud83c\udf93\u26bd French Academy Excellence",
+        "confidence": 77.2,
+        "actual_winner": "\ud83e\udd1d DRAW",
+        "correct": false,
+        "home_score": 3,
+        "away_score": 3
+      },
+      {
+        "game_number": 8,
+        "matchup": "AJ Auxerre @ Strasbourg",
+        "algorithm_prediction": "\ud83c\udfe0\ud83c\uddeb\ud83c\uddf7 Strasbourg (French Home)",
+        "confidence": 67.4,
+        "actual_winner": "\ud83c\udfe0 Strasbourg",
+        "correct": true,
+        "home_score": 3,
+        "away_score": 0
+      },
+      {
+        "game_number": 9,
+        "matchup": "Stade Rennais @ Toulouse",
+        "algorithm_prediction": "\ud83c\udfe0\ud83c\uddeb\ud83c\uddf7 Toulouse (French Home)",
+        "confidence": 65.0,
+        "actual_winner": "\ud83e\udd1d DRAW",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 2
+      },
+      {
+        "game_number": 10,
+        "matchup": "Metz @ Lille",
+        "algorithm_prediction": "\ud83c\udf93 French Academy Showcase",
+        "confidence": 74.6,
+        "actual_winner": "\ud83c\udfe0 Lille",
+        "correct": false,
+        "home_score": 6,
+        "away_score": 1
+      },
+      {
+        "game_number": 11,
+        "matchup": "Le Havre AC @ AJ Auxerre",
+        "algorithm_prediction": "\ud83c\udfe0\ud83c\uddeb\ud83c\uddf7 AJ Auxerre (French Home)",
+        "confidence": 65.0,
+        "actual_winner": "\u2708\ufe0f Le Havre AC",
+        "correct": false,
+        "home_score": 0,
+        "away_score": 1
+      },
+      {
+        "game_number": 12,
+        "matchup": "Lorient @ Angers",
+        "algorithm_prediction": "\ud83c\udfe0\ud83c\uddeb\ud83c\uddf7 Angers (French Home)",
+        "confidence": 65.0,
+        "actual_winner": "\ud83c\udfe0 Angers",
+        "correct": true,
+        "home_score": 2,
+        "away_score": 0
+      },
+      {
+        "game_number": 13,
+        "matchup": "Nice @ Stade Rennais",
+        "algorithm_prediction": "\ud83c\udfe0\ud83c\uddeb\ud83c\uddf7 Stade Rennais (French Home)",
+        "confidence": 70.9,
+        "actual_winner": "\u2708\ufe0f Nice",
+        "correct": false,
+        "home_score": 1,
+        "away_score": 2
+      },
+      {
+        "game_number": 14,
+        "matchup": "Strasbourg @ Lyon",
+        "algorithm_prediction": "\ud83c\udf93\u26bd French Academy Excellence",
+        "confidence": 79.2,
+        "actual_winner": "\ud83c\udfe0 Lyon",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 1
+      },
+      {
+        "game_number": 15,
+        "matchup": "Paris Saint-Germain @ Brest",
+        "algorithm_prediction": "\ud83d\udcb0\ud83d\ude80 Paris Saint-Germain (Qatari Dominance)",
+        "confidence": 81.5,
+        "actual_winner": "\u2708\ufe0f Paris Saint-Germain",
+        "correct": true,
+        "home_score": 0,
+        "away_score": 3
+      },
+      {
+        "game_number": 16,
+        "matchup": "Toulouse @ AS Monaco",
+        "algorithm_prediction": "\ud83c\udf93\u26bd French Academy Excellence",
+        "confidence": 75.8,
+        "actual_winner": "\ud83c\udfe0 AS Monaco",
+        "correct": false,
+        "home_score": 1,
+        "away_score": 0
+      },
+      {
+        "game_number": 17,
+        "matchup": "Marseille @ Lens",
+        "algorithm_prediction": "\ud83c\uddeb\ud83c\uddf7\u26bd French Football Battle",
+        "confidence": 79.6,
+        "actual_winner": "\ud83c\udfe0 Lens",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 1
+      },
+      {
+        "game_number": 18,
+        "matchup": "Nantes @ Paris FC",
+        "algorithm_prediction": "\ud83c\udfe0\ud83c\uddeb\ud83c\uddf7 Paris FC (French Home)",
+        "confidence": 69.9,
+        "actual_winner": "\u2708\ufe0f Nantes",
+        "correct": false,
+        "home_score": 1,
+        "away_score": 2
+      },
+      {
+        "game_number": 19,
+        "matchup": "Paris FC @ Lens",
+        "algorithm_prediction": "\ud83c\udfe0\ud83c\uddeb\ud83c\uddf7 Lens (French Home)",
+        "confidence": 67.8,
+        "actual_winner": "\ud83c\udfe0 Lens",
+        "correct": true,
+        "home_score": 2,
+        "away_score": 1
+      },
+      {
+        "game_number": 20,
+        "matchup": "Brest @ Lorient",
+        "algorithm_prediction": "\ud83c\udfe0\ud83c\uddeb\ud83c\uddf7 Lorient (French Home)",
+        "confidence": 65.0,
+        "actual_winner": "\ud83e\udd1d DRAW",
+        "correct": false,
+        "home_score": 3,
+        "away_score": 3
+      }
+    ],
+    "legendary_validated": false
+  },
+  "UEFA_EUROPA": {
+    "league": "UEFA_EUROPA",
+    "algorithm_name": "UEFA Europa League European Cultural Mastery v2.0",
+    "games_tested": 18,
+    "correct_predictions": 4,
+    "accuracy_percentage": 22.22222222222222,
+    "average_confidence": 68.44999999999999,
+    "predictions": [
+      {
+        "game_number": 1,
+        "matchup": "Red Star Belgrade @ Braga",
+        "algorithm_prediction": "\u2708\ufe0f RED STAR BELGRADE",
+        "confidence": 65,
+        "actual_winner": "\ud83c\udfe0 Braga",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 0
+      },
+      {
+        "game_number": 2,
+        "matchup": "Bologna @ FCSB",
+        "algorithm_prediction": "\u2708\ufe0f BOLOGNA",
+        "confidence": 65,
+        "actual_winner": "\u2708\ufe0f Bologna",
+        "correct": true,
+        "home_score": 1,
+        "away_score": 2
+      },
+      {
+        "game_number": 3,
+        "matchup": "VfB Stuttgart @ Fenerbahce",
+        "algorithm_prediction": "\u2708\ufe0f VFB STUTTGART",
+        "confidence": 65,
+        "actual_winner": "\ud83c\udfe0 Fenerbahce",
+        "correct": false,
+        "home_score": 1,
+        "away_score": 0
+      },
+      {
+        "game_number": 4,
+        "matchup": "Aston Villa @ Go Ahead Eagles",
+        "algorithm_prediction": "\ud83c\uddee\ud83c\uddf9\u26bd ITALIAN TACTICAL MASTERY",
+        "confidence": 79.8,
+        "actual_winner": "\ud83c\udfe0 Go Ahead Eagles",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 1
+      },
+      {
+        "game_number": 5,
+        "matchup": "FC Basel @ Lyon",
+        "algorithm_prediction": "\ud83c\uddee\ud83c\uddf9\u26bd ITALIAN TACTICAL MASTERY",
+        "confidence": 79.8,
+        "actual_winner": "\ud83c\udfe0 Lyon",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 0
+      },
+      {
+        "game_number": 6,
+        "matchup": "Real Betis @ Racing Genk",
+        "algorithm_prediction": "\ud83c\uddea\ud83c\uddf8\ud83c\udfc6 SPANISH EUROPA DNA",
+        "confidence": 82.7,
+        "actual_winner": "\ud83e\udd1d DRAW",
+        "correct": false,
+        "home_score": 0,
+        "away_score": 0
+      },
+      {
+        "game_number": 7,
+        "matchup": "Ferencvaros @ RB Salzburg",
+        "algorithm_prediction": "\u2708\ufe0f FERENCVAROS",
+        "confidence": 65,
+        "actual_winner": "\u2708\ufe0f Ferencvaros",
+        "correct": true,
+        "home_score": 2,
+        "away_score": 3
+      },
+      {
+        "game_number": 8,
+        "matchup": "Rangers @ SK Brann",
+        "algorithm_prediction": "\u2708\ufe0f RANGERS",
+        "confidence": 65,
+        "actual_winner": "\ud83c\udfe0 SK Brann",
+        "correct": false,
+        "home_score": 3,
+        "away_score": 0
+      },
+      {
+        "game_number": 9,
+        "matchup": "Viktoria Plzen @ AS Roma",
+        "algorithm_prediction": "\ud83c\uddee\ud83c\uddf9\u26bd ITALIAN TACTICAL MASTERY",
+        "confidence": 79.8,
+        "actual_winner": "\u2708\ufe0f Viktoria Plzen",
+        "correct": false,
+        "home_score": 1,
+        "away_score": 2
+      },
+      {
+        "game_number": 10,
+        "matchup": "Nice @ Celta Vigo",
+        "algorithm_prediction": "\u2708\ufe0f NICE",
+        "confidence": 65,
+        "actual_winner": "\ud83c\udfe0 Celta Vigo",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 1
+      },
+      {
+        "game_number": 11,
+        "matchup": "SK Sturm Graz @ Celtic",
+        "algorithm_prediction": "\u2708\ufe0f SK STURM GRAZ",
+        "confidence": 65,
+        "actual_winner": "\ud83c\udfe0 Celtic",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 1
+      },
+      {
+        "game_number": 12,
+        "matchup": "Panathinaikos @ Feyenoord Rotterdam",
+        "algorithm_prediction": "\u2708\ufe0f PANATHINAIKOS",
+        "confidence": 65,
+        "actual_winner": "\ud83c\udfe0 Feyenoord Rotterdam",
+        "correct": false,
+        "home_score": 3,
+        "away_score": 1
+      },
+      {
+        "game_number": 13,
+        "matchup": "PAOK Salonika @ Lille",
+        "algorithm_prediction": "\u2708\ufe0f PAOK SALONIKA",
+        "confidence": 65,
+        "actual_winner": "\u2708\ufe0f PAOK Salonika",
+        "correct": true,
+        "home_score": 3,
+        "away_score": 4
+      },
+      {
+        "game_number": 14,
+        "matchup": "FC Midtjylland @ Maccabi Tel-Aviv",
+        "algorithm_prediction": "\u2708\ufe0f FC MIDTJYLLAND",
+        "confidence": 65,
+        "actual_winner": "\u2708\ufe0f FC Midtjylland",
+        "correct": true,
+        "home_score": 0,
+        "away_score": 3
+      },
+      {
+        "game_number": 15,
+        "matchup": "Dinamo Zagreb @ Malm\u00f6 FF",
+        "algorithm_prediction": "\u2708\ufe0f DINAMO ZAGREB",
+        "confidence": 65,
+        "actual_winner": "\ud83e\udd1d DRAW",
+        "correct": false,
+        "home_score": 1,
+        "away_score": 1
+      },
+      {
+        "game_number": 16,
+        "matchup": "FC Porto @ Nottingham Forest",
+        "algorithm_prediction": "\u2708\ufe0f FC PORTO",
+        "confidence": 65,
+        "actual_winner": "\ud83c\udfe0 Nottingham Forest",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 0
+      },
+      {
+        "game_number": 17,
+        "matchup": "FC Utrecht @ SC Freiburg",
+        "algorithm_prediction": "\u2708\ufe0f FC UTRECHT",
+        "confidence": 65,
+        "actual_winner": "\ud83c\udfe0 SC Freiburg",
+        "correct": false,
+        "home_score": 2,
+        "away_score": 0
+      },
+      {
+        "game_number": 18,
+        "matchup": "Ludogorets Razgrad @ Young Boys",
+        "algorithm_prediction": "\u2708\ufe0f LUDOGORETS RAZGRAD",
+        "confidence": 65,
+        "actual_winner": "\ud83c\udfe0 Young Boys",
+        "correct": false,
+        "home_score": 3,
+        "away_score": 2
+      }
+    ],
+    "legendary_validated": false
+  }
+}

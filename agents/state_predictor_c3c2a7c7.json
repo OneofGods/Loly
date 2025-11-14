@@ -1,0 +1,14 @@
+{
+  "agent_id": "predictor_c3c2a7c7",
+  "total_tasks": 0,
+  "success_rate": 0.0,
+  "patterns": {},
+  "adaptations": [],
+  "health_metrics": {
+    "cpu_usage": 0.0,
+    "memory_usage": 62.84375,
+    "message_throughput": 0.0,
+    "error_rate": 0.0,
+    "last_error": null
+  }
+}

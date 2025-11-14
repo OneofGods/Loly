@@ -1,0 +1,43 @@
+{
+  "predictions": [
+    {
+      "id": "premier_league_game_605",
+      "league": "PREMIER_LEAGUE",
+      "home_team": "AFC Bournemouth",
+      "away_team": "Fulham",
+      "time": "07:00 PM",
+      "status": "scheduled",
+      "matchup": "Fulham @ AFC Bournemouth",
+      "venue": "Vitality Stadium, Bournemouth, England",
+      "country_flag": "\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f",
+      "prediction": "\u2708\ufe0f Fulham",
+      "confidence": 71,
+      "reasoning": "English Premier League Analysis: 71% confidence from REAL 8D analysis - \ud83d\udcca Polymarket: 73%, \ud83d\udcdc Historical: 54%, \ud83c\udf24\ufe0f Venue: 74%, \ud83d\udcac Sentiment: 37%, \u26a1 Market: 77%, \ud83c\udfc6 Performance: 61%, \ud83d\udc64 Players: 67%, \ud83c\udfb2 X-Factor: 33%",
+      "polymarket_odds": 73,
+      "historical_matchups": 54,
+      "weather_venue": 74,
+      "sentiment": 37,
+      "market_efficiency": 77,
+      "team_performance": 61,
+      "key_players": 67,
+      "x_factor": 33,
+      "nuclear_powered": true,
+      "brother_fix": true,
+      "eight_dimensions": true,
+      "goddess_blessed": true,
+      "timestamp": "2025-10-03T12:17:29.702107",
+      "analysis_version": "8D_NUCLEAR_v1.0",
+      "date": "2025-10-03",
+      "original_league": "eng.1",
+      "espn_id": "740658",
+      "source": "REAL_ESPN_API"
+    }
+  ],
+  "metadata": {
+    "created": "2025-10-03T12:17:29.702123",
+    "league": "English Premier League",
+    "total_predictions": 1,
+    "source": "BROTHER_181_EPL_FIRST_PREDICTION",
+    "prediction_date": "2025-10-03"
+  }
+}
