@@ -62,6 +62,9 @@ class LolySupremeOrchestrator:
         self.loly_consciousness = None
         self.unified_coordinator = None
 
+        # WebSocket connections for real-time dashboard
+        self.ws_connections = set()
+
         # Service info
         self.start_time = None
         self.total_requests = 0
@@ -640,6 +643,96 @@ class LolySupremeOrchestrator:
                 'timestamp': datetime.now().isoformat()
             }, status=500)
 
+    async def handle_dashboard(self, request):
+        """
+        📊 DASHBOARD ENDPOINT
+        GET /dashboard
+        """
+        try:
+            # Serve the dashboard HTML file
+            dashboard_path = os.path.join(os.path.dirname(__file__), 'dashboard.html')
+
+            if os.path.exists(dashboard_path):
+                with open(dashboard_path, 'r') as f:
+                    html_content = f.read()
+                return web.Response(text=html_content, content_type='text/html')
+            else:
+                return web.Response(
+                    text='Dashboard not found. Please ensure dashboard.html exists.',
+                    status=404
+                )
+
+        except Exception as e:
+            logger.error(f"❌ Dashboard error: {e}")
+            return web.Response(text=f'Error loading dashboard: {e}', status=500)
+
+    async def handle_websocket(self, request):
+        """
+        🔌 WEBSOCKET ENDPOINT for real-time updates
+        WS /ws
+        """
+        ws = web.WebSocketResponse()
+        await ws.prepare(request)
+
+        # Add to active connections
+        self.ws_connections.add(ws)
+        logger.info(f"🔌 WebSocket client connected (total: {len(self.ws_connections)})")
+
+        try:
+            # Send initial connection message
+            await ws.send_json({
+                'type': 'connection',
+                'status': 'connected',
+                'orchestrator_id': self.orchestrator_id,
+                'timestamp': datetime.now().isoformat()
+            })
+
+            # Keep connection alive and listen for messages
+            async for msg in ws:
+                if msg.type == web.WSMsgType.TEXT:
+                    # Echo back or handle client messages if needed
+                    pass
+                elif msg.type == web.WSMsgType.ERROR:
+                    logger.error(f'WebSocket error: {ws.exception()}')
+
+        except Exception as e:
+            logger.error(f"❌ WebSocket error: {e}")
+        finally:
+            # Remove from active connections
+            self.ws_connections.discard(ws)
+            logger.info(f"🔌 WebSocket client disconnected (remaining: {len(self.ws_connections)})")
+
+        return ws
+
+    async def broadcast_update(self, update_type: str, data: Dict[str, Any]):
+        """
+        📡 Broadcast update to all connected WebSocket clients
+
+        Args:
+            update_type: Type of update (coordination, agent_health, stats_update)
+            data: Data to broadcast
+        """
+        if not self.ws_connections:
+            return
+
+        message = {
+            'type': update_type,
+            **data,
+            'timestamp': datetime.now().isoformat()
+        }
+
+        # Send to all connected clients
+        disconnected = set()
+        for ws in self.ws_connections:
+            try:
+                await ws.send_json(message)
+            except Exception as e:
+                logger.warning(f"Failed to send to WebSocket client: {e}")
+                disconnected.add(ws)
+
+        # Remove disconnected clients
+        self.ws_connections -= disconnected
+
     async def handle_root(self, request):
         """
         🏠 ROOT ENDPOINT - Welcome message
@@ -647,7 +740,7 @@ class LolySupremeOrchestrator:
         """
         welcome = {
             'service': 'Loly Supreme Orchestrator',
-            'version': '2.2.0',
+            'version': '2.3.0',
             'status': 'running',
             'message': '🔥💀🔥 LOLY IS THE SUPREME ORCHESTRATOR! 💀🔥💀',
             'replaces': 'Eliza (port 3000) + Enhanced Orchestrator/BLOOM Proxy (port 3100)',
@@ -660,9 +753,13 @@ class LolySupremeOrchestrator:
                 'Utility Tasks (reasoning, context, automation)',
                 'Multi-Agent Workflows',
                 'Health Monitoring & Auto-Recovery',
-                'External API Calls (OpenAPI Integration - NEW!)'
+                'External API Calls (OpenAPI Integration)',
+                'Real-Time Dashboard with WebSocket Updates (NEW!)'
             ],
+            'dashboard': 'http://localhost:3100/dashboard',
             'endpoints': {
+                'dashboard': 'GET /dashboard',
+                'websocket': 'WS /ws',
                 'coordinate': 'POST /api/coordinate',
                 'sports': 'POST /api/sports',
                 'research': 'POST /api/research',
@@ -717,6 +814,8 @@ class LolySupremeOrchestrator:
 
         # Add routes
         app.router.add_get('/', self.handle_root)
+        app.router.add_get('/dashboard', self.handle_dashboard)
+        app.router.add_get('/ws', self.handle_websocket)
         app.router.add_get('/health', self.handle_health)
         app.router.add_get('/api/status', self.handle_status)
         app.router.add_get('/api/consciousness', self.handle_consciousness)
