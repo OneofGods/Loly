@@ -56,6 +56,11 @@ class UnifiedAgentCoordinator:
         # Workflow engine (imported lazily to avoid circular dependency)
         self.workflow_engine = None
 
+        # Health monitoring & auto-recovery (imported lazily)
+        self.health_monitor = None
+        self.auto_recovery = None
+        self.health_monitoring_active = False
+
         # Coordination metrics
         self.coordination_stats = {
             'total_coordinations': 0,
@@ -704,6 +709,167 @@ class UnifiedAgentCoordinator:
                     health_status['agents'][agent_id] = agent_info.get('status', 'internal')
 
         return health_status
+
+    # =================== HEALTH MONITORING & AUTO-RECOVERY ===================
+
+    def _initialize_health_monitoring(self):
+        """🔧 Initialize health monitoring and auto-recovery (lazy loading)"""
+        if self.health_monitor is None:
+            from agent_health_monitor import create_health_monitor
+            from agent_auto_recovery import create_auto_recovery
+
+            self.health_monitor = create_health_monitor()
+            self.auto_recovery = create_auto_recovery(self.health_monitor, self.registry.get('recovery', {}))
+
+            logger.info("🔥 Health monitoring & auto-recovery initialized!")
+
+    async def start_health_monitoring(self):
+        """🚀 Start health monitoring and auto-recovery services"""
+        try:
+            self._initialize_health_monitoring()
+
+            # Register all known agents
+            for category in ['sports_agents', 'research_agents', 'writer_agents', 'reviewer_agents', 'crypto_agents', 'utility_agents']:
+                agents = self.registry.get(category, {}).get('agents', {})
+                for agent_id, agent_info in agents.items():
+                    self.health_monitor.register_agent(agent_id, agent_info)
+
+            # Start monitoring services
+            await self.health_monitor.start_monitoring()
+            await self.auto_recovery.start_recovery_service()
+
+            self.health_monitoring_active = True
+
+            logger.info("✅ Health monitoring & auto-recovery services started!")
+            return True
+
+        except Exception as e:
+            logger.error(f"❌ Failed to start health monitoring: {e}")
+            return False
+
+    async def stop_health_monitoring(self):
+        """🛑 Stop health monitoring and auto-recovery services"""
+        try:
+            if self.health_monitor:
+                await self.health_monitor.stop_monitoring()
+
+            if self.auto_recovery:
+                await self.auto_recovery.stop_recovery_service()
+
+            self.health_monitoring_active = False
+
+            logger.info("🛑 Health monitoring & auto-recovery services stopped")
+            return True
+
+        except Exception as e:
+            logger.error(f"❌ Failed to stop health monitoring: {e}")
+            return False
+
+    def record_agent_interaction(self, agent_id: str, success: bool,
+                                 response_time: float = None, error_type: str = None):
+        """📝 Record agent interaction for health monitoring"""
+        if self.health_monitor:
+            self.health_monitor.record_agent_interaction(agent_id, success, response_time, error_type)
+
+    def get_agent_health_status(self, agent_id: str) -> Dict[str, Any]:
+        """💚 Get health status for specific agent"""
+        try:
+            self._initialize_health_monitoring()
+
+            health = self.health_monitor.get_agent_health(agent_id)
+
+            if health:
+                return {
+                    'status': 'success',
+                    'agent_health': health,
+                    'timestamp': datetime.now().isoformat()
+                }
+            else:
+                return {
+                    'status': 'not_found',
+                    'error': f'Agent {agent_id} not found in health monitor',
+                    'timestamp': datetime.now().isoformat()
+                }
+
+        except Exception as e:
+            logger.error(f"💀 Get agent health error: {e}")
+            return {
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }
+
+    def get_all_agents_health(self) -> Dict[str, Any]:
+        """💚 Get health status for all agents"""
+        try:
+            self._initialize_health_monitoring()
+
+            all_health = self.health_monitor.get_all_agent_health()
+
+            return {
+                'status': 'success',
+                'agents_health': all_health,
+                'health_monitoring_active': self.health_monitoring_active,
+                'timestamp': datetime.now().isoformat()
+            }
+
+        except Exception as e:
+            logger.error(f"💀 Get all agents health error: {e}")
+            return {
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }
+
+    def get_health_monitoring_stats(self) -> Dict[str, Any]:
+        """📊 Get health monitoring statistics"""
+        try:
+            self._initialize_health_monitoring()
+
+            monitor_stats = self.health_monitor.get_stats()
+            recovery_stats = self.auto_recovery.get_stats() if self.auto_recovery else {}
+
+            return {
+                'monitoring': monitor_stats,
+                'recovery': recovery_stats,
+                'timestamp': datetime.now().isoformat()
+            }
+
+        except Exception as e:
+            logger.error(f"💀 Get health monitoring stats error: {e}")
+            return {
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }
+
+    def get_recovery_history(self, agent_id: str = None) -> Dict[str, Any]:
+        """📜 Get recovery history for agent(s)"""
+        try:
+            self._initialize_health_monitoring()
+
+            if self.auto_recovery:
+                history = self.auto_recovery.get_recovery_history(agent_id)
+
+                return {
+                    'status': 'success',
+                    'recovery_history': history,
+                    'timestamp': datetime.now().isoformat()
+                }
+            else:
+                return {
+                    'status': 'not_initialized',
+                    'error': 'Auto-recovery not initialized',
+                    'timestamp': datetime.now().isoformat()
+                }
+
+        except Exception as e:
+            logger.error(f"💀 Get recovery history error: {e}")
+            return {
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }
 
 
 # =================== FACTORY FUNCTION ===================

@@ -376,6 +376,126 @@ class LolySupremeOrchestrator:
                 'timestamp': datetime.now().isoformat()
             }, status=500)
 
+    async def handle_health_start(self, request):
+        """
+        🚀 START HEALTH MONITORING
+        POST /api/health/start
+        """
+        try:
+            result = await self.unified_coordinator.start_health_monitoring()
+
+            return web.json_response({
+                'status': 'success' if result else 'failed',
+                'message': 'Health monitoring started' if result else 'Failed to start monitoring',
+                'timestamp': datetime.now().isoformat()
+            })
+
+        except Exception as e:
+            logger.error(f"❌ Health start error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }, status=500)
+
+    async def handle_health_stop(self, request):
+        """
+        🛑 STOP HEALTH MONITORING
+        POST /api/health/stop
+        """
+        try:
+            result = await self.unified_coordinator.stop_health_monitoring()
+
+            return web.json_response({
+                'status': 'success' if result else 'failed',
+                'message': 'Health monitoring stopped' if result else 'Failed to stop monitoring',
+                'timestamp': datetime.now().isoformat()
+            })
+
+        except Exception as e:
+            logger.error(f"❌ Health stop error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }, status=500)
+
+    async def handle_health_agents(self, request):
+        """
+        💚 GET ALL AGENTS HEALTH
+        GET /api/health/agents
+        """
+        try:
+            result = self.unified_coordinator.get_all_agents_health()
+
+            return web.json_response(result)
+
+        except Exception as e:
+            logger.error(f"❌ Health agents error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }, status=500)
+
+    async def handle_health_agent(self, request):
+        """
+        💚 GET SPECIFIC AGENT HEALTH
+        GET /api/health/agent/{agent_id}
+        """
+        try:
+            agent_id = request.match_info.get('agent_id')
+
+            result = self.unified_coordinator.get_agent_health_status(agent_id)
+
+            return web.json_response(result)
+
+        except Exception as e:
+            logger.error(f"❌ Health agent error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }, status=500)
+
+    async def handle_health_stats(self, request):
+        """
+        📊 GET HEALTH MONITORING STATS
+        GET /api/health/stats
+        """
+        try:
+            result = self.unified_coordinator.get_health_monitoring_stats()
+
+            return web.json_response(result)
+
+        except Exception as e:
+            logger.error(f"❌ Health stats error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }, status=500)
+
+    async def handle_recovery_history(self, request):
+        """
+        📜 GET RECOVERY HISTORY
+        GET /api/health/recovery/{agent_id}
+        """
+        try:
+            agent_id = request.match_info.get('agent_id', None)
+
+            result = self.unified_coordinator.get_recovery_history(agent_id)
+
+            return web.json_response(result)
+
+        except Exception as e:
+            logger.error(f"❌ Recovery history error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }, status=500)
+
     async def handle_root(self, request):
         """
         🏠 ROOT ENDPOINT - Welcome message
@@ -383,7 +503,7 @@ class LolySupremeOrchestrator:
         """
         welcome = {
             'service': 'Loly Supreme Orchestrator',
-            'version': '2.0.0',
+            'version': '2.1.0',
             'status': 'running',
             'message': '🔥💀🔥 LOLY IS THE SUPREME ORCHESTRATOR! 💀🔥💀',
             'replaces': 'Eliza (port 3000) + Enhanced Orchestrator/BLOOM Proxy (port 3100)',
@@ -394,7 +514,8 @@ class LolySupremeOrchestrator:
                 'Code Review & QA',
                 'Crypto Analysis',
                 'Utility Tasks (reasoning, context, automation)',
-                'Multi-Agent Workflows (NEW!)',
+                'Multi-Agent Workflows',
+                'Health Monitoring & Auto-Recovery (NEW!)',
                 'External API Calls'
             ],
             'endpoints': {
@@ -404,6 +525,12 @@ class LolySupremeOrchestrator:
                 'workflow': 'POST /api/workflow',
                 'workflow_status': 'GET /api/workflow/{workflow_id}',
                 'workflow_stats': 'GET /api/workflow/stats',
+                'health_start': 'POST /api/health/start',
+                'health_stop': 'POST /api/health/stop',
+                'health_agents': 'GET /api/health/agents',
+                'health_agent': 'GET /api/health/agent/{agent_id}',
+                'health_stats': 'GET /api/health/stats',
+                'recovery_history': 'GET /api/health/recovery/{agent_id}',
                 'status': 'GET /api/status',
                 'health': 'GET /health',
                 'consciousness': 'GET /api/consciousness'
@@ -451,6 +578,13 @@ class LolySupremeOrchestrator:
         app.router.add_post('/api/workflow', self.handle_workflow)
         app.router.add_get('/api/workflow/stats', self.handle_workflow_stats)
         app.router.add_get('/api/workflow/{workflow_id}', self.handle_workflow_status)
+        # Health monitoring endpoints
+        app.router.add_post('/api/health/start', self.handle_health_start)
+        app.router.add_post('/api/health/stop', self.handle_health_stop)
+        app.router.add_get('/api/health/agents', self.handle_health_agents)
+        app.router.add_get('/api/health/agent/{agent_id}', self.handle_health_agent)
+        app.router.add_get('/api/health/stats', self.handle_health_stats)
+        app.router.add_get('/api/health/recovery/{agent_id}', self.handle_recovery_history)
 
         # Add CORS to all routes
         for route in list(app.router.routes()):

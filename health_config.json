@@ -1,0 +1,70 @@
+{
+  "config_version": "1.0.0",
+  "description": "Health monitoring and auto-recovery configuration for Loly's agents",
+  "created": "2025-11-14",
+
+  "heartbeat_interval_seconds": 30,
+  "heartbeat_timeout_seconds": 10,
+
+  "circuit_breaker": {
+    "enabled": true,
+    "failure_threshold": 5,
+    "test_interval_seconds": 60,
+    "success_threshold": 3,
+    "description": "Circuit breaker prevents calling failing agents repeatedly"
+  },
+
+  "health_scoring": {
+    "degraded_threshold": 70,
+    "unhealthy_threshold": 40,
+    "dead_threshold": 10,
+    "description": "Health score thresholds (0-100) for agent status classification"
+  },
+
+  "recovery": {
+    "auto_recovery_enabled": true,
+    "recovery_check_interval_seconds": 60,
+    "max_recovery_attempts": 3,
+    "recovery_backoff_seconds": [5, 15, 30],
+    "description": "Auto-recovery settings with exponential backoff"
+  },
+
+  "performance_tracking": {
+    "response_time_window": 100,
+    "slow_response_threshold_ms": 5000,
+    "high_error_rate_threshold": 0.2,
+    "description": "Performance degradation detection thresholds"
+  },
+
+  "agent_specific": {
+    "sports_agents": {
+      "heartbeat_interval_seconds": 45,
+      "description": "Sports agents can have slightly longer heartbeat intervals"
+    },
+    "research_agents": {
+      "heartbeat_timeout_seconds": 20,
+      "description": "Research agents may need more time for complex queries"
+    },
+    "crypto_agents": {
+      "heartbeat_interval_seconds": 15,
+      "description": "Crypto agents need faster monitoring due to market sensitivity"
+    }
+  },
+
+  "alerting": {
+    "enabled": true,
+    "alert_on_status_change": true,
+    "alert_on_circuit_open": true,
+    "alert_on_recovery_failure": true,
+    "alert_on_gave_up": true,
+    "description": "Alert configuration for health events"
+  },
+
+  "logging": {
+    "log_heartbeat_success": false,
+    "log_heartbeat_failure": true,
+    "log_recovery_attempts": true,
+    "log_circuit_breaker_events": true,
+    "description": "Logging preferences to avoid noise"
+  }
+}
