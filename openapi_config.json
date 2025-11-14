@@ -1,0 +1,201 @@
+{
+  "openapi_server_config": {
+    "server_id": "loly_openapi_mcp_server",
+    "enabled": true,
+    "auto_load_specs": true,
+    "specs_directory": "./openapi_specs/"
+  },
+  "cache_config": {
+    "enabled": true,
+    "max_size": 1000,
+    "default_ttl_seconds": 300,
+    "cleanup_interval_seconds": 60,
+    "cache_get_requests_only": true
+  },
+  "rate_limiter_config": {
+    "enabled": true,
+    "default_requests_per_second": 1.0,
+    "default_burst": 5,
+    "per_api_limits": {
+      "github": {
+        "requests_per_second": 1.0,
+        "burst": 3,
+        "comment": "GitHub API: 5000 req/hour = ~1.4 req/s, we use 1 to be safe"
+      },
+      "stripe": {
+        "requests_per_second": 25.0,
+        "burst": 50,
+        "comment": "Stripe API: 100 req/s for most endpoints"
+      },
+      "twitter": {
+        "requests_per_second": 0.5,
+        "burst": 2,
+        "comment": "Twitter API v2: Varies by endpoint, conservative default"
+      },
+      "openai": {
+        "requests_per_second": 3.0,
+        "burst": 5,
+        "comment": "OpenAI API: 3 req/s on most tiers"
+      },
+      "anthropic": {
+        "requests_per_second": 5.0,
+        "burst": 10,
+        "comment": "Anthropic API: Generous limits"
+      }
+    }
+  },
+  "pre_configured_apis": {
+    "github": {
+      "spec_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json",
+      "spec_id": "github",
+      "base_url": "https://api.github.com",
+      "auth_type": "bearer",
+      "auth_env_var": "GITHUB_TOKEN",
+      "description": "GitHub REST API v3",
+      "documentation_url": "https://docs.github.com/en/rest"
+    },
+    "stripe": {
+      "spec_url": "https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json",
+      "spec_id": "stripe",
+      "base_url": "https://api.stripe.com",
+      "auth_type": "bearer",
+      "auth_env_var": "STRIPE_API_KEY",
+      "description": "Stripe Payment API",
+      "documentation_url": "https://stripe.com/docs/api"
+    },
+    "openai": {
+      "spec_url": "https://raw.githubusercontent.com/openai/openai-openapi/master/openapi.yaml",
+      "spec_id": "openai",
+      "base_url": "https://api.openai.com/v1",
+      "auth_type": "bearer",
+      "auth_env_var": "OPENAI_API_KEY",
+      "description": "OpenAI API (GPT, DALL-E, Whisper)",
+      "documentation_url": "https://platform.openai.com/docs/api-reference"
+    },
+    "anthropic": {
+      "spec_url": "https://raw.githubusercontent.com/anthropics/anthropic-sdk-typescript/main/api.md",
+      "spec_id": "anthropic",
+      "base_url": "https://api.anthropic.com",
+      "auth_type": "apikey",
+      "auth_key_name": "x-api-key",
+      "auth_env_var": "ANTHROPIC_API_KEY",
+      "description": "Anthropic Claude API",
+      "documentation_url": "https://docs.anthropic.com/claude/reference"
+    },
+    "twitter": {
+      "spec_url": "https://api.twitter.com/2/openapi.json",
+      "spec_id": "twitter",
+      "base_url": "https://api.twitter.com/2",
+      "auth_type": "bearer",
+      "auth_env_var": "TWITTER_BEARER_TOKEN",
+      "description": "Twitter API v2",
+      "documentation_url": "https://developer.twitter.com/en/docs/twitter-api"
+    },
+    "coingecko": {
+      "spec_url": "https://www.coingecko.com/api/documentations/v3/swagger.json",
+      "spec_id": "coingecko",
+      "base_url": "https://api.coingecko.com/api/v3",
+      "auth_type": "apikey",
+      "auth_key_name": "x-cg-pro-api-key",
+      "auth_env_var": "COINGECKO_API_KEY",
+      "description": "CoinGecko Cryptocurrency API",
+      "documentation_url": "https://www.coingecko.com/en/api/documentation"
+    },
+    "weatherapi": {
+      "spec_url": "https://www.weatherapi.com/swagger/",
+      "spec_id": "weatherapi",
+      "base_url": "https://api.weatherapi.com/v1",
+      "auth_type": "query_param",
+      "auth_key_name": "key",
+      "auth_env_var": "WEATHER_API_KEY",
+      "description": "Weather API",
+      "documentation_url": "https://www.weatherapi.com/docs/"
+    }
+  },
+  "authentication": {
+    "bearer_token": {
+      "type": "bearer",
+      "header": "Authorization",
+      "format": "Bearer {token}"
+    },
+    "api_key_header": {
+      "type": "apikey",
+      "location": "header",
+      "default_key_name": "X-API-Key"
+    },
+    "api_key_query": {
+      "type": "apikey",
+      "location": "query",
+      "default_key_name": "api_key"
+    },
+    "basic_auth": {
+      "type": "basic",
+      "header": "Authorization",
+      "format": "Basic {base64(username:password)}"
+    }
+  },
+  "retry_config": {
+    "max_retries": 3,
+    "retry_on_status_codes": [429, 500, 502, 503, 504],
+    "backoff_seconds": [1, 2, 4],
+    "retry_on_rate_limit": true,
+    "respect_retry_after_header": true
+  },
+  "request_defaults": {
+    "timeout_seconds": 30,
+    "user_agent": "Loly-Supreme-Orchestrator/1.0",
+    "accept_encoding": "gzip, deflate",
+    "content_type": "application/json"
+  },
+  "response_handling": {
+    "max_response_size_mb": 10,
+    "parse_json_responses": true,
+    "store_response_headers": true,
+    "log_response_time": true
+  },
+  "security": {
+    "validate_ssl": true,
+    "allowed_domains": [],
+    "blocked_domains": [],
+    "max_redirects": 3,
+    "sanitize_logs": true,
+    "mask_api_keys_in_logs": true
+  },
+  "monitoring": {
+    "track_api_usage": true,
+    "track_cache_hit_rate": true,
+    "track_rate_limit_hits": true,
+    "alert_on_consecutive_failures": 5,
+    "stats_retention_hours": 24
+  },
+  "usage_examples": {
+    "load_github_api": {
+      "description": "Load GitHub API spec and call /user endpoint",
+      "steps": [
+        "POST /api/openapi/load - Load GitHub spec",
+        "POST /api/openapi/call - Call GitHub /user endpoint"
+      ],
+      "example_load_request": {
+        "spec_id": "github",
+        "spec_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json"
+      },
+      "example_call_request": {
+        "spec_id": "github",
+        "path": "/user",
+        "method": "GET",
+        "auth": {
+          "type": "bearer",
+          "token": "${GITHUB_TOKEN}"
+        }
+      }
+    },
+    "call_with_cache": {
+      "description": "Make API call with caching enabled",
+      "note": "GET requests are automatically cached based on cache_config"
+    },
+    "respect_rate_limits": {
+      "description": "Rate limiting is automatically enforced",
+      "note": "If rate limited, response will include retry_after in seconds"
+    }
+  }
+}

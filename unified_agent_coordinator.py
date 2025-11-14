@@ -61,6 +61,12 @@ class UnifiedAgentCoordinator:
         self.auto_recovery = None
         self.health_monitoring_active = False
 
+        # OpenAPI integration (imported lazily)
+        self.openapi_server = None
+        self.api_cache_manager = None
+        self.api_rate_limiter = None
+        self.openapi_active = False
+
         # Coordination metrics
         self.coordination_stats = {
             'total_coordinations': 0,
@@ -71,6 +77,7 @@ class UnifiedAgentCoordinator:
             'crypto_coordinations': 0,
             'utility_coordinations': 0,
             'workflow_coordinations': 0,
+            'openapi_coordinations': 0,
             'failed_coordinations': 0,
             'average_response_time': 0.0
         }
@@ -870,6 +877,259 @@ class UnifiedAgentCoordinator:
                 'error': str(e),
                 'timestamp': datetime.now().isoformat()
             }
+
+    # =================== OPENAPI INTEGRATION ===================
+
+    def _initialize_openapi_server(self):
+        """🔧 Initialize OpenAPI-MCP-Server with cache and rate limiting (lazy loading)"""
+        if self.openapi_server is None:
+            from openapi_mcp_server import create_openapi_server
+            from api_cache_manager import create_cache_manager
+            from api_rate_limiter import create_rate_limiter
+
+            # Load OpenAPI config
+            try:
+                with open('openapi_config.json', 'r') as f:
+                    config = json.load(f)
+            except Exception as e:
+                logger.warning(f"⚠️  Failed to load openapi_config.json: {e}, using defaults")
+                config = {}
+
+            # Create cache manager
+            cache_config = config.get('cache_config', {})
+            if cache_config.get('enabled', True):
+                self.api_cache_manager = create_cache_manager(
+                    max_size=cache_config.get('max_size', 1000),
+                    default_ttl_seconds=cache_config.get('default_ttl_seconds', 300)
+                )
+                logger.info("💾 API Cache Manager initialized!")
+            else:
+                logger.info("💾 API Cache disabled")
+
+            # Create rate limiter
+            rate_limiter_config = config.get('rate_limiter_config', {})
+            if rate_limiter_config.get('enabled', True):
+                self.api_rate_limiter = create_rate_limiter(
+                    default_requests_per_second=rate_limiter_config.get('default_requests_per_second', 1.0),
+                    default_burst=rate_limiter_config.get('default_burst', 5)
+                )
+
+                # Configure per-API limits
+                for api_id, limits in rate_limiter_config.get('per_api_limits', {}).items():
+                    self.api_rate_limiter.configure_api(
+                        api_id=api_id,
+                        requests_per_second=limits['requests_per_second'],
+                        burst=limits.get('burst')
+                    )
+
+                logger.info("🔥 API Rate Limiter initialized!")
+            else:
+                logger.info("🔥 API Rate Limiter disabled")
+
+            # Create OpenAPI server
+            self.openapi_server = create_openapi_server(
+                cache_manager=self.api_cache_manager,
+                rate_limiter=self.api_rate_limiter
+            )
+
+            self.openapi_active = True
+            logger.info("🔥💀🔥 OpenAPI-MCP-Server initialized!")
+
+    async def load_openapi_spec(self, spec_url: str, spec_id: str = None,
+                                auth: Dict[str, Any] = None) -> Dict[str, Any]:
+        """
+        📋 Load OpenAPI spec from URL
+
+        Args:
+            spec_url: URL to OpenAPI spec (JSON or YAML)
+            spec_id: Identifier for this spec (auto-generated if not provided)
+            auth: Authentication info to use with this API
+
+        Returns:
+            Result with loaded spec info
+        """
+        try:
+            self._initialize_openapi_server()
+
+            logger.info(f"📋 Loading OpenAPI spec: {spec_url}")
+
+            success = await self.openapi_server.load_openapi_spec(spec_url, spec_id)
+
+            if success:
+                spec_info = self.openapi_server.get_spec_info(spec_id or spec_url)
+
+                return {
+                    'status': 'success',
+                    'spec_info': spec_info,
+                    'timestamp': datetime.now().isoformat()
+                }
+            else:
+                return {
+                    'status': 'error',
+                    'error': 'Failed to load OpenAPI spec',
+                    'timestamp': datetime.now().isoformat()
+                }
+
+        except Exception as e:
+            logger.error(f"💀 Load OpenAPI spec error: {e}")
+            return {
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }
+
+    async def call_external_api(self, spec_id: str, path: str, method: str = 'GET',
+                                params: Dict[str, Any] = None, headers: Dict[str, str] = None,
+                                body: Dict[str, Any] = None, auth: Dict[str, Any] = None) -> Dict[str, Any]:
+        """
+        🌐 Call external API via loaded OpenAPI spec
+
+        Args:
+            spec_id: ID of loaded OpenAPI spec
+            path: API path (e.g., "/users/{id}")
+            method: HTTP method (GET, POST, etc.)
+            params: Query parameters and path parameters
+            headers: Additional headers
+            body: Request body
+            auth: Authentication info
+
+        Returns:
+            API response with caching and rate limiting applied
+        """
+        try:
+            self._initialize_openapi_server()
+
+            logger.info(f"🌐 Calling external API: {method} {path} (spec: {spec_id})")
+
+            result = await self.openapi_server.call_api(
+                spec_id=spec_id,
+                path=path,
+                method=method,
+                params=params,
+                headers=headers,
+                body=body,
+                auth=auth
+            )
+
+            # Update stats
+            self.coordination_stats['total_coordinations'] += 1
+            self.coordination_stats['openapi_coordinations'] += 1
+
+            return {
+                'coordination_type': 'openapi',
+                'status': 'success' if result.get('status') == 'success' else result.get('status'),
+                'result': result,
+                'timestamp': datetime.now().isoformat()
+            }
+
+        except Exception as e:
+            logger.error(f"💀 External API call error: {e}")
+            self.coordination_stats['failed_coordinations'] += 1
+            return {
+                'coordination_type': 'openapi',
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }
+
+    def list_loaded_openapi_specs(self) -> Dict[str, Any]:
+        """📋 List all loaded OpenAPI specs"""
+        try:
+            self._initialize_openapi_server()
+
+            specs = self.openapi_server.list_loaded_specs()
+
+            return {
+                'status': 'success',
+                'specs': specs,
+                'count': len(specs),
+                'timestamp': datetime.now().isoformat()
+            }
+
+        except Exception as e:
+            logger.error(f"💀 List OpenAPI specs error: {e}")
+            return {
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }
+
+    def get_openapi_spec_info(self, spec_id: str) -> Dict[str, Any]:
+        """📋 Get detailed info about a loaded OpenAPI spec"""
+        try:
+            self._initialize_openapi_server()
+
+            spec_info = self.openapi_server.get_spec_info(spec_id)
+
+            if spec_info:
+                return {
+                    'status': 'success',
+                    'spec_info': spec_info,
+                    'timestamp': datetime.now().isoformat()
+                }
+            else:
+                return {
+                    'status': 'not_found',
+                    'error': f'OpenAPI spec {spec_id} not found',
+                    'timestamp': datetime.now().isoformat()
+                }
+
+        except Exception as e:
+            logger.error(f"💀 Get OpenAPI spec info error: {e}")
+            return {
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }
+
+    def get_openapi_stats(self) -> Dict[str, Any]:
+        """📊 Get OpenAPI server statistics"""
+        try:
+            self._initialize_openapi_server()
+
+            server_stats = self.openapi_server.get_stats()
+            cache_stats = self.api_cache_manager.get_stats() if self.api_cache_manager else {}
+            rate_limiter_stats = self.api_rate_limiter.get_stats() if self.api_rate_limiter else {}
+
+            return {
+                'status': 'success',
+                'openapi_server': server_stats,
+                'cache': cache_stats,
+                'rate_limiter': rate_limiter_stats,
+                'timestamp': datetime.now().isoformat()
+            }
+
+        except Exception as e:
+            logger.error(f"💀 Get OpenAPI stats error: {e}")
+            return {
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }
+
+    def get_api_cache_stats(self) -> Dict[str, Any]:
+        """💾 Get API cache statistics"""
+        try:
+            if self.api_cache_manager:
+                return self.api_cache_manager.get_stats()
+            else:
+                return {'error': 'API cache not initialized'}
+
+        except Exception as e:
+            logger.error(f"💀 Get API cache stats error: {e}")
+            return {'error': str(e)}
+
+    def get_rate_limiter_stats(self) -> Dict[str, Any]:
+        """🔥 Get rate limiter statistics"""
+        try:
+            if self.api_rate_limiter:
+                return self.api_rate_limiter.get_stats()
+            else:
+                return {'error': 'Rate limiter not initialized'}
+
+        except Exception as e:
+            logger.error(f"💀 Get rate limiter stats error: {e}")
+            return {'error': str(e)}
 
 
 # =================== FACTORY FUNCTION ===================

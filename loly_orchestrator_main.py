@@ -496,6 +496,150 @@ class LolySupremeOrchestrator:
                 'timestamp': datetime.now().isoformat()
             }, status=500)
 
+    async def handle_openapi_load(self, request):
+        """
+        📋 LOAD OPENAPI SPEC
+        POST /api/openapi/load
+        Body: {
+            "spec_url": "...",
+            "spec_id": "...",
+            "auth": {...}
+        }
+        """
+        try:
+            self.total_requests += 1
+
+            data = await request.json()
+            spec_url = data.get('spec_url')
+            spec_id = data.get('spec_id')
+            auth = data.get('auth')
+
+            result = await self.unified_coordinator.load_openapi_spec(spec_url, spec_id, auth)
+
+            if result.get('status') == 'success':
+                self.successful_requests += 1
+            else:
+                self.failed_requests += 1
+
+            return web.json_response(result)
+
+        except Exception as e:
+            self.failed_requests += 1
+            logger.error(f"❌ OpenAPI load error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }, status=500)
+
+    async def handle_openapi_call(self, request):
+        """
+        🌐 CALL EXTERNAL API VIA OPENAPI
+        POST /api/openapi/call
+        Body: {
+            "spec_id": "...",
+            "path": "...",
+            "method": "GET",
+            "params": {...},
+            "headers": {...},
+            "body": {...},
+            "auth": {...}
+        }
+        """
+        try:
+            self.total_requests += 1
+
+            data = await request.json()
+            spec_id = data.get('spec_id')
+            path = data.get('path')
+            method = data.get('method', 'GET')
+            params = data.get('params')
+            headers = data.get('headers')
+            body = data.get('body')
+            auth = data.get('auth')
+
+            result = await self.unified_coordinator.call_external_api(
+                spec_id=spec_id,
+                path=path,
+                method=method,
+                params=params,
+                headers=headers,
+                body=body,
+                auth=auth
+            )
+
+            if result.get('status') == 'success':
+                self.successful_requests += 1
+            else:
+                self.failed_requests += 1
+
+            return web.json_response(result)
+
+        except Exception as e:
+            self.failed_requests += 1
+            logger.error(f"❌ OpenAPI call error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }, status=500)
+
+    async def handle_openapi_specs(self, request):
+        """
+        📋 LIST LOADED OPENAPI SPECS
+        GET /api/openapi/specs
+        """
+        try:
+            result = self.unified_coordinator.list_loaded_openapi_specs()
+
+            return web.json_response(result)
+
+        except Exception as e:
+            logger.error(f"❌ OpenAPI specs error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }, status=500)
+
+    async def handle_openapi_spec_info(self, request):
+        """
+        📋 GET OPENAPI SPEC INFO
+        GET /api/openapi/spec/{spec_id}
+        """
+        try:
+            spec_id = request.match_info.get('spec_id')
+
+            result = self.unified_coordinator.get_openapi_spec_info(spec_id)
+
+            return web.json_response(result)
+
+        except Exception as e:
+            logger.error(f"❌ OpenAPI spec info error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }, status=500)
+
+    async def handle_openapi_stats(self, request):
+        """
+        📊 GET OPENAPI STATS
+        GET /api/openapi/stats
+        """
+        try:
+            result = self.unified_coordinator.get_openapi_stats()
+
+            return web.json_response(result)
+
+        except Exception as e:
+            logger.error(f"❌ OpenAPI stats error: {e}")
+            return web.json_response({
+                'status': 'error',
+                'error': str(e),
+                'timestamp': datetime.now().isoformat()
+            }, status=500)
+
     async def handle_root(self, request):
         """
         🏠 ROOT ENDPOINT - Welcome message
@@ -503,7 +647,7 @@ class LolySupremeOrchestrator:
         """
         welcome = {
             'service': 'Loly Supreme Orchestrator',
-            'version': '2.1.0',
+            'version': '2.2.0',
             'status': 'running',
             'message': '🔥💀🔥 LOLY IS THE SUPREME ORCHESTRATOR! 💀🔥💀',
             'replaces': 'Eliza (port 3000) + Enhanced Orchestrator/BLOOM Proxy (port 3100)',
@@ -515,8 +659,8 @@ class LolySupremeOrchestrator:
                 'Crypto Analysis',
                 'Utility Tasks (reasoning, context, automation)',
                 'Multi-Agent Workflows',
-                'Health Monitoring & Auto-Recovery (NEW!)',
-                'External API Calls'
+                'Health Monitoring & Auto-Recovery',
+                'External API Calls (OpenAPI Integration - NEW!)'
             ],
             'endpoints': {
                 'coordinate': 'POST /api/coordinate',
@@ -531,6 +675,11 @@ class LolySupremeOrchestrator:
                 'health_agent': 'GET /api/health/agent/{agent_id}',
                 'health_stats': 'GET /api/health/stats',
                 'recovery_history': 'GET /api/health/recovery/{agent_id}',
+                'openapi_load': 'POST /api/openapi/load',
+                'openapi_call': 'POST /api/openapi/call',
+                'openapi_specs': 'GET /api/openapi/specs',
+                'openapi_spec_info': 'GET /api/openapi/spec/{spec_id}',
+                'openapi_stats': 'GET /api/openapi/stats',
                 'status': 'GET /api/status',
                 'health': 'GET /health',
                 'consciousness': 'GET /api/consciousness'
@@ -585,6 +734,12 @@ class LolySupremeOrchestrator:
         app.router.add_get('/api/health/agent/{agent_id}', self.handle_health_agent)
         app.router.add_get('/api/health/stats', self.handle_health_stats)
         app.router.add_get('/api/health/recovery/{agent_id}', self.handle_recovery_history)
+        # OpenAPI endpoints
+        app.router.add_post('/api/openapi/load', self.handle_openapi_load)
+        app.router.add_post('/api/openapi/call', self.handle_openapi_call)
+        app.router.add_get('/api/openapi/specs', self.handle_openapi_specs)
+        app.router.add_get('/api/openapi/spec/{spec_id}', self.handle_openapi_spec_info)
+        app.router.add_get('/api/openapi/stats', self.handle_openapi_stats)
 
         # Add CORS to all routes
         for route in list(app.router.routes()):
