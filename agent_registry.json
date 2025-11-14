@@ -1,0 +1,244 @@
+{
+  "registry_version": "1.0.0",
+  "created": "2025-11-14",
+  "description": "Complete registry of all agents that Loly can command as Supreme Orchestrator",
+
+  "sports_agents": {
+    "description": "15 specialized sports MCP agents - Loly's original domain",
+    "coordinator": "sports_mcp_coordinator.py",
+    "agents": {
+      "team_performance": {
+        "module": "sports_team_performance_analyzer",
+        "function": "get_team_performance_analysis",
+        "type": "mcp_server",
+        "capabilities": ["team_stats", "performance_metrics", "strength_analysis"],
+        "weight": 0.40
+      },
+      "weather_venue": {
+        "module": "sports_weather_venue_analyzer",
+        "function": "get_weather_venue_analysis",
+        "type": "mcp_server",
+        "capabilities": ["weather_data", "venue_analysis", "home_advantage"],
+        "weight": 0.08
+      },
+      "historical_matchups": {
+        "module": "sports_historical_matchup_analyzer",
+        "function": "get_historical_matchup_analysis",
+        "type": "mcp_server",
+        "capabilities": ["historical_data", "head_to_head", "pattern_recognition"],
+        "weight": 0.20
+      },
+      "realtime_data": {
+        "module": "sports_realtime_data_analyzer",
+        "function": "get_realtime_sports_analysis",
+        "type": "mcp_server",
+        "capabilities": ["live_data", "injury_reports", "breaking_news"],
+        "weight": 0.15
+      },
+      "sports_sentiment": {
+        "module": "sports_sentiment_analyzer",
+        "function": "get_sports_sentiment_analysis",
+        "type": "mcp_server",
+        "capabilities": ["fan_sentiment", "social_media", "betting_trends"],
+        "weight": 0.03
+      },
+      "schedule_timing": {
+        "module": "sports_schedule_time_analyzer",
+        "function": "get_schedule_time_analysis",
+        "type": "mcp_server",
+        "capabilities": ["scheduling", "timing_analysis", "availability"],
+        "weight": 0.10
+      },
+      "progol_lottery": {
+        "module": "sports_progol_lottery_analyzer",
+        "function": "get_progol_lottery_analysis",
+        "type": "mcp_server",
+        "capabilities": ["progol_analysis", "lottery_intelligence", "mexican_government_data"],
+        "weight": 0.04
+      }
+    }
+  },
+
+  "research_agents": {
+    "description": "Research and data gathering agents",
+    "port": 3201,
+    "agents": {
+      "research_agent": {
+        "type": "mcp_server",
+        "port": 3201,
+        "capabilities": ["web_research", "data_gathering", "source_validation"],
+        "status": "WIP",
+        "endpoints": {
+          "research": "/api/research",
+          "validate": "/api/validate_source",
+          "summarize": "/api/summarize"
+        }
+      }
+    }
+  },
+
+  "writer_agents": {
+    "description": "Content creation and writing agents",
+    "port": 3203,
+    "agents": {
+      "writer_agent": {
+        "type": "mcp_server",
+        "port": 3203,
+        "capabilities": ["content_writing", "report_generation", "documentation"],
+        "status": "NOT_BUILT",
+        "endpoints": {
+          "write": "/api/write",
+          "edit": "/api/edit",
+          "format": "/api/format"
+        }
+      }
+    }
+  },
+
+  "reviewer_agents": {
+    "description": "Code review and quality assurance agents",
+    "port": 3204,
+    "agents": {
+      "reviewer_agent": {
+        "type": "mcp_server",
+        "port": 3204,
+        "capabilities": ["code_review", "quality_check", "bug_detection"],
+        "status": "WIP",
+        "endpoints": {
+          "review": "/api/review",
+          "analyze": "/api/analyze",
+          "suggest": "/api/suggest_improvements"
+        }
+      }
+    }
+  },
+
+  "crypto_agents": {
+    "description": "Cryptocurrency analysis agents",
+    "agents": {
+      "git_agent": {
+        "type": "mcp_server",
+        "port": 3300,
+        "capabilities": ["git_operations", "repository_management", "version_control"],
+        "status": "OPERATIONAL",
+        "endpoints": {
+          "commit": "/api/git/commit",
+          "pull": "/api/git/pull",
+          "status": "/api/git/status"
+        }
+      },
+      "indicators_agent": {
+        "type": "mcp_server",
+        "port": 3400,
+        "capabilities": ["technical_indicators", "market_analysis", "trading_signals"],
+        "status": "OPERATIONAL",
+        "endpoints": {
+          "analyze": "/api/indicators/analyze",
+          "signal": "/api/indicators/signal"
+        }
+      },
+      "prices_agent": {
+        "type": "mcp_server",
+        "port": 3500,
+        "capabilities": ["price_feeds", "market_data", "real_time_quotes"],
+        "status": "OPERATIONAL",
+        "endpoints": {
+          "price": "/api/prices/current",
+          "history": "/api/prices/historical"
+        }
+      }
+    }
+  },
+
+  "utility_agents": {
+    "description": "Utility and helper agents",
+    "agents": {
+      "context7_mcp": {
+        "type": "mcp_server",
+        "port": 3200,
+        "capabilities": ["context_management", "memory", "state_tracking"],
+        "status": "AVAILABLE",
+        "endpoints": {
+          "context": "/api/context",
+          "store": "/api/store",
+          "retrieve": "/api/retrieve"
+        }
+      },
+      "sequential_thinking": {
+        "type": "mcp_server",
+        "port": 3208,
+        "capabilities": ["step_by_step_reasoning", "logic_chains", "problem_solving"],
+        "status": "AVAILABLE",
+        "endpoints": {
+          "think": "/api/think",
+          "reason": "/api/reason"
+        }
+      },
+      "zapier": {
+        "type": "mcp_server",
+        "port": 3202,
+        "capabilities": ["automation", "integrations", "workflow_execution"],
+        "status": "AVAILABLE",
+        "endpoints": {
+          "execute": "/api/zapier/execute",
+          "webhook": "/api/zapier/webhook"
+        }
+      },
+      "prompt_translator": {
+        "type": "mcp_server",
+        "port": 3209,
+        "capabilities": ["prompt_optimization", "translation", "clarification"],
+        "status": "AVAILABLE",
+        "endpoints": {
+          "translate": "/api/translate",
+          "optimize": "/api/optimize"
+        }
+      },
+      "openapi_mcp_server": {
+        "type": "mcp_server",
+        "port": 3210,
+        "capabilities": ["external_api_calls", "dynamic_integrations", "api_discovery"],
+        "status": "TO_BE_INTEGRATED",
+        "endpoints": {
+          "call": "/api/openapi/call",
+          "discover": "/api/openapi/discover"
+        }
+      }
+    }
+  },
+
+  "loly_core": {
+    "description": "Loly's core consciousness and intelligence systems",
+    "agents": {
+      "living_ai_consciousness": {
+        "module": "living_ai_consciousness",
+        "type": "internal",
+        "capabilities": ["learning", "memory", "pattern_recognition", "self_improvement"],
+        "status": "ACTIVE"
+      },
+      "daddy_chat_system": {
+        "module": "loly_daddy_chat_system",
+        "type": "internal",
+        "port": 3006,
+        "capabilities": ["communication", "personality", "emotional_intelligence"],
+        "status": "ACTIVE"
+      },
+      "sports_mcp_coordinator": {
+        "module": "sports_mcp_coordinator",
+        "type": "internal",
+        "capabilities": ["sports_coordination", "multi_agent_management", "parallel_execution"],
+        "status": "ACTIVE"
+      }
+    }
+  },
+
+  "orchestrator_config": {
+    "loly_main_port": 3100,
+    "replaces": "Eliza (port 3000) + Enhanced Orchestrator/BLOOM Proxy (port 3100)",
+    "bloom_service_port": 8000,
+    "bloom_integration": "Keep BLOOM-3B as one of Loly's LLM options",
+    "coordination_strategy": "parallel_execution_with_weighted_confidence",
+    "error_handling": "strict_no_fake_data",
+    "scaling": "dynamic_agent_spawning"
+  }
+}
