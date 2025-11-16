@@ -26,7 +26,7 @@ from typing import List, Dict, Any
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from universal_prediction_engine import UniversalPredictionEngine
+from ai_enhanced_prediction_engine import AIEnhancedPredictionEngine
 
 # Import the REAL UEFA CHAMPIONS LEAGUE ALGORITHM! 🏆⚽🔥 (TYPE 1 DATA-DRIVEN)
 from uefa_champions_league_real_algorithm import RealUEFAChampionsLeagueAlgorithm
@@ -57,7 +57,7 @@ class RealUEFAChampionsLeagueFetcher:
         self.champions_league_real = RealUEFAChampionsLeagueAlgorithm()
         
         # Initialize Universal Prediction Engine for 8D analysis
-        self.prediction_engine = UniversalPredictionEngine()
+        self.prediction_engine = AIEnhancedPredictionEngine()
         
     async def fetch_todays_real_uefa_champions_league_games(self) -> List[Dict[str, Any]]:
         """

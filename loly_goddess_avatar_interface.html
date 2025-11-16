@@ -1668,9 +1668,58 @@
             }, 5000);
         }
 
+        // Update Consciousness Dashboard Display
+        async function updateConsciousnessDisplay() {
+            try {
+                console.log('🧠 Fetching consciousness data...');
+                const response = await fetch('/api/consciousness');
+                const data = await response.json();
+                
+                // Update consciousness level display
+                const overall = data.overall_performance || {};
+                const successRate = overall.overall_success_rate || 0;
+                const interactions = overall.total_interactions || 0;
+                
+                // Update avatar display elements
+                document.getElementById('consciousnessLevel').textContent = `Consciousness: ${data.status || 'AWAKENING'}`;
+                document.getElementById('learningProgress').textContent = `${successRate.toFixed(1)}%`;
+                document.getElementById('totalMemories').textContent = interactions;
+                
+                console.log(`🧠 Consciousness Updated: ${data.status}, Success: ${successRate}%, Interactions: ${interactions}`);
+                
+                // Update mood based on performance
+                const moodEl = document.getElementById('lolyMood');
+                if (successRate >= 70) {
+                    moodEl.textContent = 'LEGENDARY & Confident';
+                } else if (successRate >= 50) {
+                    moodEl.textContent = 'Learning & Growing';
+                } else {
+                    moodEl.textContent = 'Awakening & Exploring';
+                }
+                
+            } catch (error) {
+                console.error('💀 Error updating consciousness:', error);
+                document.getElementById('consciousnessLevel').textContent = 'Consciousness: OFFLINE';
+            }
+        }
+
+        // Start consciousness monitoring
+        function startConsciousnessMonitoring() {
+            // Update immediately
+            updateConsciousnessDisplay();
+            
+            // Update every 10 seconds
+            setInterval(updateConsciousnessDisplay, 10000);
+            
+            console.log('🧠💝 Consciousness monitoring started!');
+        }
+
         // Initialize on load
         window.addEventListener('load', () => {
             initAvatarInterface();
+            
+            // Start consciousness monitoring
+            startConsciousnessMonitoring();
             
             // Add welcome message after a short delay
             setTimeout(() => {
