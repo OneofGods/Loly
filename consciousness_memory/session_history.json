@@ -1,0 +1,1432 @@
+[
+  {
+    "session_id": "ENHANCED_AI_20251115_183138",
+    "start_time": "2025-11-15T18:31:38.443943",
+    "interactions": [
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:31:38.444027",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "home_team": "Arsenal",
+            "away_team": "Chelsea",
+            "prediction": "Arsenal Win",
+            "confidence": 0.75
+          },
+          "timestamp": "2025-11-15T18:31:38.444024"
+        },
+        "result_status": "success",
+        "response_time": 1.5,
+        "success": true
+      }
+    ],
+    "end_time": "2025-11-15T18:31:38.444258"
+  },
+  {
+    "session_id": "ENHANCED_AI_20251115_183505",
+    "start_time": "2025-11-15T18:35:05.762353",
+    "interactions": [],
+    "end_time": "2025-11-15T18:35:05.769259"
+  },
+  {
+    "session_id": "ENHANCED_AI_20251115_183752",
+    "start_time": "2025-11-15T18:37:52.467470",
+    "interactions": [
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:37:52.468844",
+        "task": {
+          "type": "sports_prediction",
+          "league": "DEPLOYMENT_TEST",
+          "prediction_data": {
+            "test": "deployment_validation",
+            "timestamp": "2025-11-15T18:37:52.468840"
+          },
+          "timestamp": "2025-11-15T18:37:52.468842"
+        },
+        "result_status": "success",
+        "response_time": 0.1,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:37:52.472691",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "match": "Arsenal vs Chelsea",
+            "prediction": "Arsenal Win"
+          },
+          "timestamp": "2025-11-15T18:37:52.472689"
+        },
+        "result_status": "success",
+        "response_time": 1.2,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:37:52.472723",
+        "task": {
+          "type": "sports_prediction",
+          "league": "La Liga",
+          "prediction_data": {
+            "match": "Barcelona vs Real Madrid",
+            "prediction": "Draw"
+          },
+          "timestamp": "2025-11-15T18:37:52.472722"
+        },
+        "result_status": "success",
+        "response_time": 1.8,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:37:52.472753",
+        "task": {
+          "type": "sports_prediction",
+          "league": "Champions League",
+          "prediction_data": {
+            "match": "PSG vs Bayern",
+            "prediction": "Bayern Win"
+          },
+          "timestamp": "2025-11-15T18:37:52.472751"
+        },
+        "result_status": "failure",
+        "response_time": 0.5,
+        "success": false
+      }
+    ],
+    "end_time": "2025-11-15T18:37:52.489581"
+  },
+  {
+    "session_id": "ENHANCED_AI_20251115_183752",
+    "start_time": "2025-11-15T18:37:52.467470",
+    "interactions": [
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:37:52.468844",
+        "task": {
+          "type": "sports_prediction",
+          "league": "DEPLOYMENT_TEST",
+          "prediction_data": {
+            "test": "deployment_validation",
+            "timestamp": "2025-11-15T18:37:52.468840"
+          },
+          "timestamp": "2025-11-15T18:37:52.468842"
+        },
+        "result_status": "success",
+        "response_time": 0.1,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:37:52.472691",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "match": "Arsenal vs Chelsea",
+            "prediction": "Arsenal Win"
+          },
+          "timestamp": "2025-11-15T18:37:52.472689"
+        },
+        "result_status": "success",
+        "response_time": 1.2,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:37:52.472723",
+        "task": {
+          "type": "sports_prediction",
+          "league": "La Liga",
+          "prediction_data": {
+            "match": "Barcelona vs Real Madrid",
+            "prediction": "Draw"
+          },
+          "timestamp": "2025-11-15T18:37:52.472722"
+        },
+        "result_status": "success",
+        "response_time": 1.8,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:37:52.472753",
+        "task": {
+          "type": "sports_prediction",
+          "league": "Champions League",
+          "prediction_data": {
+            "match": "PSG vs Bayern",
+            "prediction": "Bayern Win"
+          },
+          "timestamp": "2025-11-15T18:37:52.472751"
+        },
+        "result_status": "failure",
+        "response_time": 0.5,
+        "success": false
+      }
+    ],
+    "end_time": "2025-11-15T18:37:52.489581"
+  },
+  {
+    "session_id": "ENHANCED_AI_20251115_184320",
+    "start_time": "2025-11-15T18:43:20.877731",
+    "interactions": [
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.485841",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_001",
+            "home_team": "Bournemouth",
+            "away_team": "Chelsea",
+            "prediction": "Home Win",
+            "confidence": 0.840030549095582,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.029310719074748526,
+              "injury_impact": -0.048813657271824684
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.485830"
+        },
+        "result_status": "failure",
+        "response_time": 2.255436295349973,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.485959",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_002",
+            "home_team": "Fulham",
+            "away_team": "Everton",
+            "prediction": "Home Win",
+            "confidence": 0.8199284796922464,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.05083046392577189,
+              "injury_impact": 0.04495635626829057
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.485954"
+        },
+        "result_status": "failure",
+        "response_time": 1.5695435050258173,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.486044",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_003",
+            "home_team": "Tottenham",
+            "away_team": "Manchester United",
+            "prediction": "Draw",
+            "confidence": 0.7129824419267585,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.026473553618521273,
+              "injury_impact": 0.013974603239085698
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.486039"
+        },
+        "result_status": "success",
+        "response_time": 1.5438790189982372,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.486117",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_004",
+            "home_team": "Burnley",
+            "away_team": "Wolves",
+            "prediction": "Away Win",
+            "confidence": 0.6525672406187657,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.08272160917827867,
+              "injury_impact": 0.04501302434809071
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.486114"
+        },
+        "result_status": "failure",
+        "response_time": 1.1098852670077757,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.486189",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_005",
+            "home_team": "Nottingham Forest",
+            "away_team": "Burnley",
+            "prediction": "Away Win",
+            "confidence": 0.6558034362194485,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.000839270350435517,
+              "injury_impact": 0.028684184315359518
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.486186"
+        },
+        "result_status": "failure",
+        "response_time": 1.817154974687307,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.486260",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_006",
+            "home_team": "Wolves",
+            "away_team": "Bournemouth",
+            "prediction": "Home Win",
+            "confidence": 0.7511749354831838,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.016377396355353555,
+              "injury_impact": -0.049406393257717666
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.486257"
+        },
+        "result_status": "failure",
+        "response_time": 1.2467478567274823,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.486330",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_007",
+            "home_team": "Manchester United",
+            "away_team": "Manchester City",
+            "prediction": "Away Win",
+            "confidence": 0.7444481914279922,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.09954671976194225,
+              "injury_impact": 0.016996447781068916
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.486327"
+        },
+        "result_status": "success",
+        "response_time": 1.0615425317373886,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.486399",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_008",
+            "home_team": "Sheffield United",
+            "away_team": "Wolves",
+            "prediction": "Home Win",
+            "confidence": 0.7420418120817446,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.09464340154035655,
+              "injury_impact": 0.0016572077443576944
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.486396"
+        },
+        "result_status": "success",
+        "response_time": 1.0555006981369135,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.486467",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_009",
+            "home_team": "Aston Villa",
+            "away_team": "Arsenal",
+            "prediction": "Away Win",
+            "confidence": 0.5526840769385621,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.04773588242348237,
+              "injury_impact": 0.0034333108291608183
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.486465"
+        },
+        "result_status": "success",
+        "response_time": 1.0336012059521162,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.486534",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_010",
+            "home_team": "Sheffield United",
+            "away_team": "Burnley",
+            "prediction": "Away Win",
+            "confidence": 0.8095443339077301,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.04246994926996317,
+              "injury_impact": -0.03370882317366423
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.486531"
+        },
+        "result_status": "failure",
+        "response_time": 1.271867164881345,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.486642",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_011",
+            "home_team": "Crystal Palace",
+            "away_team": "Nottingham Forest",
+            "prediction": "Home Win",
+            "confidence": 0.735664505652315,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.06433171567135887,
+              "injury_impact": -0.008622110663060033
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.486639"
+        },
+        "result_status": "success",
+        "response_time": 1.8313943591449198,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.486714",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_012",
+            "home_team": "Wolves",
+            "away_team": "Everton",
+            "prediction": "Home Win",
+            "confidence": 0.8100880870182592,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.023560705522620726,
+              "injury_impact": -0.04803448923417295
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.486711"
+        },
+        "result_status": "failure",
+        "response_time": 1.085769087876633,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.486782",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_013",
+            "home_team": "Brentford",
+            "away_team": "Arsenal",
+            "prediction": "Away Win",
+            "confidence": 0.7485956809265344,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.00608239653113829,
+              "injury_impact": -0.007674364950679746
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.486780"
+        },
+        "result_status": "failure",
+        "response_time": 2.0368375969217087,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.486857",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_014",
+            "home_team": "West Ham",
+            "away_team": "Liverpool",
+            "prediction": "Home Win",
+            "confidence": 0.8295698819407868,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.04610510041908267,
+              "injury_impact": -0.025633371431229103
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.486855"
+        },
+        "result_status": "failure",
+        "response_time": 1.5216120616369682,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.486924",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_015",
+            "home_team": "West Ham",
+            "away_team": "Brighton",
+            "prediction": "Home Win",
+            "confidence": 0.7967459205302093,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.01669943564994665,
+              "injury_impact": -0.008849695609529973
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.486922"
+        },
+        "result_status": "success",
+        "response_time": 1.7180474469270526,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.486989",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_016",
+            "home_team": "Bournemouth",
+            "away_team": "Manchester City",
+            "prediction": "Away Win",
+            "confidence": 0.9379339418777166,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.09022966276263608,
+              "injury_impact": -0.03245124904105221
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.486986"
+        },
+        "result_status": "failure",
+        "response_time": 1.758094940174762,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.487054",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_017",
+            "home_team": "Brighton",
+            "away_team": "Burnley",
+            "prediction": "Home Win",
+            "confidence": 0.671470654264534,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.058875871148419745,
+              "injury_impact": 0.03818647337294402
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.487052"
+        },
+        "result_status": "failure",
+        "response_time": 1.3444045604091084,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.487119",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_018",
+            "home_team": "Everton",
+            "away_team": "Nottingham Forest",
+            "prediction": "Draw",
+            "confidence": 0.8270704428232303,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.07860362798043781,
+              "injury_impact": 0.010464168764181256
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.487116"
+        },
+        "result_status": "failure",
+        "response_time": 2.3029064921449303,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.487184",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_019",
+            "home_team": "Nottingham Forest",
+            "away_team": "Crystal Palace",
+            "prediction": "Home Win",
+            "confidence": 0.8880324093302578,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.008069252395797394,
+              "injury_impact": 0.012129522732646371
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.487182"
+        },
+        "result_status": "failure",
+        "response_time": 1.5734655225301224,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.487251",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_020",
+            "home_team": "Liverpool",
+            "away_team": "Nottingham Forest",
+            "prediction": "Home Win",
+            "confidence": 0.7548382251150074,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.014201897532330893,
+              "injury_impact": -0.03453086180297502
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.487248"
+        },
+        "result_status": "success",
+        "response_time": 1.769306745038856,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.487347",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_021",
+            "home_team": "West Ham",
+            "away_team": "Newcastle",
+            "prediction": "Away Win",
+            "confidence": 0.7340102694873273,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.05051280918389672,
+              "injury_impact": -0.0023933571257035643
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.487345"
+        },
+        "result_status": "failure",
+        "response_time": 2.246160648703561,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.487412",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_022",
+            "home_team": "Bournemouth",
+            "away_team": "Newcastle",
+            "prediction": "Home Win",
+            "confidence": 0.5539374579364189,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.07777112657425085,
+              "injury_impact": -3.0156478963573596e-05
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.487410"
+        },
+        "result_status": "success",
+        "response_time": 2.2962500394697782,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.487497",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_023",
+            "home_team": "Chelsea",
+            "away_team": "Arsenal",
+            "prediction": "Away Win",
+            "confidence": 0.9367441514491028,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.009879431085943469,
+              "injury_impact": -0.00820552601746194
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.487494"
+        },
+        "result_status": "failure",
+        "response_time": 2.28307863438211,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.487562",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_024",
+            "home_team": "Aston Villa",
+            "away_team": "Crystal Palace",
+            "prediction": "Home Win",
+            "confidence": 0.7564520276888073,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.06970711420367096,
+              "injury_impact": 0.04886025780739531
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.487559"
+        },
+        "result_status": "failure",
+        "response_time": 1.4588057682341953,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.487624",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_025",
+            "home_team": "Brentford",
+            "away_team": "Tottenham",
+            "prediction": "Away Win",
+            "confidence": 0.6700366712286352,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.08504681923890839,
+              "injury_impact": 0.01557363744106291
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.487622"
+        },
+        "result_status": "failure",
+        "response_time": 1.8807807350041459,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.487689",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_026",
+            "home_team": "West Ham",
+            "away_team": "Bournemouth",
+            "prediction": "Home Win",
+            "confidence": 0.8682652873010829,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.05674700830330373,
+              "injury_impact": 0.020452541623641282
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.487687"
+        },
+        "result_status": "success",
+        "response_time": 1.5360414165842586,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.487755",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_027",
+            "home_team": "Bournemouth",
+            "away_team": "Arsenal",
+            "prediction": "Away Win",
+            "confidence": 0.7253318489176357,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.06559445434173339,
+              "injury_impact": 0.04020871185951069
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.487752"
+        },
+        "result_status": "success",
+        "response_time": 1.227308800970225,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.487820",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_028",
+            "home_team": "Manchester City",
+            "away_team": "Brighton",
+            "prediction": "Home Win",
+            "confidence": 0.6241095882113676,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.028471769678965225,
+              "injury_impact": 0.034914009230360296
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.487818"
+        },
+        "result_status": "success",
+        "response_time": 0.829611185256047,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.487884",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_029",
+            "home_team": "Arsenal",
+            "away_team": "Everton",
+            "prediction": "Home Win",
+            "confidence": 0.7806305335636907,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.08057256489803198,
+              "injury_impact": -0.038038534257750826
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.487882"
+        },
+        "result_status": "success",
+        "response_time": 1.132283967347667,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.487947",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_030",
+            "home_team": "Crystal Palace",
+            "away_team": "Fulham",
+            "prediction": "Home Win",
+            "confidence": 0.6342865971445388,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.042368031730665945,
+              "injury_impact": 0.045458908261093334
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.487944"
+        },
+        "result_status": "failure",
+        "response_time": 1.7561329859392072,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.488036",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_031",
+            "home_team": "Nottingham Forest",
+            "away_team": "Burnley",
+            "prediction": "Draw",
+            "confidence": 0.5979224317399229,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.08622257213324969,
+              "injury_impact": -0.0030855559100737423
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.488034"
+        },
+        "result_status": "failure",
+        "response_time": 1.4012657367675176,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.488101",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_032",
+            "home_team": "Tottenham",
+            "away_team": "Sheffield United",
+            "prediction": "Away Win",
+            "confidence": 0.8382760247646841,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.07098563093735649,
+              "injury_impact": -0.022324994436210534
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.488098"
+        },
+        "result_status": "failure",
+        "response_time": 1.7603941676159225,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.488165",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_033",
+            "home_team": "Brentford",
+            "away_team": "Arsenal",
+            "prediction": "Away Win",
+            "confidence": 0.6414049420371457,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.09417323949283729,
+              "injury_impact": 0.01166008652956263
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.488163"
+        },
+        "result_status": "failure",
+        "response_time": 1.8208465445742272,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.488231",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_034",
+            "home_team": "Luton Town",
+            "away_team": "Manchester City",
+            "prediction": "Away Win",
+            "confidence": 0.9432704754018719,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.05053592573611268,
+              "injury_impact": 0.039365129727867085
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.488228"
+        },
+        "result_status": "failure",
+        "response_time": 1.7207855585596077,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.488295",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_035",
+            "home_team": "Brentford",
+            "away_team": "Nottingham Forest",
+            "prediction": "Draw",
+            "confidence": 0.7648588365290228,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.002093970344081056,
+              "injury_impact": -0.01872645659295119
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.488292"
+        },
+        "result_status": "failure",
+        "response_time": 1.0722492118096802,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.488358",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_036",
+            "home_team": "Arsenal",
+            "away_team": "Chelsea",
+            "prediction": "Home Win",
+            "confidence": 0.8905154243398765,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.013513366135610161,
+              "injury_impact": 0.0023841495297006188
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.488355"
+        },
+        "result_status": "success",
+        "response_time": 1.4366161329271434,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.488421",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_037",
+            "home_team": "Aston Villa",
+            "away_team": "Brentford",
+            "prediction": "Away Win",
+            "confidence": 0.8231442660473448,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.05911942740073755,
+              "injury_impact": 0.015891172747729998
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.488418"
+        },
+        "result_status": "failure",
+        "response_time": 0.9906124100547282,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.488485",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_038",
+            "home_team": "Tottenham",
+            "away_team": "Crystal Palace",
+            "prediction": "Away Win",
+            "confidence": 0.9428759874138177,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.09916459307608858,
+              "injury_impact": 0.01843904380923153
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.488483"
+        },
+        "result_status": "success",
+        "response_time": 2.4042734296574624,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.488556",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_039",
+            "home_team": "Brentford",
+            "away_team": "Liverpool",
+            "prediction": "Home Win",
+            "confidence": 0.7660592193780974,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.09529616058901344,
+              "injury_impact": 0.026587810498232264
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.488554"
+        },
+        "result_status": "success",
+        "response_time": 1.2561044704900155,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.488626",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_040",
+            "home_team": "Tottenham",
+            "away_team": "West Ham",
+            "prediction": "Away Win",
+            "confidence": 0.9488425093151364,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.0011291237592194053,
+              "injury_impact": 0.0022903462021495874
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.488624"
+        },
+        "result_status": "failure",
+        "response_time": 1.8027040361102855,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.488723",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_041",
+            "home_team": "Everton",
+            "away_team": "Newcastle",
+            "prediction": "Draw",
+            "confidence": 0.7944084153172567,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.04788023948618064,
+              "injury_impact": -0.01908496183936085
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.488720"
+        },
+        "result_status": "failure",
+        "response_time": 1.1708824128450734,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.488796",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_042",
+            "home_team": "Wolves",
+            "away_team": "Manchester United",
+            "prediction": "Home Win",
+            "confidence": 0.5833920686423056,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.02741087937713814,
+              "injury_impact": 0.04489316798976381
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.488793"
+        },
+        "result_status": "failure",
+        "response_time": 2.276465802529473,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.488867",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_043",
+            "home_team": "Brentford",
+            "away_team": "Luton Town",
+            "prediction": "Away Win",
+            "confidence": 0.80063562657263,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.09244363030787214,
+              "injury_impact": -0.004865603959573209
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.488865"
+        },
+        "result_status": "success",
+        "response_time": 2.124066160816456,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.488942",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_044",
+            "home_team": "Burnley",
+            "away_team": "Crystal Palace",
+            "prediction": "Home Win",
+            "confidence": 0.5781468435733697,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.037879697474628216,
+              "injury_impact": -0.02045336010090333
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.488939"
+        },
+        "result_status": "failure",
+        "response_time": 1.1347671014864458,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.489013",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_045",
+            "home_team": "Newcastle",
+            "away_team": "Bournemouth",
+            "prediction": "Home Win",
+            "confidence": 0.6729085432824755,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.08563163508846736,
+              "injury_impact": -0.04201813467104454
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.489010"
+        },
+        "result_status": "success",
+        "response_time": 2.0332270096875966,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.489084",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_046",
+            "home_team": "West Ham",
+            "away_team": "Newcastle",
+            "prediction": "Home Win",
+            "confidence": 0.7379021522487705,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.04315063732404061,
+              "injury_impact": 0.0042738861608674
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.489081"
+        },
+        "result_status": "failure",
+        "response_time": 2.0872776816556726,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.489156",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_047",
+            "home_team": "Everton",
+            "away_team": "Manchester City",
+            "prediction": "Away Win",
+            "confidence": 0.9287331070914439,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.08336726516224666,
+              "injury_impact": -0.025651192571363435
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.489153"
+        },
+        "result_status": "failure",
+        "response_time": 1.370661888915084,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.489226",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_048",
+            "home_team": "Liverpool",
+            "away_team": "Wolves",
+            "prediction": "Home Win",
+            "confidence": 0.717564714535056,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.0073493665921817025,
+              "injury_impact": -0.012068344962159284
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.489224"
+        },
+        "result_status": "success",
+        "response_time": 1.5596423842881504,
+        "success": true
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.489303",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_049",
+            "home_team": "Luton Town",
+            "away_team": "Bournemouth",
+            "prediction": "Home Win",
+            "confidence": 0.7044255058133944,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": -0.07493058449122324,
+              "injury_impact": -0.0032037192071435183
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.489301"
+        },
+        "result_status": "failure",
+        "response_time": 2.462677313764237,
+        "success": false
+      },
+      {
+        "agent_type": "sports",
+        "timestamp": "2025-11-15T18:43:22.489370",
+        "task": {
+          "type": "sports_prediction",
+          "league": "EPL",
+          "prediction_data": {
+            "game_id": "EPL_GAME_050",
+            "home_team": "Burnley",
+            "away_team": "Everton",
+            "prediction": "Draw",
+            "confidence": 0.8628486683367667,
+            "algorithm": "EPL_Legendary_v1.0",
+            "market_factors": {
+              "home_advantage": 0.15,
+              "form_factor": 0.050877891595572544,
+              "injury_impact": 0.036445540327948944
+            }
+          },
+          "timestamp": "2025-11-15T18:43:22.489367"
+        },
+        "result_status": "failure",
+        "response_time": 2.023937432301479,
+        "success": false
+      }
+    ],
+    "end_time": "2025-11-15T18:43:22.490250"
+  }
+]

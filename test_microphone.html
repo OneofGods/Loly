@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎤 Microphone Test for Loly</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1a1a2e;
+            color: #eee;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 2px solid #e94560;
+        }
+        
+        h1 {
+            color: #e94560;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .status {
+            font-size: 1.2em;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .success { background: rgba(0, 255, 0, 0.2); color: #00ff88; }
+        .error { background: rgba(255, 0, 0, 0.2); color: #ff6b9d; }
+        .info { background: rgba(255, 255, 0, 0.2); color: #ffff00; }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background: linear-gradient(45deg, #e94560, #ff6b9d);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            margin: 10px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎤 Microphone Test for Loly</h1>
+        <p>This test will help us get your microphone working for voice chat with Loly!</p>
+        
+        <div id="status" class="status info">
+            🔍 Click "Test Microphone" to check permissions and functionality
+        </div>
+        
+        <button onclick="testMicrophone()">🎤 Test Microphone</button>
+        <button onclick="testSpeechRecognition()">🗣️ Test Speech Recognition</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        async function testMicrophone() {
+            const statusEl = document.getElementById('status');
+            const resultsEl = document.getElementById('results');
+            
+            statusEl.textContent = '🔍 Testing microphone access...';
+            statusEl.className = 'status info';
+            
+            try {
+                // Request microphone permission
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                statusEl.textContent = '✅ Microphone access granted!';
+                statusEl.className = 'status success';
+                
+                // Get microphone info
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const microphones = devices.filter(device => device.kind === 'audioinput');
+                
+                resultsEl.innerHTML = `
+                    <div style="margin-top: 20px;">
+                        <h3>🎤 Microphone Details:</h3>
+                        <p>Found ${microphones.length} microphone(s)</p>
+                        ${microphones.map(mic => `<p>📱 ${mic.label || 'Unknown Microphone'}</p>`).join('')}
+                        <p style="color: #00ff88;">✅ Your microphone is working! Now try the speech recognition test.</p>
+                    </div>
+                `;
+                
+                // Stop the stream
+                stream.getTracks().forEach(track => track.stop());
+                
+            } catch (error) {
+                statusEl.textContent = `🚨 Microphone access denied: ${error.message}`;
+                statusEl.className = 'status error';
+                
+                resultsEl.innerHTML = `
+                    <div style="margin-top: 20px; color: #ff6b9d;">
+                        <h3>🔧 How to Fix:</h3>
+                        <p>1. Click the 🔒 lock icon in your browser address bar</p>
+                        <p>2. Set "Microphone" to "Allow"</p>
+                        <p>3. Refresh this page and try again</p>
+                        <p>4. Make sure you're using Chrome or Safari</p>
+                        <p>5. Make sure you have a microphone connected</p>
+                    </div>
+                `;
+            }
+        }
+
+        function testSpeechRecognition() {
+            const statusEl = document.getElementById('status');
+            const resultsEl = document.getElementById('results');
+            
+            // Check for Speech Recognition support
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            
+            if (!SpeechRecognition) {
+                statusEl.textContent = '🚨 Speech Recognition not supported in this browser!';
+                statusEl.className = 'status error';
+                
+                resultsEl.innerHTML = `
+                    <div style="margin-top: 20px; color: #ff6b9d;">
+                        <h3>🌐 Browser Support:</h3>
+                        <p>Speech Recognition is supported in:</p>
+                        <p>✅ Chrome (recommended)</p>
+                        <p>✅ Safari</p>
+                        <p>✅ Edge</p>
+                        <p>❌ Firefox (limited support)</p>
+                        <p><strong>Try using Chrome for the best experience!</strong></p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+            
+            statusEl.textContent = '🎤 Listening... Say "Hello Loly"!';
+            statusEl.className = 'status info';
+            
+            recognition.onstart = function() {
+                resultsEl.innerHTML = `
+                    <div style="margin-top: 20px; color: #00ff88;">
+                        <h3>🎤 Speech Recognition Active!</h3>
+                        <p>Say "Hello Loly" clearly into your microphone...</p>
+                    </div>
+                `;
+            };
+            
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                const confidence = event.results[0][0].confidence;
+                
+                statusEl.textContent = '✅ Speech recognized successfully!';
+                statusEl.className = 'status success';
+                
+                resultsEl.innerHTML = `
+                    <div style="margin-top: 20px; color: #00ff88;">
+                        <h3>🎯 Speech Recognition Results:</h3>
+                        <p><strong>You said:</strong> "${transcript}"</p>
+                        <p><strong>Confidence:</strong> ${(confidence * 100).toFixed(1)}%</p>
+                        <p style="color: #00ff88; font-size: 1.2em;">
+                            🎉 Perfect! Your voice chat with Loly should work now!
+                        </p>
+                        <p>Go back to <a href="http://localhost:3009" style="color: #ff6b9d;">Loly's Avatar Interface</a> and try the voice chat!</p>
+                    </div>
+                `;
+            };
+            
+            recognition.onerror = function(event) {
+                statusEl.textContent = `🚨 Speech recognition error: ${event.error}`;
+                statusEl.className = 'status error';
+                
+                const errorMessages = {
+                    'network': 'Network connection issue - make sure you have internet access',
+                    'not-allowed': 'Microphone permission denied - click the lock icon and allow microphone access',
+                    'no-speech': 'No speech detected - speak more clearly or check your microphone',
+                    'aborted': 'Speech recognition was aborted - try again',
+                    'audio-capture': 'Audio capture failed - check your microphone connection'
+                };
+                
+                const solution = errorMessages[event.error] || 'Unknown error occurred';
+                
+                resultsEl.innerHTML = `
+                    <div style="margin-top: 20px; color: #ff6b9d;">
+                        <h3>🔧 Error Solution:</h3>
+                        <p><strong>Error:</strong> ${event.error}</p>
+                        <p><strong>Solution:</strong> ${solution}</p>
+                        <p>Try testing the microphone first, then try this test again.</p>
+                    </div>
+                `;
+            };
+            
+            recognition.onend = function() {
+                console.log('Speech recognition ended');
+            };
+            
+            try {
+                recognition.start();
+            } catch (error) {
+                statusEl.textContent = `🚨 Failed to start speech recognition: ${error.message}`;
+                statusEl.className = 'status error';
+            }
+        }
+
+        // Auto-run basic checks on load
+        window.addEventListener('load', () => {
+            const statusEl = document.getElementById('status');
+            
+            // Check if we're on localhost
+            if (location.hostname !== 'localhost') {
+                statusEl.textContent = '🚨 Not running on localhost - voice features may not work';
+                statusEl.className = 'status error';
+            } else {
+                statusEl.textContent = '✅ Running on localhost - perfect for voice features!';
+                statusEl.className = 'status success';
+            }
+            
+            // Check browser
+            const isChrome = /Chrome/.test(navigator.userAgent);
+            const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+            
+            if (isChrome || isSafari) {
+                console.log('✅ Good browser for voice recognition');
+            } else {
+                statusEl.textContent += ' Try using Chrome or Safari for best voice support.';
+            }
+        });
+    </script>
+</body>
+</html>

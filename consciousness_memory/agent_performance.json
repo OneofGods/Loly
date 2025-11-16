@@ -1,0 +1,58 @@
+{
+  "sports": {
+    "total": 55,
+    "success": 22,
+    "failure": 33,
+    "avg_time": 1.573871061819216,
+    "patterns": []
+  },
+  "research": {
+    "total": 0,
+    "success": 0,
+    "failure": 0,
+    "avg_time": 0.0,
+    "patterns": []
+  },
+  "write": {
+    "total": 0,
+    "success": 0,
+    "failure": 0,
+    "avg_time": 0.0,
+    "patterns": []
+  },
+  "review": {
+    "total": 0,
+    "success": 0,
+    "failure": 0,
+    "avg_time": 0.0,
+    "patterns": []
+  },
+  "build": {
+    "total": 0,
+    "success": 0,
+    "failure": 0,
+    "avg_time": 0.0,
+    "patterns": []
+  },
+  "workflow": {
+    "total": 0,
+    "success": 0,
+    "failure": 0,
+    "avg_time": 0.0,
+    "patterns": []
+  },
+  "crypto": {
+    "total": 0,
+    "success": 0,
+    "failure": 0,
+    "avg_time": 0.0,
+    "patterns": []
+  },
+  "utility": {
+    "total": 0,
+    "success": 0,
+    "failure": 0,
+    "avg_time": 0.0,
+    "patterns": []
+  }
+}
