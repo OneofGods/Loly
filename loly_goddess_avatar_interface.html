@@ -880,8 +880,21 @@
                 };
                 
                 speechRecognition.onresult = function(event) {
-                    let transcript = event.results[0][0].transcript;
-                    console.log('🎤 Raw speech recognized:', transcript);
+                    // 🔥💀🔥 CRITICAL FIX: Only process FINAL results to prevent loops!
+                    const result = event.results[event.results.length - 1];
+                    if (!result.isFinal) {
+                        console.log('🎤 Interim result (ignoring):', result[0].transcript);
+                        return; // Skip interim results to prevent loops!
+                    }
+                    
+                    let transcript = result[0].transcript.trim();
+                    console.log('🎤 FINAL speech recognized:', transcript);
+                    
+                    // Skip if empty or too short
+                    if (!transcript || transcript.length < 2) {
+                        console.log('🎤 Empty/short transcript, ignoring');
+                        return;
+                    }
                     
                     // 🔥💰🔥 ENHANCED POLYMARKET RECOGNITION! 💰🔥💰
                     transcript = enhancePolymarketRecognition(transcript);
@@ -890,12 +903,12 @@
                     document.getElementById('messageInput').value = transcript;
                     addMessage('daddy', `🎤 ${transcript}`);
                     
-                    // Generate Loly response with a slightly longer delay for better flow
+                    // Generate Loly response with delay to prevent overlapping
                     setTimeout(async () => {
                         const response = await generateLolyResponse(transcript);
                         addMessage('loly', response);
                         speakLolyMessage(response);
-                    }, 800);  // Increased delay for better conversation flow
+                    }, 1000);  // Longer delay to prevent loops
                 };
                 
                 speechRecognition.onerror = function(event) {
