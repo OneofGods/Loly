@@ -167,9 +167,9 @@ class LolyAvatarServer:
                 response = "💝 Hi daddy! What would you like to talk about? 💝"
             
             # BETTING ACTION - Check this FIRST before sport detection!
-            elif any(word in message for word in ['polymarket', 'betting', 'odds', 'bet', 'market', 'trading']):
-                # Check if this is an ACTION request vs just asking about markets
-                if any(action in message for action in ['place a bet', 'place bet', 'make a bet', 'bet on', 'i want to bet']):
+            elif any(word in message for word in ['polymarket', 'betting', 'odds', 'bet', 'bed', 'market', 'trading']):
+                # Check if this is an ACTION request vs just asking about markets - INCLUDING SPEECH RECOGNITION ERRORS!
+                if any(action in message for action in ['place a bet', 'place bet', 'make a bet', 'bet on', 'i want to bet', 'place some bed', 'play some bed', 'place bed']):
                     # Extract betting details
                     amount = 1.0  # Default $1 bet
                     if '$' in message:
@@ -187,6 +187,10 @@ class LolyAvatarServer:
                         team_mentioned = 'Barcelona'
                     elif 'real madrid' in message or 'madrid' in message:
                         team_mentioned = 'Real Madrid'
+                    elif 'germany' in message:
+                        team_mentioned = 'Germany'
+                    elif 'slovakia' in message:
+                        team_mentioned = 'Slovakia'
                     
                     if team_mentioned:
                         response = f"🎯💰 YES DADDY! I'll place a ${amount} bet on {team_mentioned}! Let me search Polymarket for their next game... 🔥\n\n⚠️ However, I need you to configure my trading credentials first. The Polymarket API requires proper authentication to place real bets. Want me to show you the current available markets instead?"
@@ -228,6 +232,10 @@ class LolyAvatarServer:
             elif any(word in message for word in ['connections', 'leaks', 'data', 'info']):
                 response = "🔗 My connections daddy! I have live data from multiple sports APIs, real-time odds from betting sites, and AI-powered prediction engines. Everything is legitimate and legal!"
                 
+            # Upcoming games detection - CHECK BEFORE "what" questions
+            elif any(word in message for word in ['upcoming', 'games', 'matches', 'fixtures']):
+                response = "📅⚽ Upcoming games daddy! I track fixtures across multiple leagues. Which competition interests you - UEFA, Premier League, La Liga, Champions League? I can provide predictions and betting analysis! 🎯"
+                
             elif any(word in message for word in ['what', 'tell me', 'about', 'explain']):
                 # Check if asking about today's games
                 if any(word in message for word in ['today', 'games for today', 'todays games', 'games today']):
@@ -257,7 +265,21 @@ class LolyAvatarServer:
             elif any(word in message for word in ['hi', 'hello', 'hey', 'loly']):
                 response = "💝 Hi daddy! I missed you so much! I've been analyzing sports data and learning new patterns while you were away! 🌟"
                 
-            # Default intelligent response
+            # Sports-specific responses BEFORE default  
+            elif any(word in message for word in ['uefa', 'champions', 'qualifiers', 'tomorrow', 'germany', 'slovakia']):
+                # UEFA/Champions League specific
+                if 'uefa' in message or 'champions' in message:
+                    response = "🏆 UEFA Champions League daddy! The most prestigious European competition! I can analyze upcoming matches and betting opportunities. Which teams interest you? 🇪🇺⚽"
+                elif 'germany' in message:
+                    response = "🇩🇪 Germany daddy! A powerhouse team! I track their matches and can predict outcomes. Are you asking about their next game? Want betting analysis? ⚽🎯"
+                elif 'qualifiers' in message:
+                    response = "🌍 World Cup Qualifiers daddy! I monitor qualification campaigns across all confederations. Which region or team interests you? 🏆⚽"
+                elif 'tomorrow' in message:
+                    response = "📅 Tomorrow's matches daddy! Let me check upcoming fixtures... I can provide predictions and Polymarket betting opportunities! What league or teams? ⚽🎯"
+                else:
+                    response = "⚽ I detected a soccer/football query daddy! I specialize in European competitions, qualifiers, and team predictions. What specific match or league interests you? 🏆"
+                    
+            # Default intelligent response  
             else:
                 response = f"💝 Interesting question daddy! You said '{data.get('message', '')}'. I can help with sports predictions, Polymarket analysis, team data, and betting insights. What specifically would you like to know?"
             
