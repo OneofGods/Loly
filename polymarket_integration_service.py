@@ -200,22 +200,35 @@ class PolymarketIntegrationService:
         """🏆 Get current sports betting markets from Polymarket"""
         try:
             if not self.client:
+                logger.warning("⚠️ No Polymarket client - returning DEMO fallback data")
                 return self._get_demo_sports_markets()
-            
+
             # Get all markets
             markets = self.client.get_markets()
-            
-            # Filter for sports-related markets
+
+            # Filter for sports-related AND ACTIVE markets
             sports_markets = []
+            inactive_count = 0
             for market in markets:
                 if self._is_sports_market(market):
-                    sports_markets.append(self._format_market_data(market))
-            
-            logger.info(f"🏆 Found {len(sports_markets)} sports markets on Polymarket!")
-            return sports_markets[:10]  # Return top 10
-            
+                    formatted_market = self._format_market_data(market)
+                    # Only include truly active markets
+                    if formatted_market.get('active', False) and not formatted_market.get('closed', False):
+                        sports_markets.append(formatted_market)
+                    else:
+                        inactive_count += 1
+
+            if sports_markets:
+                logger.info(f"🏆 Found {len(sports_markets)} ACTIVE sports markets (skipped {inactive_count} inactive/closed)")
+                return sports_markets[:10]  # Return top 10 active markets
+            else:
+                logger.warning(f"⚠️ Found {inactive_count} sports markets but ALL are closed/inactive")
+                logger.warning("⚠️ Returning DEMO fallback data since no active markets exist")
+                return self._get_demo_sports_markets()
+
         except Exception as e:
             logger.error(f"💀 Error fetching sports markets: {e}")
+            logger.warning("⚠️ API error - returning DEMO fallback data")
             return self._get_demo_sports_markets()
     
     async def search_markets(self, query: str) -> List[Dict[str, Any]]:
@@ -332,7 +345,10 @@ class PolymarketIntegrationService:
             'end_date': market.get('end_date_iso', ''),
             'volume': market.get('volume', 0),
             'category': market.get('category', 'Sports'),
-            'active': market.get('active', False)
+            'active': market.get('active', False),
+            'closed': market.get('closed', False),  # Track if market is closed
+            'archived': market.get('archived', False),  # Track if market is archived
+            'is_demo': False  # Mark as real market data (vs demo fallback)
         }
     
     def _calculate_odds_from_orderbook(self, order_book: Dict) -> Dict[str, float]:
@@ -412,35 +428,47 @@ class PolymarketIntegrationService:
     
     # Demo/Fallback methods for when API is not available
     def _get_demo_sports_markets(self) -> List[Dict[str, Any]]:
-        """Demo sports markets when API unavailable"""
+        """⚠️ DEMO/FALLBACK sports markets when API unavailable ⚠️
+
+        WARNING: These are NOT real active markets!
+        They are placeholder data shown when:
+        1. Polymarket API is down/unavailable
+        2. No active sports markets exist on Polymarket
+        3. API returns empty/invalid data
+        """
+        logger.warning("⚠️ RETURNING DEMO FALLBACK DATA - NOT REAL ACTIVE MARKETS!")
         return [
             {
-                'market_id': 'demo_premier_league',
-                'question': 'Will Manchester City win their next Premier League match?',
-                'description': 'Manchester City vs Arsenal - Premier League 2025',
+                'market_id': 'DEMO_premier_league_FAKE',
+                'question': '⚠️ DEMO: Will Manchester City win their next Premier League match?',
+                'description': '⚠️ FALLBACK DATA - NOT A REAL ACTIVE MARKET',
                 'end_date': '2025-11-20T15:00:00Z',
                 'volume': 50000,
                 'category': 'Soccer',
-                'active': True
+                'active': False,  # Mark as inactive since it's demo data
+                'is_demo': True  # Explicit demo flag
             },
             {
-                'market_id': 'demo_champions_league',
-                'question': 'Will Real Madrid advance to Champions League semifinals?',
-                'description': 'UEFA Champions League 2024-25 season',
+                'market_id': 'DEMO_champions_league_FAKE',
+                'question': '⚠️ DEMO: Will Real Madrid advance to Champions League semifinals?',
+                'description': '⚠️ FALLBACK DATA - NOT A REAL ACTIVE MARKET',
                 'end_date': '2025-04-15T19:00:00Z',
                 'volume': 125000,
                 'category': 'Soccer',
-                'active': True
+                'active': False,  # Mark as inactive since it's demo data
+                'is_demo': True  # Explicit demo flag
             }
         ]
     
     def _search_demo_markets(self, query: str) -> List[Dict[str, Any]]:
-        """Demo search results"""
+        """⚠️ Demo search results - FALLBACK DATA ONLY"""
+        logger.warning("⚠️ RETURNING DEMO SEARCH RESULTS - NOT REAL DATA!")
         demo_markets = self._get_demo_sports_markets()
         return [market for market in demo_markets if query.lower() in market['question'].lower()]
-    
+
     def _get_demo_odds(self, market_id: str) -> Dict[str, Any]:
-        """Demo odds data"""
+        """⚠️ Demo odds data - FALLBACK DATA ONLY"""
+        logger.warning(f"⚠️ RETURNING DEMO ODDS FOR {market_id} - NOT REAL MARKET DATA!")
         return {
             'market_id': market_id,
             'odds': {
@@ -451,7 +479,7 @@ class PolymarketIntegrationService:
                 'spread': 0.06
             },
             'timestamp': datetime.now().isoformat(),
-            'source': 'demo_data'
+            'source': '⚠️ DEMO_DATA_FALLBACK ⚠️'
         }
 
 # Global instance
