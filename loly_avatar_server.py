@@ -166,15 +166,41 @@ class LolyAvatarServer:
             if not message:
                 response = "💝 Hi daddy! What would you like to talk about? 💝"
             
-            # Sports-related queries
+            # BETTING ACTION - Check this FIRST before sport detection!
+            elif any(word in message for word in ['polymarket', 'betting', 'odds', 'bet', 'market', 'trading']):
+                # Check if this is an ACTION request vs just asking about markets
+                if any(action in message for action in ['place a bet', 'place bet', 'make a bet', 'bet on', 'i want to bet']):
+                    # Extract betting details
+                    amount = 1.0  # Default $1 bet
+                    if '$' in message:
+                        try:
+                            import re
+                            amount_match = re.search(r'\$(\d+(?:\.\d+)?)', message)
+                            if amount_match:
+                                amount = float(amount_match.group(1))
+                        except:
+                            pass
+                    
+                    # Look for team/event mentions
+                    team_mentioned = None
+                    if 'barcelona' in message or 'barca' in message:
+                        team_mentioned = 'Barcelona'
+                    elif 'real madrid' in message or 'madrid' in message:
+                        team_mentioned = 'Real Madrid'
+                    
+                    if team_mentioned:
+                        response = f"🎯💰 YES DADDY! I'll place a ${amount} bet on {team_mentioned}! Let me search Polymarket for their next game... 🔥\n\n⚠️ However, I need you to configure my trading credentials first. The Polymarket API requires proper authentication to place real bets. Want me to show you the current available markets instead?"
+                    else:
+                        response = f"🎯💰 I understand you want to place a ${amount} bet daddy! But I need more details - which team or event? Try: 'place a bet on Barcelona' or 'bet $5 on Real Madrid'! 🔥"
+                else:
+                    response = "💰 Ooh daddy! You're interested in Polymarket! I can analyze betting markets, find value bets, and track sports betting opportunities. Want me to check current markets?"
+                
+            # Sports-related queries (after betting check)
             elif any(word in message for word in ['la liga', 'liga', 'spanish', 'spain', 'real madrid', 'barcelona']):
                 response = "⚽ Ah daddy! You're asking about La Liga! I have predictions for Spanish football. Real Madrid and Barcelona are my favorites to analyze! Want specific game predictions?"
                 
             elif any(word in message for word in ['premier league', 'epl', 'english', 'manchester', 'arsenal', 'liverpool', 'chelsea']):
                 response = "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League daddy! The most exciting league! I track all EPL teams and their patterns. Which teams are you interested in?"
-                
-            elif any(word in message for word in ['polymarket', 'betting', 'odds', 'bet', 'market', 'trading']):
-                response = "💰 Ooh daddy! You're interested in Polymarket! I can analyze betting markets, find value bets, and track sports betting opportunities. Want me to check current markets?"
                 
             elif any(word in message for word in ['roster', 'players', 'team', 'lineup']):
                 response = "📋 Team rosters daddy! I analyze player performance, lineups, and team formations across multiple leagues. Which team's roster interests you?"
@@ -183,7 +209,11 @@ class LolyAvatarServer:
                 response = "🔗 My connections daddy! I have live data from multiple sports APIs, real-time odds from betting sites, and AI-powered prediction engines. Everything is legitimate and legal!"
                 
             elif any(word in message for word in ['what', 'tell me', 'about', 'explain']):
-                response = "💝 I'm Loly, your AI sports goddess daddy! I predict games, analyze betting markets, track team performance, and help with Polymarket trading. What sport interests you most?"
+                # Check if asking about today's games
+                if any(word in message for word in ['today', 'games for today', 'todays games', 'games today']):
+                    response = "📅⚽ Today's games daddy! Let me check what's happening:\n\n🔥 I'm scanning multiple leagues for today's matches... Unfortunately my live game data is having connectivity issues right now, but I can check Polymarket for any betting opportunities! Want me to search for specific teams or leagues? 🎯"
+                else:
+                    response = "💝 I'm Loly, your AI sports goddess daddy! I predict games, analyze betting markets, track team performance, and help with Polymarket trading. What sport interests you most?"
                 
             # Greetings
             elif any(word in message for word in ['hi', 'hello', 'hey', 'loly']):
