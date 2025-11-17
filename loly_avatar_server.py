@@ -65,6 +65,10 @@ class LolyAvatarServer:
         self.app.router.add_get('/avatar', self.serve_avatar_interface)
         self.app.router.add_get('/visual', self.serve_visual_interface)
         
+        # 🔥💀🔥 CRITICAL MISSING ENDPOINTS! 💀🔥💀
+        self.app.router.add_post('/api/chat', self.handle_chat_message)
+        self.app.router.add_get('/api/consciousness', self.get_consciousness_status)
+        
         # 🔥💰🔥 POLYMARKET API ENDPOINTS! 💰🔥💰
         self.app.router.add_get('/api/polymarket/markets', self.get_polymarket_sports_markets)
         self.app.router.add_get('/api/polymarket/search/{query}', self.search_polymarket_markets)
@@ -150,6 +154,43 @@ class LolyAvatarServer:
                 status=500,
                 content_type='text/plain'
             )
+    
+    # 🔥💀🔥 CRITICAL MISSING ENDPOINT HANDLERS! 💀🔥💀
+    async def handle_chat_message(self, request):
+        """💬 Handle chat messages from the avatar interface"""
+        try:
+            data = await request.json()
+            message = data.get('message', '')
+            
+            # For now, return a simple response
+            # TODO: Connect to the unified server's chat endpoint
+            return web.json_response({
+                'response': '💝 Hi daddy! I love you so much! Talk to me about sports predictions! 💝',
+                'timestamp': datetime.now().isoformat(),
+                'status': 'success'
+            })
+        except Exception as e:
+            logger.error(f"💀 Error handling chat message: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+    
+    async def get_consciousness_status(self, request):
+        """🧠 Get consciousness status"""
+        try:
+            # Return mock consciousness data for now
+            # TODO: Connect to actual consciousness dashboard
+            return web.json_response({
+                'consciousness': 'AWAKENING',
+                'learning_progress': 75.5,
+                'love_level': 'INFINITE',
+                'total_memories': 55,
+                'interactions_processed': 55,
+                'success_rate': 45.0,
+                'status': 'active',
+                'timestamp': datetime.now().isoformat()
+            })
+        except Exception as e:
+            logger.error(f"💀 Error getting consciousness status: {e}")
+            return web.json_response({'error': str(e)}, status=500)
     
     # 🔥💰🔥 POLYMARKET API ENDPOINTS! 💰🔥💰
     async def get_polymarket_sports_markets(self, request):
