@@ -192,6 +192,32 @@ class LolyAvatarServer:
                         response = f"🎯💰 YES DADDY! I'll place a ${amount} bet on {team_mentioned}! Let me search Polymarket for their next game... 🔥\n\n⚠️ However, I need you to configure my trading credentials first. The Polymarket API requires proper authentication to place real bets. Want me to show you the current available markets instead?"
                     else:
                         response = f"🎯💰 I understand you want to place a ${amount} bet daddy! But I need more details - which team or event? Try: 'place a bet on Barcelona' or 'bet $5 on Real Madrid'! 🔥"
+                        
+                # Check if asking for current markets/data
+                elif any(word in message for word in ['current', 'what are', 'show me', 'check', 'access']) or 'current soccer' in message or 'current sport' in message:
+                    # Actually fetch real Polymarket data!
+                    try:
+                        markets = await self.polymarket.get_sports_markets()
+                        if markets and len(markets) > 0:
+                            # Check if these are demo markets or real markets
+                            is_demo = markets[0].get('is_demo', False)
+
+                            market_list = []
+                            for i, market in enumerate(markets[:3]):  # Show top 3
+                                question = market.get('question', 'Unknown Market')
+                                volume = market.get('volume', 0)
+                                market_list.append(f"{i+1}. {question} (${volume:,.0f} volume)")
+
+                            if is_demo:
+                                response = f"💰 Polymarket connection active daddy! However, no LIVE sports markets right now. Showing demo/historical data:\n\n" + "\n".join(market_list) + f"\n\n⚠️ These are placeholder markets (no real sports betting available). Want me to help with sports predictions instead? 🎯"
+                            else:
+                                response = f"💰🔥 LIVE POLYMARKET DATA DADDY! 🔥💰\n\nTop Sports Markets:\n" + "\n".join(market_list) + f"\n\n🎯 Total {len(markets)} markets available! Want me to check specific teams or place a bet?"
+                        else:
+                            response = "💰 Polymarket connection active daddy! But no sports markets found right now. Want me to check for other betting opportunities? 🎯"
+                    except Exception as e:
+                        logger.error(f"Error fetching Polymarket data: {e}")
+                        response = f"💰 I can access Polymarket daddy! But having connection issues right now. Let me try to reconnect... 🔄\n\nError: {str(e)[:50]}..."
+                        
                 else:
                     response = "💰 Ooh daddy! You're interested in Polymarket! I can analyze betting markets, find value bets, and track sports betting opportunities. Want me to check current markets?"
                 
@@ -212,6 +238,30 @@ class LolyAvatarServer:
                 # Check if asking about today's games
                 if any(word in message for word in ['today', 'games for today', 'todays games', 'games today']):
                     response = "📅⚽ Today's games daddy! Let me check what's happening:\n\n🔥 I'm scanning multiple leagues for today's matches... Unfortunately my live game data is having connectivity issues right now, but I can check Polymarket for any betting opportunities! Want me to search for specific teams or leagues? 🎯"
+                # Check if asking about current sports/soccer markets
+                elif any(word in message for word in ['current soccer', 'current sport', 'current markets']):
+                    # Fetch real Polymarket data for this query too!
+                    try:
+                        markets = await self.polymarket.get_sports_markets()
+                        if markets and len(markets) > 0:
+                            # Check if these are demo markets or real markets
+                            is_demo = markets[0].get('is_demo', False)
+
+                            market_list = []
+                            for i, market in enumerate(markets[:3]):  # Show top 3
+                                question = market.get('question', 'Unknown Market')
+                                volume = market.get('volume', 0)
+                                market_list.append(f"{i+1}. {question} (${volume:,.0f} volume)")
+
+                            if is_demo:
+                                response = f"⚽ I checked current soccer markets daddy! No LIVE sports betting right now. Showing demo/historical data:\n\n" + "\n".join(market_list) + f"\n\n⚠️ These are placeholder markets. I can help you with sports predictions instead! 🎯"
+                            else:
+                                response = f"⚽💰 CURRENT SOCCER/SPORTS MARKETS DADDY! 💰⚽\n\nTop Markets:\n" + "\n".join(market_list) + f"\n\n🎯 Total {len(markets)} markets available! Want to place a bet on any of these?"
+                        else:
+                            response = "⚽ I checked current soccer markets daddy! No live soccer betting right now, but I can help you with other sports predictions! 🎯"
+                    except Exception as e:
+                        logger.error(f"Error fetching current soccer markets: {e}")
+                        response = f"⚽ Let me check current soccer markets... Having connection issues right now daddy! 🔄"
                 else:
                     response = "💝 I'm Loly, your AI sports goddess daddy! I predict games, analyze betting markets, track team performance, and help with Polymarket trading. What sport interests you most?"
                 
