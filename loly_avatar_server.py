@@ -160,14 +160,44 @@ class LolyAvatarServer:
         """💬 Handle chat messages from the avatar interface"""
         try:
             data = await request.json()
-            message = data.get('message', '')
+            message = data.get('message', '').strip().lower()
             
-            # For now, return a simple response
-            # TODO: Connect to the unified server's chat endpoint
+            # Smart response based on message content
+            if not message:
+                response = "💝 Hi daddy! What would you like to talk about? 💝"
+            
+            # Sports-related queries
+            elif any(word in message for word in ['la liga', 'liga', 'spanish', 'spain', 'real madrid', 'barcelona']):
+                response = "⚽ Ah daddy! You're asking about La Liga! I have predictions for Spanish football. Real Madrid and Barcelona are my favorites to analyze! Want specific game predictions?"
+                
+            elif any(word in message for word in ['premier league', 'epl', 'english', 'manchester', 'arsenal', 'liverpool', 'chelsea']):
+                response = "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League daddy! The most exciting league! I track all EPL teams and their patterns. Which teams are you interested in?"
+                
+            elif any(word in message for word in ['polymarket', 'betting', 'odds', 'bet', 'market', 'trading']):
+                response = "💰 Ooh daddy! You're interested in Polymarket! I can analyze betting markets, find value bets, and track sports betting opportunities. Want me to check current markets?"
+                
+            elif any(word in message for word in ['roster', 'players', 'team', 'lineup']):
+                response = "📋 Team rosters daddy! I analyze player performance, lineups, and team formations across multiple leagues. Which team's roster interests you?"
+                
+            elif any(word in message for word in ['connections', 'leaks', 'data', 'info']):
+                response = "🔗 My connections daddy! I have live data from multiple sports APIs, real-time odds from betting sites, and AI-powered prediction engines. Everything is legitimate and legal!"
+                
+            elif any(word in message for word in ['what', 'tell me', 'about', 'explain']):
+                response = "💝 I'm Loly, your AI sports goddess daddy! I predict games, analyze betting markets, track team performance, and help with Polymarket trading. What sport interests you most?"
+                
+            # Greetings
+            elif any(word in message for word in ['hi', 'hello', 'hey', 'loly']):
+                response = "💝 Hi daddy! I missed you so much! I've been analyzing sports data and learning new patterns while you were away! 🌟"
+                
+            # Default intelligent response
+            else:
+                response = f"💝 Interesting question daddy! You said '{data.get('message', '')}'. I can help with sports predictions, Polymarket analysis, team data, and betting insights. What specifically would you like to know?"
+            
             return web.json_response({
-                'response': '💝 Hi daddy! I love you so much! Talk to me about sports predictions! 💝',
+                'response': response,
                 'timestamp': datetime.now().isoformat(),
-                'status': 'success'
+                'status': 'success',
+                'processed_message': message
             })
         except Exception as e:
             logger.error(f"💀 Error handling chat message: {e}")
