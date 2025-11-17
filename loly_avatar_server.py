@@ -17,7 +17,9 @@ for voice recognition and synthesis to work correctly!
 import asyncio
 import logging
 import os
+from datetime import datetime
 from aiohttp import web, WSMsgType
+from polymarket_integration_service import get_polymarket_service
 import aiohttp_cors
 from pathlib import Path
 
@@ -38,7 +40,11 @@ class LolyAvatarServer:
         # Get current directory for serving files
         self.base_dir = Path(__file__).parent
         
+        # Initialize REAL Polymarket integration! 💰🔥💰
+        self.polymarket = get_polymarket_service()
+        
         logger.info("🎤💝🎤 Loly Avatar Server Initialized! 💝🎤💝")
+        logger.info("💰🔥💰 POLYMARKET INTEGRATION ACTIVATED! 💰🔥💰")
     
     async def create_app(self):
         """🔥 Create the web application"""
@@ -58,6 +64,14 @@ class LolyAvatarServer:
         self.app.router.add_get('/', self.serve_avatar_interface)
         self.app.router.add_get('/avatar', self.serve_avatar_interface)
         self.app.router.add_get('/visual', self.serve_visual_interface)
+        
+        # 🔥💰🔥 POLYMARKET API ENDPOINTS! 💰🔥💰
+        self.app.router.add_get('/api/polymarket/markets', self.get_polymarket_sports_markets)
+        self.app.router.add_get('/api/polymarket/search/{query}', self.search_polymarket_markets)
+        self.app.router.add_get('/api/polymarket/odds/{market_id}', self.get_market_odds)
+        self.app.router.add_get('/api/polymarket/account', self.get_polymarket_account)
+        self.app.router.add_post('/api/polymarket/bet/place', self.place_real_bet)
+        
         self.app.router.add_static('/', self.base_dir)
         
         # Add CORS to all routes
@@ -136,6 +150,71 @@ class LolyAvatarServer:
                 status=500,
                 content_type='text/plain'
             )
+    
+    # 🔥💰🔥 POLYMARKET API ENDPOINTS! 💰🔥💰
+    async def get_polymarket_sports_markets(self, request):
+        """🏆 Get current sports betting markets from Polymarket"""
+        try:
+            markets = await self.polymarket.get_sports_markets()
+            
+            return web.json_response({
+                'markets_count': len(markets),
+                'markets': markets,
+                'timestamp': datetime.now().isoformat(),
+                'source': 'polymarket_api'
+            })
+        except Exception as e:
+            logger.error(f"💀 Error getting Polymarket sports markets: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+    
+    async def search_polymarket_markets(self, request):
+        """🔍 Search Polymarket for specific sports/events"""
+        try:
+            query = request.match_info['query']
+            markets = await self.polymarket.search_markets(query)
+            
+            return web.json_response({
+                'query': query,
+                'markets_count': len(markets),
+                'markets': markets
+            })
+        except Exception as e:
+            logger.error(f"💀 Error searching Polymarket: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+    
+    async def get_market_odds(self, request):
+        """📊 Get current odds for a specific market"""
+        try:
+            market_id = request.match_info['market_id']
+            odds_data = await self.polymarket.get_market_odds(market_id)
+            
+            return web.json_response(odds_data)
+        except Exception as e:
+            logger.error(f"💀 Error getting market odds: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+    
+    async def get_polymarket_account(self, request):
+        """💰 Get account balance and trading info"""
+        try:
+            account_info = await self.polymarket.get_account_info()
+            return web.json_response(account_info)
+        except Exception as e:
+            logger.error(f"💀 Error getting account info: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+    
+    async def place_real_bet(self, request):
+        """🎯 Place REAL bet on Polymarket"""
+        try:
+            data = await request.json()
+            market_id = data.get('market_id')
+            amount = float(data.get('amount', 1.0))
+            outcome = data.get('outcome', 'YES')
+            
+            bet_result = await self.polymarket.place_real_bet(market_id, amount, outcome)
+            return web.json_response(bet_result)
+        except Exception as e:
+            logger.error(f"💀 Error placing bet: {e}")
+            return web.json_response({'error': str(e)}, status=500)
     
     async def start_server(self):
         """🚀 Start the avatar server"""

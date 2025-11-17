@@ -202,8 +202,34 @@ class PolymarketIntegrationService:
             if not self.client:
                 return self._get_demo_sports_markets()
             
-            # Get all markets
-            markets = self.client.get_markets()
+            # Get REAL ACTIVE markets using gamma API bypass! 🔥💰🔥
+            import requests
+            import json
+            
+            try:
+                # HIGH CALIBER STRATEGY: Direct API bypass!
+                response = requests.get('https://gamma-api.polymarket.com/markets?active=true&closed=false&limit=20', timeout=10)
+                gamma_markets = response.json()
+                logger.info(f"🔥💰 REAL API BYPASS: Found {len(gamma_markets)} active markets!")
+                
+                markets = []
+                for market in gamma_markets:
+                    markets.append({
+                        'condition_id': market.get('conditionId', market.get('id', 'unknown')),
+                        'question': market.get('question', 'Unknown Question'),
+                        'description': market.get('description', ''),
+                        'end_date_iso': market.get('endDate', ''),
+                        'volume': float(market.get('volume', 0)),
+                        'category': 'Active Market',
+                        'active': market.get('active', True),
+                        'liquidity': float(market.get('liquidity', 0)),
+                        'real_market': True  # FLAG FOR REAL DATA!
+                    })
+                
+            except Exception as e:
+                logger.error(f"💀 Gamma API failed: {e}")
+                # Fallback to old client method
+                markets = self.client.get_markets()
             
             # Filter for sports-related markets
             sports_markets = []

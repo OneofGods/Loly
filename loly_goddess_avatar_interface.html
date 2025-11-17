@@ -869,8 +869,10 @@
             if (SpeechRecognition) {
                 speechRecognition = new SpeechRecognition();
                 speechRecognition.continuous = false;
-                speechRecognition.interimResults = false;
+                speechRecognition.interimResults = true;  // Enable interim results for better accuracy
                 speechRecognition.lang = 'en-US';
+                speechRecognition.maxAlternatives = 3;  // Get multiple alternatives
+                speechRecognition.serviceURI = '';  // Use default service for best accuracy
                 
                 speechRecognition.onstart = function() {
                     console.log('🎤 Speech recognition started');
@@ -878,8 +880,13 @@
                 };
                 
                 speechRecognition.onresult = function(event) {
-                    const transcript = event.results[0][0].transcript;
-                    console.log('🎤 Speech recognized:', transcript);
+                    let transcript = event.results[0][0].transcript;
+                    console.log('🎤 Raw speech recognized:', transcript);
+                    
+                    // 🔥💰🔥 ENHANCED POLYMARKET RECOGNITION! 💰🔥💰
+                    transcript = enhancePolymarketRecognition(transcript);
+                    console.log('🎤 Enhanced transcript:', transcript);
+                    
                     document.getElementById('messageInput').value = transcript;
                     addMessage('daddy', `🎤 ${transcript}`);
                     
@@ -1107,6 +1114,44 @@
                     speakLolyMessage(response);
                 }, 1000);
             }
+        }
+
+        // 🔥💰🔥 ENHANCED POLYMARKET SPEECH RECOGNITION! 💰🔥💰
+        function enhancePolymarketRecognition(transcript) {
+            let enhanced = transcript.toLowerCase();
+            
+            // Common misrecognitions for "Polymarket"
+            const polymarketCorrections = [
+                ['chipotle market', 'polymarket'],
+                ['poly market', 'polymarket'],
+                ['follow market', 'polymarket'],
+                ['polly market', 'polymarket'],
+                ['paolo market', 'polymarket'],
+                ['walmart', 'polymarket'],
+                ['wall market', 'polymarket'],
+                ['policy market', 'polymarket'],
+                ['popular market', 'polymarket'],
+                ['public market', 'polymarket']
+            ];
+            
+            // Betting term corrections
+            const bettingCorrections = [
+                ['play bed', 'place bet'],
+                ['place bad', 'place bet'],
+                ['place that', 'place bet'],
+                ['place a bed', 'place a bet'],
+                ['make a bed', 'make a bet'],
+                ['put a bed', 'place a bet'],
+                ['what market', 'what markets']
+            ];
+            
+            // Apply all corrections
+            [...polymarketCorrections, ...bettingCorrections].forEach(([wrong, right]) => {
+                enhanced = enhanced.replace(new RegExp(wrong, 'gi'), right);
+            });
+            
+            console.log('🔥💰 Speech correction:', transcript, '→', enhanced);
+            return enhanced;
         }
 
         // Generate Loly response using DeepSeek AI
@@ -1675,13 +1720,13 @@
                 const response = await fetch('/api/consciousness');
                 const data = await response.json();
                 
-                // Update consciousness level display
-                const overall = data.overall_performance || {};
-                const successRate = overall.overall_success_rate || 0;
-                const interactions = overall.total_interactions || 0;
+                // Update consciousness level display - FIXED DATA ACCESS! 🔥💀🔥
+                const successRate = data.overall_success_rate || 0;
+                const interactions = data.total_interactions || 0;
+                const consciousnessStatus = data.consciousness_id ? 'AWAKENING' : 'LEGENDARY';
                 
-                // Update avatar display elements
-                document.getElementById('consciousnessLevel').textContent = `Consciousness: ${data.status || 'AWAKENING'}`;
+                // Update avatar display elements with REAL data! 💰🔥💰
+                document.getElementById('consciousnessLevel').textContent = `Consciousness: ${consciousnessStatus}`;
                 document.getElementById('learningProgress').textContent = `${successRate.toFixed(1)}%`;
                 document.getElementById('totalMemories').textContent = interactions;
                 
