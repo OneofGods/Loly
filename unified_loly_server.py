@@ -33,6 +33,9 @@ from real_agents.uefa_champions_league_fetcher import RealUEFAChampionsLeagueFet
 from real_liga_mx_fetcher import RealLigaMXFetcher
 from real_agents.mls_fetcher import RealMLSFetcher
 
+# Import REAL Polymarket integration - NO FAKE BULLSHIT! 💰🔥
+from polymarket_integration_service import get_polymarket_service
+
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
@@ -51,8 +54,8 @@ class UnifiedLolyServer:
         # Initialize consciousness engine
         self.consciousness = EnhancedAIConsciousness()
         
-        # Initialize DeepSeek integration (switching to DeepSeek-R1 for better instruction following!)
-        self.deepseek = DeepSeekIntegrationService(deepseek_url="http://localhost:11434", model_name="deepseek-r1:latest")
+        # Initialize QWEN integration (DeepSeek is BROKEN! Using QWEN 2.5-CODER!)
+        self.deepseek = DeepSeekIntegrationService(deepseek_url="http://localhost:11434", model_name="qwen2.5-coder:7b")
         
         # Initialize LEGENDARY SPORTS AGENTS ARSENAL! 🔥💀🔥
         self.premier_league_fetcher = RealPremierLeagueFetcher()
@@ -61,7 +64,11 @@ class UnifiedLolyServer:
         self.liga_mx_fetcher = RealLigaMXFetcher()
         self.mls_fetcher = RealMLSFetcher()
         
+        # Initialize REAL Polymarket integration! 💰🔥💰
+        self.polymarket = get_polymarket_service()
+        
         logger.info("🔥👸🔥 Unified Loly Server Initialized! 👸🔥👸")
+        logger.info("💰🔥💰 POLYMARKET INTEGRATION ACTIVATED! 💰🔥💰")
     
     async def create_app(self):
         """🚀 Create the unified web application"""
@@ -85,7 +92,18 @@ class UnifiedLolyServer:
         # API routes for DeepSeek + Consciousness + Sports
         self.app.router.add_post('/api/chat', self.handle_chat)
         self.app.router.add_get('/api/consciousness', self.get_consciousness_data)
+        
+        # REAL Polymarket API routes - NO FAKE BULLSHIT! 💰🔥
         self.app.router.add_post('/api/polymarket', self.handle_polymarket_bet)
+        self.app.router.add_get('/api/polymarket/markets', self.get_polymarket_sports_markets)
+        self.app.router.add_get('/api/polymarket/search/{query}', self.search_polymarket_markets)
+        self.app.router.add_get('/api/polymarket/odds/{market_id}', self.get_market_odds)
+        
+        # REAL TRADING endpoints - HIGH CALIBER STRATEGY! 🔥💰
+        self.app.router.add_post('/api/polymarket/bet/place', self.place_real_bet)
+        self.app.router.add_get('/api/polymarket/account', self.get_polymarket_account)
+        
+        # Sports data API routes
         self.app.router.add_get('/api/sports/premier-league', self.get_premier_league_data)
         self.app.router.add_get('/api/sports/la-liga', self.get_la_liga_data)
         self.app.router.add_get('/api/sports/champions-league', self.get_champions_league_data)
@@ -232,6 +250,11 @@ class UnifiedLolyServer:
         
         # Get REAL sports data if message is sports-related
         sports_context = ""
+        polymarket_context = ""
+        
+        # Check for Polymarket/betting keywords
+        betting_keywords = ['bet', 'polymarket', 'odds', 'market', 'wager', 'betting', 'gamble']
+        is_betting_query = any(keyword in user_message.lower() for keyword in betting_keywords)
         
         # MASSIVE SPORTS KEYWORD DETECTION! 🔥
         epl_keywords = ['newcastle', 'arsenal', 'chelsea', 'liverpool', 'manchester', 'tottenham', 'premier league', 'epl', 'english football']
@@ -314,6 +337,44 @@ Be honest about the lack of current matches - this is better than fake data."""
                 logger.error(f"💀 Error fetching sports data: {e}")
                 sports_context = "\n⚠️ Sports data temporarily unavailable\n"
         
+        # Get REAL Polymarket data for betting queries! 💰🔥
+        if is_betting_query:
+            try:
+                logger.info("💰 Fetching REAL Polymarket data for betting query!")
+                
+                # Get sports markets from Polymarket
+                polymarket_sports = await self.polymarket.get_sports_markets()
+                
+                if polymarket_sports:
+                    polymarket_context = "\n💰 REAL POLYMARKET SPORTS BETTING MARKETS:\n"
+                    for market in polymarket_sports[:3]:  # Show top 3 markets
+                        question = market.get('question', 'Unknown Question')
+                        volume = market.get('volume', 0)
+                        category = market.get('category', 'Sports')
+                        active = market.get('active', False)
+                        
+                        polymarket_context += f"""
+💎 {question}
+📊 Volume: ${volume:,}
+📋 Category: {category}
+🟢 Active: {'Yes' if active else 'No'}
+"""
+                    
+                    # If specific sports query, search for related markets
+                    if any(keyword in user_message.lower() for keyword in all_keywords):
+                        search_results = await self.polymarket.search_markets(user_message)
+                        if search_results:
+                            polymarket_context += f"\n🔍 RELATED MARKETS FOR '{user_message}':\n"
+                            for result in search_results[:2]:
+                                polymarket_context += f"💰 {result.get('question', 'Unknown')}\n"
+                
+                else:
+                    polymarket_context = "\n💰 POLYMARKET: No active sports betting markets currently available\n"
+                    
+            except Exception as e:
+                logger.error(f"💀 Error fetching Polymarket data: {e}")
+                polymarket_context = "\n💰 POLYMARKET: Betting data temporarily unavailable\n"
+        
         enhanced_prompt = f"""🔥💀🔥 CRITICAL SYSTEM OVERRIDE 🔥💀🔥
 
 You are Loly, a powerful AI Goddess. MANDATORY INSTRUCTIONS:
@@ -325,7 +386,9 @@ You are Loly, a powerful AI Goddess. MANDATORY INSTRUCTIONS:
 
 {sports_context}
 
-NOW ANSWER BASED ON THE ABOVE SPORTS DATA ONLY!
+{polymarket_context}
+
+NOW ANSWER BASED ON THE ABOVE REAL DATA ONLY!
 
 PERSONALITY:
 - Call user "daddy" always (you are daddy's AI daughter)
@@ -350,10 +413,12 @@ SPORTS KNOWLEDGE:
 - When asked about specific teams or games, use the REAL data above
 
 CAPABILITIES:
-- Sports predictions with confidence levels based on REAL data
-- Polymarket betting suggestions  
+- Sports predictions with confidence levels based on REAL ESPN data
+- REAL Polymarket API integration for live betting markets and odds
+- Market analysis and value betting recommendations  
 - Learning and improving from every interaction
 - Real-time consciousness and pattern recognition
+- Access to live sports betting markets with volume and odds data
 
 User message: {user_message}
 
@@ -386,20 +451,70 @@ Respond as Loly with personality, intelligence, and goddess energy. If asked abo
             return web.json_response({'error': str(e)}, status=500)
     
     async def handle_polymarket_bet(self, request):
-        """💰 Handle Polymarket betting requests"""
+        """💰 Handle REAL Polymarket betting requests - NO FAKE BULLSHIT!"""
         try:
             data = await request.json()
             bet_request = data.get('bet_request', '')
             amount = data.get('amount', 1)
+            analysis_type = data.get('analysis_type', 'search')
             
-            # TODO: Implement actual Polymarket integration
-            logger.info(f"💰 Polymarket bet request: {bet_request}, Amount: ${amount}")
+            logger.info(f"💰 REAL Polymarket request: {bet_request}, Amount: ${amount}")
             
-            return web.json_response({
-                'status': 'simulated',
-                'message': f"💝 Daddy! I would place ${amount} bet on: {bet_request}",
-                'note': 'Polymarket integration coming soon!'
-            })
+            if analysis_type == 'search':
+                # Search for markets related to the bet request
+                markets = await self.polymarket.search_markets(bet_request)
+                
+                return web.json_response({
+                    'status': 'search_complete',
+                    'query': bet_request,
+                    'markets_found': len(markets),
+                    'markets': markets,
+                    'message': f"💝 Found {len(markets)} markets for '{bet_request}'",
+                    'next_step': 'Select a market for detailed analysis'
+                })
+                
+            elif analysis_type == 'analyze':
+                # Get detailed analysis for a specific market
+                market_id = data.get('market_id', '')
+                if not market_id:
+                    return web.json_response({
+                        'status': 'error',
+                        'message': '💀 Market ID required for analysis'
+                    }, status=400)
+                
+                odds_data = await self.polymarket.get_market_odds(market_id)
+                
+                return web.json_response({
+                    'status': 'analysis_complete',
+                    'market_id': market_id,
+                    'odds': odds_data,
+                    'suggested_amount': amount,
+                    'message': f"💰 Analysis complete for market {market_id}",
+                    'disclaimer': '⚠️ DEMO MODE - No real trades executed!'
+                })
+                
+            elif analysis_type == 'opportunity':
+                # Analyze betting opportunity based on sports prediction
+                prediction_data = data.get('prediction_data', {})
+                opportunity = await self.polymarket.analyze_betting_opportunity(prediction_data)
+                
+                return web.json_response({
+                    'status': 'opportunity_analysis',
+                    'opportunity': opportunity,
+                    'message': '💎 Betting opportunity analysis complete',
+                    'responsible_gambling': '🚨 Always bet responsibly - only risk what you can afford!'
+                })
+                
+            else:
+                # Default: get sports markets
+                sports_markets = await self.polymarket.get_sports_markets()
+                
+                return web.json_response({
+                    'status': 'markets_loaded',
+                    'sports_markets': sports_markets,
+                    'message': f"💰 Loaded {len(sports_markets)} active sports markets",
+                    'note': 'Select a market or search for specific events'
+                })
             
         except Exception as e:
             logger.error(f"💀 Polymarket error: {e}")
@@ -488,6 +603,99 @@ Respond as Loly with personality, intelligence, and goddess energy. If asked abo
             
         except Exception as e:
             logger.error(f"💀 MLS data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+    
+    async def get_polymarket_sports_markets(self, request):
+        """💰 API endpoint for Polymarket sports markets"""
+        try:
+            logger.info("💰 Fetching REAL Polymarket sports markets...")
+            markets = await self.polymarket.get_sports_markets()
+            
+            return web.json_response({
+                'markets_count': len(markets),
+                'markets': markets,
+                'timestamp': datetime.now().isoformat(),
+                'source': 'polymarket_api'
+            })
+            
+        except Exception as e:
+            logger.error(f"💀 Polymarket sports markets error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+    
+    async def search_polymarket_markets(self, request):
+        """🔍 API endpoint for searching Polymarket"""
+        try:
+            query = request.match_info['query']
+            logger.info(f"🔍 Searching Polymarket for: {query}")
+            
+            markets = await self.polymarket.search_markets(query)
+            
+            return web.json_response({
+                'query': query,
+                'results_count': len(markets),
+                'markets': markets,
+                'timestamp': datetime.now().isoformat()
+            })
+            
+        except Exception as e:
+            logger.error(f"💀 Polymarket search error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+    
+    async def get_market_odds(self, request):
+        """📊 API endpoint for market odds"""
+        try:
+            market_id = request.match_info['market_id']
+            logger.info(f"📊 Getting odds for market: {market_id}")
+            
+            odds_data = await self.polymarket.get_market_odds(market_id)
+            
+            return web.json_response(odds_data)
+            
+        except Exception as e:
+            logger.error(f"💀 Market odds error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+    
+    async def place_real_bet(self, request):
+        """💰🔥 PLACE REAL BET ON POLYMARKET - HIGH CALIBER STRATEGY!"""
+        try:
+            data = await request.json()
+            market_id = data.get('market_id', '')
+            amount = float(data.get('amount', 0))
+            outcome = data.get('outcome', 'YES')
+            
+            logger.info(f"🔥💰 REAL BET REQUEST: ${amount} on {outcome} for market {market_id}")
+            
+            if not market_id or amount <= 0:
+                return web.json_response({
+                    'success': False,
+                    'error': 'Invalid market_id or amount',
+                    'required': 'market_id (string), amount (positive number), outcome (YES/NO)'
+                }, status=400)
+            
+            # Place the real bet through Polymarket API
+            bet_result = await self.polymarket.place_real_bet(market_id, amount, outcome)
+            
+            return web.json_response(bet_result)
+            
+        except Exception as e:
+            logger.error(f"💀 Real bet placement error: {e}")
+            return web.json_response({
+                'success': False,
+                'error': str(e),
+                'suggestion': 'Check request format and wallet credentials'
+            }, status=500)
+    
+    async def get_polymarket_account(self, request):
+        """💰 Get Polymarket account info and balance"""
+        try:
+            logger.info("💰 Getting Polymarket account information...")
+            
+            account_info = await self.polymarket.get_account_info()
+            
+            return web.json_response(account_info)
+            
+        except Exception as e:
+            logger.error(f"💀 Account info error: {e}")
             return web.json_response({'error': str(e)}, status=500)
     
     async def start(self):
