@@ -17,17 +17,12 @@ for voice recognition and synthesis to work correctly!
 import asyncio
 import logging
 import os
-import aiohttp
 from aiohttp import web, WSMsgType
 import aiohttp_cors
 from pathlib import Path
 from datetime import datetime
-import json
 
-# Import DeepSeek integration for REAL AI responses!
-from deepseek_integration_service import DeepSeekIntegrationService
-
-# Import Polymarket integration
+# Import Polymarket integration - THE ONLY THING THAT ACTUALLY WORKS!
 from polymarket_integration_service import get_polymarket_service
 
 logger = logging.getLogger(__name__)
@@ -47,18 +42,11 @@ class LolyAvatarServer:
         # Get current directory for serving files
         self.base_dir = Path(__file__).parent
 
-        # 🔥 Initialize REAL AI backend! 🔥
-        self.deepseek = DeepSeekIntegrationService(
-            deepseek_url="http://localhost:11434",  # Ollama
-            model_name="qwen2.5-coder:7b"  # Using QWEN model
-        )
-
         # 💰 Initialize REAL Polymarket integration! 💰
         self.polymarket = get_polymarket_service()
 
         logger.info("🎤💝🎤 Loly Avatar Server Initialized! 💝🎤💝")
-        logger.info("🤖 DeepSeek AI: ACTIVATED")
-        logger.info("💰 Polymarket: ACTIVATED")
+        logger.info("💰 Polymarket: ACTIVATED - THE ONLY THING THAT WORKS!")
     
     async def create_app(self):
         """🔥 Create the web application"""
@@ -219,24 +207,11 @@ class LolyAvatarServer:
                 # Generic sweet response
                 response_text = f"💝 Hi daddy! I heard you say '{message[:50]}...' I'm your adorable AI goddess who loves sports and Polymarket! ⚽💰 Ask me about La Liga, Premier League, or betting markets and I'll help you! 🔥"
 
-            # Try AI model if available (but don't block on it)
-            try:
-                if not response_text:  # Only try AI if we don't have keyword match
-                    loly_prompt = f"You are Loly, sweet AI goddess. Respond briefly to: {message}"
-                    ai_response = await asyncio.wait_for(
-                        self.deepseek.call_deepseek(prompt=loly_prompt, task_type='creative', max_tokens=150),
-                        timeout=3.0
-                    )
-                    if ai_response.get('success'):
-                        response_text = ai_response.get('response', '')
-            except:
-                pass  # Ignore AI failures, use keyword response
-
             return web.json_response({
-                'response': response_text or "💝 Hi daddy! I love you! Ask me about sports or Polymarket! 💝",
+                'response': response_text,
                 'timestamp': datetime.now().isoformat(),
                 'status': 'success',
-                'source': 'loly_intelligence'
+                'source': 'loly_keyword_intelligence'
             })
 
         except Exception as e:
@@ -258,7 +233,7 @@ class LolyAvatarServer:
                 'interactions_processed': 60,
                 'success_rate': 45.0,
                 'status': 'active',
-                'ai_backend': 'DeepSeek (QWEN 2.5-Coder)',
+                'intelligence': 'Keyword-based + Real Polymarket data',
                 'timestamp': datetime.now().isoformat()
             })
         except Exception as e:
