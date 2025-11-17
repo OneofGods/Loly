@@ -692,18 +692,18 @@
                 </div>
                 
                 <div class="voice-control">
-                    <label class="voice-label">Speech Rate: <span id="rateValue">0.9</span></label>
-                    <input type="range" class="voice-slider" id="rateSlider" min="0.5" max="2.0" step="0.1" value="0.9">
+                    <label class="voice-label">Speech Rate: <span id="rateValue">1.1</span></label>
+                    <input type="range" class="voice-slider" id="rateSlider" min="0.5" max="2.0" step="0.1" value="1.1">
                 </div>
                 
                 <div class="voice-control">
-                    <label class="voice-label">Voice Pitch: <span id="pitchValue">1.2</span></label>
-                    <input type="range" class="voice-slider" id="pitchSlider" min="0.5" max="2.0" step="0.1" value="1.2">
+                    <label class="voice-label">Voice Pitch: <span id="pitchValue">1.4</span></label>
+                    <input type="range" class="voice-slider" id="pitchSlider" min="0.5" max="2.0" step="0.1" value="1.4">
                 </div>
                 
                 <div class="voice-control">
-                    <label class="voice-label">Volume: <span id="volumeValue">0.8</span></label>
-                    <input type="range" class="voice-slider" id="volumeSlider" min="0.1" max="1.0" step="0.1" value="0.8">
+                    <label class="voice-label">Volume: <span id="volumeValue">0.9</span></label>
+                    <input type="range" class="voice-slider" id="volumeSlider" min="0.1" max="1.0" step="0.1" value="0.9">
                 </div>
                 
                 <button class="voice-test-button" id="voiceTestButton">🎤 Test Loly's Voice 👸</button>
@@ -1387,12 +1387,12 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        // Advanced Voice Settings
+        // Advanced Voice Settings - DEFAULT TO CUTE VOICE! 💝
         let currentVoiceSettings = {
             selectedVoice: null,
-            rate: 0.9,
-            pitch: 1.2,
-            volume: 0.8
+            rate: 1.1,      // Cute preset
+            pitch: 1.4,     // Cute preset  
+            volume: 0.9     // Cute preset
         };
 
         // Initialize voice settings
