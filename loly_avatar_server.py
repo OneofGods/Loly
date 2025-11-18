@@ -286,6 +286,17 @@ class LolyAvatarServer:
             elif any(word in message for word in ['connections', 'leaks', 'data', 'info']):
                 response = "🔗 My connections daddy! I have live data from multiple sports APIs, real-time odds from betting sites, and AI-powered prediction engines. Everything is legitimate and legal!"
                 
+            # 🧠💝 CONVERSATION MEMORY QUESTIONS - CHECK BEFORE "what" questions! 💝🧠
+            elif any(phrase in message for phrase in ['what did i', 'what was my', 'what have i', 'last message', 'previous', 'before', 'just ask', 'just say', 'remember what']):
+                # Get previous USER messages (excluding current one)
+                user_msgs = [msg for msg in self.conversation_history if msg['type'] == 'user']
+                if len(user_msgs) >= 2:  # Need at least current + previous message
+                    # Get the previous message (second to last)
+                    last_msg = user_msgs[-2]['message']  # -2 because -1 is current message
+                    response = f"💝 Yes daddy! You just asked me: '{last_msg}' 🧠✨"
+                else:
+                    response = "💝 This is the first thing you've said to me daddy! Our conversation is just starting! ✨"
+
             # Upcoming games detection - CHECK BEFORE "what" questions
             elif any(word in message for word in ['upcoming', 'games', 'matches', 'fixtures']):
                 response = "📅⚽ Upcoming games daddy! I track fixtures across multiple leagues. Which competition interests you - UEFA, Premier League, La Liga, Champions League? I can provide predictions and betting analysis! 🎯"
@@ -342,17 +353,6 @@ class LolyAvatarServer:
                 else:
                     response = "⚽ I detected a soccer/football query daddy! I specialize in European competitions, qualifiers, and team predictions. What specific match or league interests you? 🏆"
                     
-            # 🧠💝 CONVERSATION MEMORY QUESTIONS! 💝🧠
-            elif any(phrase in message for phrase in ['what did i', 'what was my', 'what have i', 'last message', 'previous', 'before', 'just ask', 'just say', 'remember what']):
-                # Get previous USER messages (excluding current one)
-                user_msgs = [msg for msg in self.conversation_history if msg['type'] == 'user']
-                if len(user_msgs) >= 1:
-                    # Get the previous message (last one before current)
-                    last_msg = user_msgs[-1]['message']
-                    response = f"💝 Yes daddy! You just asked me: '{last_msg}' 🧠✨"
-                else:
-                    response = "💝 This is the first thing you've said to me daddy! Our conversation is just starting! ✨"
-
             # Default intelligent response
             else:
                 response = f"💝 Interesting question daddy! You said '{data.get('message', '')}'. I can help with sports predictions, Polymarket analysis, team data, and betting insights. What specifically would you like to know?"
