@@ -35,6 +35,10 @@ def _run_node_command(command: list) -> Dict[str, Any]:
         # Build full command
         full_command = ['node', CLI_SCRIPT] + command
 
+        # Set environment to disable debug output
+        env = os.environ.copy()
+        env['DEBUG'] = 'false'
+        
         # Run subprocess
         result = subprocess.run(
             full_command,
@@ -42,6 +46,7 @@ def _run_node_command(command: list) -> Dict[str, Any]:
             capture_output=True,
             text=True,
             timeout=30,  # 30 second timeout
+            env=env,
         )
 
         # Check if we got any output
@@ -54,7 +59,34 @@ def _run_node_command(command: list) -> Dict[str, Any]:
             response = json.loads(result.stdout)
             return response
         except json.JSONDecodeError as e:
-            # If JSON parsing fails, return the raw output for debugging
+            # Try to extract JSON from mixed output
+            stdout_text = result.stdout.strip()
+            
+            # Find JSON object boundaries
+            start_idx = stdout_text.find('{')
+            if start_idx != -1:
+                # Count braces to find complete JSON
+                brace_count = 0
+                end_idx = start_idx
+                
+                for i, char in enumerate(stdout_text[start_idx:], start_idx):
+                    if char == '{':
+                        brace_count += 1
+                    elif char == '}':
+                        brace_count -= 1
+                        if brace_count == 0:
+                            end_idx = i + 1
+                            break
+                
+                if brace_count == 0:  # Found complete JSON
+                    try:
+                        json_text = stdout_text[start_idx:end_idx]
+                        response = json.loads(json_text)
+                        return response
+                    except json.JSONDecodeError:
+                        pass
+            
+            # If we couldn't extract valid JSON, return detailed error
             raise LolyBettingError(
                 f"Failed to parse JSON response. "
                 f"Error: {str(e)}. "

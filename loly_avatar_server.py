@@ -22,7 +22,20 @@ from aiohttp import web, WSMsgType
 from polymarket_integration_service import get_polymarket_service
 import aiohttp_cors
 from pathlib import Path
-from loly_betting_integration import check_balance, place_bet
+try:
+    from loly_smart_betting import check_balance_smart, place_bet_smart
+    SMART_BETTING = True
+    print("✅ Smart betting system loaded!")
+except ImportError:
+    try:
+        from loly_betting_integration import check_balance, place_bet
+        check_balance_smart = check_balance
+        place_bet_smart = place_bet
+        SMART_BETTING = True
+        print("✅ Fallback wallet integration loaded")
+    except ImportError:
+        SMART_BETTING = False
+        print("⚠️ No betting integration available")
 
 logger = logging.getLogger(__name__)
 
@@ -243,7 +256,7 @@ class LolyAvatarServer:
                         # 🔥💸 REAL BETTING WITH BALANCE CHECK! 💸🔥
                         try:
                             logger.info(f"🎯 Attempting real bet: ${amount} on {team_mentioned}")
-                            bet_result = place_bet(team_mentioned, amount, "WIN")
+                            bet_result = place_bet_smart(team_mentioned, amount, "WIN")
                             
                             if bet_result.get('success', False):
                                 # SUCCESS! Real bet placed!
@@ -314,7 +327,7 @@ class LolyAvatarServer:
             elif any(phrase in message for phrase in ['balance', 'wallet', 'money', 'funds', 'how much', 'usdc']):
                 try:
                     logger.info("💰 Checking Loly's real wallet balance...")
-                    balance_result = check_balance()
+                    balance_result = check_balance_smart()
                     
                     if balance_result.get('success', False):
                         response = balance_result.get('message', '💝 Balance check complete!')
