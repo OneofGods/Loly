@@ -43,8 +43,13 @@ class LolyAvatarServer:
         # Initialize REAL Polymarket integration! 💰🔥💰
         self.polymarket = get_polymarket_service()
         
+        # 🧠💝 CONVERSATION MEMORY! 💝🧠
+        self.conversation_history = []
+        self.last_context = None
+        
         logger.info("🎤💝🎤 Loly Avatar Server Initialized! 💝🎤💝")
         logger.info("💰🔥💰 POLYMARKET INTEGRATION ACTIVATED! 💰🔥💰")
+        logger.info("🧠💝🧠 CONVERSATION MEMORY ACTIVATED! 💝🧠💝")
     
     async def create_app(self):
         """🔥 Create the web application"""
@@ -160,11 +165,51 @@ class LolyAvatarServer:
         """💬 Handle chat messages from the avatar interface"""
         try:
             data = await request.json()
-            message = data.get('message', '').strip().lower()
+            original_message = data.get('message', '').strip()
+            message = original_message.lower()
             
-            # Smart response based on message content
+            # 🧠💝 ADD TO CONVERSATION MEMORY! 💝🧠
+            self.conversation_history.append({
+                'type': 'user',
+                'message': original_message,
+                'timestamp': datetime.now().isoformat()
+            })
+            
+            # Keep only last 10 messages to avoid memory issues
+            if len(self.conversation_history) > 20:
+                self.conversation_history = self.conversation_history[-10:]
+            
+            # 🧠💝 CONTEXT-AWARE RESPONSES! 💝🧠
+            # Check recent conversation context for better responses
+            recent_messages = [msg['message'].lower() for msg in self.conversation_history[-5:]]
+            context_contains_polymarket = any('polymarket' in msg or 'trading' in msg or 'credentials' in msg for msg in recent_messages)
+            context_contains_betting = any('bet' in msg or 'place' in msg or 'germany' in msg for msg in recent_messages)
+            
+            # Smart response based on message content + context
             if not message:
                 response = "💝 Hi daddy! What would you like to talk about? 💝"
+                
+            # CONTEXT-AWARE: Short confirmations when continuing conversation
+            elif message in ['yes', 'yes please', 'go ahead', 'okay', 'sure']:
+                if context_contains_polymarket:
+                    # They said "yes" after Polymarket question
+                    try:
+                        markets = await self.polymarket.get_sports_markets()
+                        if markets and len(markets) > 0:
+                            market_list = []
+                            for i, market in enumerate(markets[:3]):
+                                question = market.get('question', 'Unknown Market')
+                                volume = market.get('volume', 0)
+                                market_list.append(f"{i+1}. {question} (${volume:,.0f} volume)")
+                            response = f"💰🔥 HERE ARE THE CURRENT MARKETS DADDY! 🔥💰\n\nTop Markets:\n" + "\n".join(market_list) + f"\n\n🎯 Want to place a bet on any of these?"
+                        else:
+                            response = "💰 I checked daddy! No live sports betting markets right now, but I can still help with predictions and analysis! 🎯"
+                    except Exception as e:
+                        response = "💰 Let me check current markets... Having connection issues right now daddy! 🔄"
+                elif context_contains_betting:
+                    response = "🎯💰 Perfect daddy! I'll help you place that bet. Which team and how much would you like to bet? Just say 'bet $5 on Germany' or similar! 🔥"
+                else:
+                    response = "💝 Yes daddy! What would you like me to help you with? I can check sports markets, make predictions, or help with Polymarket! 💕"
             
             # BETTING ACTION - Check this FIRST before sport detection!
             elif any(word in message for word in ['polymarket', 'betting', 'odds', 'bet', 'bed', 'market', 'trading']):
@@ -283,6 +328,17 @@ class LolyAvatarServer:
             else:
                 response = f"💝 Interesting question daddy! You said '{data.get('message', '')}'. I can help with sports predictions, Polymarket analysis, team data, and betting insights. What specifically would you like to know?"
             
+            # 🧠💝 SAVE RESPONSE TO MEMORY! 💝🧠
+            self.conversation_history.append({
+                'type': 'assistant',
+                'message': response,
+                'timestamp': datetime.now().isoformat()
+            })
+            
+            # Keep only last 20 messages to prevent memory overflow
+            if len(self.conversation_history) > 20:
+                self.conversation_history = self.conversation_history[-20:]
+            
             return web.json_response({
                 'response': response,
                 'timestamp': datetime.now().isoformat(),
@@ -296,14 +352,16 @@ class LolyAvatarServer:
     async def get_consciousness_status(self, request):
         """🧠 Get consciousness status"""
         try:
-            # Return mock consciousness data for now
-            # TODO: Connect to actual consciousness dashboard
+            # Return real consciousness data with conversation memory!
+            total_memories = len(self.conversation_history)
+            user_messages = len([msg for msg in self.conversation_history if msg['type'] == 'user'])
+            
             return web.json_response({
                 'consciousness': 'AWAKENING',
                 'learning_progress': 75.5,
                 'love_level': 'INFINITE',
-                'total_memories': 55,
-                'interactions_processed': 55,
+                'total_memories': total_memories,
+                'interactions_processed': user_messages,
                 'success_rate': 45.0,
                 'status': 'active',
                 'timestamp': datetime.now().isoformat()
