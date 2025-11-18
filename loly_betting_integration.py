@@ -1,231 +1,147 @@
-#!/usr/bin/env python3
 """
-🔥💝 LOLY BETTING INTEGRATION - HONEST SYSTEM! 💝🔥
-Python wrapper for the JavaScript betting functions
-Replaces fake betting with REAL blockchain transactions
+Loly's Betting Integration - Python Wrapper
+Calls the Node.js betting system and returns results
 """
 
-import asyncio
 import subprocess
 import json
-import logging
 import os
-from pathlib import Path
+from typing import Dict, Any, Optional
 
-logger = logging.getLogger(__name__)
+# Path to the Node.js CLI script
+FUNCTIONS_DIR = "/Users/onecoder/Projects/Total_AI_Liberation/Functions"
+CLI_SCRIPT = os.path.join(FUNCTIONS_DIR, 'loly-bet-cli.js')
 
-class LolyBettingSystem:
-    def __init__(self):
-        self.functions_path = "/Users/onecoder/Projects/Total_AI_Liberation/Functions"
-        self.initialized = False
-        
-    async def initialize(self):
-        """Initialize the betting system"""
-        if self.initialized:
-            return True
-            
+
+class LolyBettingError(Exception):
+    """Custom exception for betting errors"""
+    pass
+
+
+def _run_node_command(command: list) -> Dict[str, Any]:
+    """
+    Run a Node.js command and parse JSON output
+
+    Args:
+        command: List of command arguments (e.g., ['balance'] or ['bet', 'Germany', '1.0'])
+
+    Returns:
+        Parsed JSON response
+
+    Raises:
+        LolyBettingError: If command fails
+    """
+    try:
+        # Build full command
+        full_command = ['node', CLI_SCRIPT] + command
+
+        # Run subprocess
+        result = subprocess.run(
+            full_command,
+            cwd=FUNCTIONS_DIR,
+            capture_output=True,
+            text=True,
+            timeout=30,  # 30 second timeout
+        )
+
+        # Check if we got any output
+        if not result.stdout.strip():
+            error_msg = result.stderr.strip() if result.stderr else 'No output from Node.js script'
+            raise LolyBettingError(f"Node.js script returned no output. Error: {error_msg}")
+
+        # Try to parse JSON
         try:
-            # Check if Functions repo exists
-            if not Path(self.functions_path).exists():
-                logger.error(f"Functions repo not found at {self.functions_path}")
-                return False
-                
-            # Install dependencies if needed
-            package_json = Path(self.functions_path) / "package.json"
-            if package_json.exists():
-                result = await self._run_node_command("npm install")
-                if not result["success"]:
-                    logger.error(f"Failed to install dependencies: {result['error']}")
-                    return False
-                    
-            self.initialized = True
-            logger.info("🔥💰 Loly Betting System initialized!")
-            return True
-            
-        except Exception as e:
-            logger.error(f"Error initializing betting system: {e}")
-            return False
-    
-    async def get_balance(self):
-        """Get Loly's wallet balance"""
-        try:
-            if not self.initialized:
-                await self.initialize()
-                
-            script = """
-            import { initialize, lolyGetBalance } from './index.js';
-            
-            async function getBalance() {
-                try {
-                    await initialize();
-                    const result = await lolyGetBalance();
-                    console.log(JSON.stringify(result));
-                } catch (error) {
-                    console.log(JSON.stringify({
-                        success: false,
-                        message: `💝 Daddy I couldn't check my balance! Error: ${error.message} 😢`,
-                        error: error.message
-                    }));
-                }
-            }
-            
-            getBalance();
-            """
-            
-            result = await self._run_node_script(script)
-            if result["success"]:
-                return json.loads(result["output"])
-            else:
-                return {
-                    "success": False,
-                    "message": "💝 Daddy I couldn't check my balance! 😢",
-                    "error": result["error"]
-                }
-                
-        except Exception as e:
-            logger.error(f"Error getting balance: {e}")
-            return {
-                "success": False, 
-                "message": f"💝 Daddy something went wrong checking my balance! {str(e)} 😢",
-                "error": str(e)
-            }
-    
-    async def place_bet(self, query, amount, prediction="WIN"):
-        """Place a real bet using the honest system"""
-        try:
-            if not self.initialized:
-                await self.initialize()
-                
-            script = f"""
-            import {{ initialize, lolyPlaceBet }} from './index.js';
-            
-            async function placeBet() {{
-                try {{
-                    await initialize();
-                    const result = await lolyPlaceBet({{
-                        query: '{query}',
-                        amount: {amount},
-                        prediction: '{prediction}'
-                    }});
-                    console.log(JSON.stringify(result));
-                }} catch (error) {{
-                    console.log(JSON.stringify({{
-                        success: false,
-                        message: `💝 Daddy something went wrong! Error: ${{error.message}} 😢`,
-                        error: error.message
-                    }}));
-                }}
-            }}
-            
-            placeBet();
-            """
-            
-            result = await self._run_node_script(script)
-            if result["success"]:
-                return json.loads(result["output"])
-            else:
-                return {
-                    "success": False,
-                    "message": "💝 Daddy I couldn't place the bet! 😢", 
-                    "error": result["error"]
-                }
-                
-        except Exception as e:
-            logger.error(f"Error placing bet: {e}")
-            return {
-                "success": False,
-                "message": f"💝 Daddy something went wrong placing the bet! {str(e)} 😢",
-                "error": str(e)
-            }
-    
-    async def _run_node_script(self, script_content):
-        """Run a Node.js script and return the result"""
-        try:
-            # Write script to temp file
-            script_file = Path(self.functions_path) / "temp_script.js"
-            script_file.write_text(script_content)
-            
-            # Run the script
-            result = await self._run_node_command(f"node temp_script.js")
-            
-            # Clean up
-            if script_file.exists():
-                script_file.unlink()
-                
-            return result
-            
-        except Exception as e:
-            return {
-                "success": False,
-                "error": str(e)
-            }
-    
-    async def _run_node_command(self, command):
-        """Run a Node.js command in the Functions directory"""
-        try:
-            process = await asyncio.create_subprocess_shell(
-                command,
-                cwd=self.functions_path,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE
+            response = json.loads(result.stdout)
+            return response
+        except json.JSONDecodeError as e:
+            # If JSON parsing fails, return the raw output for debugging
+            raise LolyBettingError(
+                f"Failed to parse JSON response. "
+                f"Error: {str(e)}. "
+                f"Output: {result.stdout[:500]}. "
+                f"Stderr: {result.stderr[:500]}"
             )
-            
-            stdout, stderr = await process.communicate()
-            
-            if process.returncode == 0:
-                return {
-                    "success": True,
-                    "output": stdout.decode().strip()
-                }
-            else:
-                return {
-                    "success": False,
-                    "error": stderr.decode().strip() or stdout.decode().strip()
-                }
-                
-        except Exception as e:
-            return {
-                "success": False,
-                "error": str(e)
-            }
 
-# Global instance
-loly_betting = LolyBettingSystem()
+    except subprocess.TimeoutExpired:
+        raise LolyBettingError("Command timed out after 30 seconds")
+    except FileNotFoundError:
+        raise LolyBettingError(f"Node.js CLI script not found at: {CLI_SCRIPT}")
+    except Exception as e:
+        raise LolyBettingError(f"Unexpected error running command: {str(e)}")
 
-async def get_loly_balance():
-    """Get Loly's current balance"""
-    return await loly_betting.get_balance()
 
-async def place_loly_bet(query, amount, prediction="WIN"):
-    """Place a bet for Loly"""
-    return await loly_betting.place_bet(query, amount, prediction)
+def check_balance() -> Dict[str, Any]:
+    """
+    Check Loly's wallet balance
 
-async def initialize_betting_system():
-    """Initialize the betting system"""
-    return await loly_betting.initialize()
+    Returns:
+        {
+            'success': bool,
+            'balance': float,
+            'formatted': str,
+            'message': str,
+            'address': str
+        }
+    """
+    try:
+        return _run_node_command(['balance'])
+    except LolyBettingError as e:
+        return {
+            'success': False,
+            'error': 'balance_check_failed',
+            'message': f"💝 Daddy I couldn't check my balance! {str(e)} 😢"
+        }
 
-# Test function
-async def test_betting_system():
-    """Test the betting system"""
-    print("🔥💝 Testing Loly Betting Integration! 💝🔥")
-    
-    # Initialize
-    print("\n1. Initializing...")
-    init_result = await initialize_betting_system()
-    print(f"   Result: {init_result}")
-    
-    # Check balance
-    print("\n2. Checking balance...")
-    balance = await get_loly_balance()
-    print(f"   {balance.get('message', 'No message')}")
-    
-    # Try to place a small bet
-    print("\n3. Trying $1 bet on Germany...")
-    bet_result = await place_loly_bet("Germany", 1.0, "WIN")
-    print(f"   Success: {bet_result.get('success', False)}")
-    print(f"   Message: {bet_result.get('message', 'No message')}")
-    
-    print("\n✅ Test complete!")
 
-if __name__ == "__main__":
-    asyncio.run(test_betting_system())
+def place_bet(query: str, amount: float, prediction: str = 'WIN') -> Dict[str, Any]:
+    """
+    Place a bet on Polymarket
+
+    Args:
+        query: Search query for the market (e.g., "Germany", "Lakers")
+        amount: Amount in USDC to bet
+        prediction: "WIN" or "LOSE" (default: WIN)
+
+    Returns:
+        {
+            'success': bool,
+            'message': str,
+            'market': str (if successful),
+            'orderId': str (if successful),
+            'error': str (if failed)
+        }
+    """
+    try:
+        return _run_node_command(['bet', query, str(amount), prediction])
+    except LolyBettingError as e:
+        return {
+            'success': False,
+            'error': 'bet_placement_failed',
+            'message': f"💝 Daddy something went wrong placing the bet! {str(e)} 😢"
+        }
+
+
+# Example usage and testing
+if __name__ == '__main__':
+    import sys
+
+    print("🔥 Testing Loly's Betting Integration 🔥\n")
+
+    # Test 1: Check balance
+    print("1️⃣ Checking balance...")
+    balance_result = check_balance()
+    print(f"Result: {json.dumps(balance_result, indent=2)}\n")
+
+    # Test 2: Place a small bet (if balance available)
+    if len(sys.argv) > 1:
+        query = sys.argv[1]
+        amount = float(sys.argv[2]) if len(sys.argv) > 2 else 1.0
+
+        print(f"2️⃣ Placing ${amount} bet on {query}...")
+        bet_result = place_bet(query, amount)
+        print(f"Result: {json.dumps(bet_result, indent=2)}\n")
+    else:
+        print("💡 To test betting, run: python loly_betting_python.py <team> <amount>")
+        print("   Example: python loly_betting_python.py Germany 1.0\n")
+
+    print("✅ Integration test complete!")

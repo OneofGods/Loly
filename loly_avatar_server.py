@@ -22,7 +22,7 @@ from aiohttp import web, WSMsgType
 from polymarket_integration_service import get_polymarket_service
 import aiohttp_cors
 from pathlib import Path
-from loly_betting_integration import get_loly_balance, place_loly_bet, initialize_betting_system
+from loly_betting_integration import check_balance, place_bet
 
 logger = logging.getLogger(__name__)
 
@@ -243,7 +243,7 @@ class LolyAvatarServer:
                         # 🔥💸 REAL BETTING WITH BALANCE CHECK! 💸🔥
                         try:
                             logger.info(f"🎯 Attempting real bet: ${amount} on {team_mentioned}")
-                            bet_result = await place_loly_bet(team_mentioned, amount, "WIN")
+                            bet_result = place_bet(team_mentioned, amount, "WIN")
                             
                             if bet_result.get('success', False):
                                 # SUCCESS! Real bet placed!
@@ -314,7 +314,7 @@ class LolyAvatarServer:
             elif any(phrase in message for phrase in ['balance', 'wallet', 'money', 'funds', 'how much', 'usdc']):
                 try:
                     logger.info("💰 Checking Loly's real wallet balance...")
-                    balance_result = await get_loly_balance()
+                    balance_result = check_balance()
                     
                     if balance_result.get('success', False):
                         response = balance_result.get('message', '💝 Balance check complete!')
@@ -522,16 +522,8 @@ class LolyAvatarServer:
         try:
             logger.info(f"🚀 Starting Loly Avatar Server on port {self.port}...")
             
-            # 🔥💸 Initialize honest betting system! 💸🔥
-            try:
-                logger.info("🔥💰 Initializing honest betting system...")
-                betting_init = await initialize_betting_system()
-                if betting_init:
-                    logger.info("✅ Honest betting system ready!")
-                else:
-                    logger.warning("⚠️ Betting system initialization failed - will use fallback responses")
-            except Exception as e:
-                logger.error(f"⚠️ Betting system error (will continue): {e}")
+            # 🔥💸 Honest betting system ready! 💸🔥
+            logger.info("✅ Honest betting system integrated with improved error handling!")
             
             # Create application
             app = await self.create_app()
