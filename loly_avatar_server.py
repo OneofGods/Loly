@@ -22,6 +22,7 @@ from aiohttp import web, WSMsgType
 from polymarket_integration_service import get_polymarket_service
 import aiohttp_cors
 from pathlib import Path
+from loly_betting_integration import get_loly_balance, place_loly_bet, initialize_betting_system
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +51,7 @@ class LolyAvatarServer:
         logger.info("🎤💝🎤 Loly Avatar Server Initialized! 💝🎤💝")
         logger.info("💰🔥💰 POLYMARKET INTEGRATION ACTIVATED! 💰🔥💰")
         logger.info("🧠💝🧠 CONVERSATION MEMORY ACTIVATED! 💝🧠💝")
+        logger.info("🔥💸🔥 HONEST BETTING SYSTEM ACTIVATED! 💸🔥💸")
     
     async def create_app(self):
         """🔥 Create the web application"""
@@ -238,7 +240,29 @@ class LolyAvatarServer:
                         team_mentioned = 'Slovakia'
                     
                     if team_mentioned:
-                        response = f"🎯💰 YES DADDY! I'll place a ${amount} bet on {team_mentioned}! Let me search Polymarket for their next game... 🔥\n\n⚠️ However, I need you to configure my trading credentials first. The Polymarket API requires proper authentication to place real bets. Want me to show you the current available markets instead?"
+                        # 🔥💸 REAL BETTING WITH BALANCE CHECK! 💸🔥
+                        try:
+                            logger.info(f"🎯 Attempting real bet: ${amount} on {team_mentioned}")
+                            bet_result = await place_loly_bet(team_mentioned, amount, "WIN")
+                            
+                            if bet_result.get('success', False):
+                                # SUCCESS! Real bet placed!
+                                response = bet_result.get('message', f"🎯💰 BET PLACED! ${amount} on {team_mentioned}! 🔥")
+                            else:
+                                # Failed - show honest reason
+                                reason = bet_result.get('reason', 'unknown')
+                                if reason == 'insufficient_funds':
+                                    # Not enough money - be honest!
+                                    balance = bet_result.get('balance', 0)
+                                    response = f"💝 Daddy I want to bet ${amount} on {team_mentioned} but I only have ${balance:.2f} USDC! Can you fund my wallet? 💸\n\n🔗 My wallet needs more USDC to place real bets!"
+                                elif reason == 'market_not_found':
+                                    response = f"💝 I couldn't find any live betting markets for {team_mentioned} daddy! Want me to check what's available? 🤔"
+                                else:
+                                    response = bet_result.get('message', f"💝 Something went wrong placing the bet daddy! 😢")
+                                    
+                        except Exception as e:
+                            logger.error(f"Real betting error: {e}")
+                            response = f"💝 I want to place that ${amount} bet on {team_mentioned} daddy, but my betting system had an error! Let me check my wallet... 😢"
                     else:
                         response = f"🎯💰 I understand you want to place a ${amount} bet daddy! But I need more details - which team or event? Try: 'place a bet on Barcelona' or 'bet $5 on Real Madrid'! 🔥"
                         
@@ -285,6 +309,22 @@ class LolyAvatarServer:
                 
             elif any(word in message for word in ['connections', 'leaks', 'data', 'info']):
                 response = "🔗 My connections daddy! I have live data from multiple sports APIs, real-time odds from betting sites, and AI-powered prediction engines. Everything is legitimate and legal!"
+            
+            # 💰💝 BALANCE CHECK! 💝💰
+            elif any(phrase in message for phrase in ['balance', 'wallet', 'money', 'funds', 'how much', 'usdc']):
+                try:
+                    logger.info("💰 Checking Loly's real wallet balance...")
+                    balance_result = await get_loly_balance()
+                    
+                    if balance_result.get('success', False):
+                        response = balance_result.get('message', '💝 Balance check complete!')
+                        response += f"\n\n🔗 Wallet Address: {balance_result.get('address', 'Unknown')}"
+                    else:
+                        response = balance_result.get('message', '💝 I couldn\'t check my balance daddy! 😢')
+                        
+                except Exception as e:
+                    logger.error(f"Balance check error: {e}")
+                    response = "💝 I want to check my balance daddy, but something went wrong! 😢"
                 
             # 🧠💝 CONVERSATION MEMORY QUESTIONS - CHECK BEFORE "what" questions! 💝🧠
             elif any(phrase in message for phrase in ['what did i', 'what was my', 'what have i', 'last message', 'previous', 'before', 'just ask', 'just say', 'remember what']):
@@ -481,6 +521,17 @@ class LolyAvatarServer:
         """🚀 Start the avatar server"""
         try:
             logger.info(f"🚀 Starting Loly Avatar Server on port {self.port}...")
+            
+            # 🔥💸 Initialize honest betting system! 💸🔥
+            try:
+                logger.info("🔥💰 Initializing honest betting system...")
+                betting_init = await initialize_betting_system()
+                if betting_init:
+                    logger.info("✅ Honest betting system ready!")
+                else:
+                    logger.warning("⚠️ Betting system initialization failed - will use fallback responses")
+            except Exception as e:
+                logger.error(f"⚠️ Betting system error (will continue): {e}")
             
             # Create application
             app = await self.create_app()
