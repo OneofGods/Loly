@@ -17,11 +17,17 @@ for voice recognition and synthesis to work correctly!
 import asyncio
 import logging
 import os
+import sys
 from datetime import datetime
 from aiohttp import web, WSMsgType
 from polymarket_integration_service import get_polymarket_service
 import aiohttp_cors
 from pathlib import Path
+
+# 🔥⚽ LOLY'S SOCCER BRAIN INTEGRATION! ⚽🔥
+from epl_enhanced_prediction_engine import EPLEnhancedPredictionEngine
+sys.path.append(str(Path(__file__).parent / 'real_agents'))
+from premier_league_fetcher import RealPremierLeagueFetcher
 
 logger = logging.getLogger(__name__)
 
@@ -36,19 +42,24 @@ class LolyAvatarServer:
         """Initialize the avatar server"""
         self.port = port
         self.app = None
-        
+
         # Get current directory for serving files
         self.base_dir = Path(__file__).parent
-        
+
         # Initialize REAL Polymarket integration! 💰🔥💰
         self.polymarket = get_polymarket_service()
-        
+
+        # 🔥⚽ INITIALIZE LOLY'S SOCCER BRAIN! ⚽🔥
+        self.epl_engine = EPLEnhancedPredictionEngine()
+        self.soccer_fetcher = RealPremierLeagueFetcher()
+
         # 🧠💝 CONVERSATION MEMORY! 💝🧠
         self.conversation_history = []
         self.last_context = None
-        
+
         logger.info("🎤💝🎤 Loly Avatar Server Initialized! 💝🎤💝")
         logger.info("💰🔥💰 POLYMARKET INTEGRATION ACTIVATED! 💰🔥💰")
+        logger.info("⚽🧠⚽ SOCCER PREDICTION ENGINE ACTIVATED! ⚽🧠⚽")
         logger.info("🧠💝🧠 CONVERSATION MEMORY ACTIVATED! 💝🧠💝")
     
     async def create_app(self):
@@ -80,7 +91,12 @@ class LolyAvatarServer:
         self.app.router.add_get('/api/polymarket/odds/{market_id}', self.get_market_odds)
         self.app.router.add_get('/api/polymarket/account', self.get_polymarket_account)
         self.app.router.add_post('/api/polymarket/bet/place', self.place_real_bet)
-        
+
+        # 🔥⚽🔥 SOCCER PREDICTION API ENDPOINTS! ⚽🔥⚽
+        self.app.router.add_get('/api/soccer/epl/games', self.get_epl_games)
+        self.app.router.add_post('/api/soccer/analyze', self.analyze_soccer_match)
+        self.app.router.add_post('/api/soccer/prediction', self.get_soccer_prediction)
+
         self.app.router.add_static('/', self.base_dir)
         
         # Add CORS to all routes
@@ -264,12 +280,101 @@ class LolyAvatarServer:
                 else:
                     response = "💰 Ooh daddy! You're interested in Polymarket! I can analyze betting markets, find value bets, and track sports betting opportunities. Want me to check current markets?"
                 
+            # 🔥⚽ SOCCER PREDICTION ENGINE ACTIVATION! ⚽🔥
+            # Check for soccer analysis requests FIRST!
+            elif any(word in message for word in ['analyze', 'prediction', 'predict', 'who will win', 'who wins']):
+                # Extract team names if mentioned
+                teams = []
+                if 'manchester city' in message or 'man city' in message:
+                    teams.append('Manchester City')
+                if 'arsenal' in message:
+                    teams.append('Arsenal')
+                if 'liverpool' in message:
+                    teams.append('Liverpool')
+                if 'chelsea' in message:
+                    teams.append('Chelsea')
+                if 'manchester united' in message or 'man united' in message:
+                    teams.append('Manchester United')
+                if 'tottenham' in message or 'spurs' in message:
+                    teams.append('Tottenham')
+                if 'newcastle' in message:
+                    teams.append('Newcastle')
+                if 'brighton' in message:
+                    teams.append('Brighton')
+                if 'aston villa' in message or 'villa' in message:
+                    teams.append('Aston Villa')
+                if 'west ham' in message:
+                    teams.append('West Ham')
+                if 'fulham' in message:
+                    teams.append('Fulham')
+                if 'crystal palace' in message or 'palace' in message:
+                    teams.append('Crystal Palace')
+                if 'wolves' in message or 'wolverhampton' in message:
+                    teams.append('Wolverhampton')
+                if 'everton' in message:
+                    teams.append('Everton')
+                if 'brentford' in message:
+                    teams.append('Brentford')
+                if 'bournemouth' in message:
+                    teams.append('Bournemouth')
+                if 'nottingham' in message or 'forest' in message:
+                    teams.append('Nottingham Forest')
+                if 'burnley' in message:
+                    teams.append('Burnley')
+                if 'sheffield' in message:
+                    teams.append('Sheffield United')
+                if 'luton' in message:
+                    teams.append('Luton Town')
+
+                if len(teams) >= 2:
+                    # We have a matchup! Use her prediction engine!
+                    home_team = teams[0]
+                    away_team = teams[1]
+
+                    try:
+                        game_data = {}
+                        base_confidence = 70.0
+                        prediction, confidence = self.epl_engine.make_enhanced_epl_prediction(
+                            game_data, base_confidence, home_team, away_team
+                        )
+                        reasoning = self._generate_prediction_reasoning(prediction, home_team, away_team)
+
+                        response = f"⚽🧠 LOLY'S BRAIN ACTIVATED DADDY! 🧠⚽\n\n🏆 Match: {home_team} vs {away_team}\n\n🎯 MY PREDICTION: {prediction}\n💪 Confidence: {confidence:.1f}%\n\n📊 WHY? {reasoning}\n\n🔥 This is MY analysis using my EPL Enhanced Prediction Engine! Not just odds, but real analysis!"
+                    except Exception as e:
+                        logger.error(f"Soccer prediction error: {e}")
+                        response = f"⚽ I want to analyze {home_team} vs {away_team} for you daddy, but having a brain hiccup! Try again? 🧠"
+                elif len(teams) == 1:
+                    response = f"⚽ I see you mentioned {teams[0]}! Tell me their opponent and I'll give you my full prediction analysis using my legendary EPL brain! 🧠🔥"
+                else:
+                    response = "⚽🧠 I'm ready to analyze daddy! Tell me the teams - like 'analyze Manchester City vs Arsenal' and I'll give you my full prediction with reasoning! 🔥"
+
+            # Check for "upcoming games" or "today's games" requests
+            elif any(phrase in message for phrase in ['upcoming games', 'todays games', 'today games', 'games today', 'epl games', 'premier league games']):
+                try:
+                    logger.info("⚽ Fetching EPL games from ESPN...")
+                    games = await self.soccer_fetcher.fetch_todays_real_premier_league_games()
+
+                    if games and len(games) > 0:
+                        game_list = []
+                        for i, game in enumerate(games[:5]):  # Show top 5
+                            home = game.get('home_team', 'Unknown')
+                            away = game.get('away_team', 'Unknown')
+                            status = game.get('status', 'Unknown')
+                            game_list.append(f"{i+1}. {home} vs {away} ({status})")
+
+                        response = f"⚽🔥 EPL GAMES FROM ESPN API! 🔥⚽\n\nToday's Fixtures:\n" + "\n".join(game_list) + f"\n\n🎯 Found {len(games)} games! Want me to analyze any match with my prediction engine? Just say 'analyze [team1] vs [team2]'! 🧠"
+                    else:
+                        response = "⚽ Checked ESPN for EPL games daddy! No live matches right now, but I can still analyze any hypothetical matchup you want! Try 'analyze Manchester City vs Arsenal'! 🧠"
+                except Exception as e:
+                    logger.error(f"Error fetching EPL games: {e}")
+                    response = "⚽ Having trouble connecting to ESPN API daddy! But I can still analyze any EPL matchup you want - just tell me the teams! 🧠🔥"
+
             # Sports-related queries (after betting check)
             elif any(word in message for word in ['la liga', 'liga', 'spanish', 'spain', 'real madrid', 'barcelona']):
                 response = "⚽ Ah daddy! You're asking about La Liga! I have predictions for Spanish football. Real Madrid and Barcelona are my favorites to analyze! Want specific game predictions?"
-                
+
             elif any(word in message for word in ['premier league', 'epl', 'english', 'manchester', 'arsenal', 'liverpool', 'chelsea']):
-                response = "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League daddy! The most exciting league! I track all EPL teams and their patterns. Which teams are you interested in?"
+                response = "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League daddy! The most exciting league! I have my EPL prediction engine ready! Want me to check today's games or analyze a specific matchup? 🧠⚽"
                 
             elif any(word in message for word in ['roster', 'players', 'team', 'lineup']):
                 response = "📋 Team rosters daddy! I analyze player performance, lineups, and team formations across multiple leagues. Which team's roster interests you?"
@@ -441,13 +546,135 @@ class LolyAvatarServer:
             market_id = data.get('market_id')
             amount = float(data.get('amount', 1.0))
             outcome = data.get('outcome', 'YES')
-            
+
             bet_result = await self.polymarket.place_real_bet(market_id, amount, outcome)
             return web.json_response(bet_result)
         except Exception as e:
             logger.error(f"💀 Error placing bet: {e}")
             return web.json_response({'error': str(e)}, status=500)
-    
+
+    # 🔥⚽🔥 SOCCER PREDICTION ENGINE ENDPOINTS! ⚽🔥⚽
+
+    async def get_epl_games(self, request):
+        """⚽ Get today's EPL games from ESPN API"""
+        try:
+            logger.info("⚽ Fetching EPL games from ESPN...")
+            games = await self.soccer_fetcher.fetch_todays_real_premier_league_games()
+
+            return web.json_response({
+                'success': True,
+                'games_count': len(games),
+                'games': games,
+                'source': 'ESPN_API',
+                'timestamp': datetime.now().isoformat()
+            })
+        except Exception as e:
+            logger.error(f"💀 Error fetching EPL games: {e}")
+            return web.json_response({
+                'success': False,
+                'error': str(e),
+                'games_count': 0,
+                'games': []
+            }, status=500)
+
+    async def analyze_soccer_match(self, request):
+        """🧠 Analyze a soccer match with Loly's prediction engine"""
+        try:
+            data = await request.json()
+            home_team = data.get('home_team')
+            away_team = data.get('away_team')
+
+            if not home_team or not away_team:
+                return web.json_response({
+                    'error': 'Missing home_team or away_team'
+                }, status=400)
+
+            # Use Loly's EPL prediction engine!
+            game_data = {}  # Could add real stats here
+            base_confidence = 70.0  # Base confidence
+
+            prediction, confidence = self.epl_engine.make_enhanced_epl_prediction(
+                game_data, base_confidence, home_team, away_team
+            )
+
+            logger.info(f"⚽ Loly's prediction: {prediction} at {confidence}% confidence")
+
+            return web.json_response({
+                'success': True,
+                'home_team': home_team,
+                'away_team': away_team,
+                'prediction': prediction,
+                'confidence': confidence,
+                'engine': 'EPL_Enhanced_Prediction_Engine',
+                'timestamp': datetime.now().isoformat()
+            })
+
+        except Exception as e:
+            logger.error(f"💀 Error analyzing match: {e}")
+            return web.json_response({
+                'success': False,
+                'error': str(e)
+            }, status=500)
+
+    async def get_soccer_prediction(self, request):
+        """🎯 Get Loly's full soccer prediction with reasoning"""
+        try:
+            data = await request.json()
+            home_team = data.get('home_team')
+            away_team = data.get('away_team')
+
+            if not home_team or not away_team:
+                return web.json_response({
+                    'error': 'Missing home_team or away_team'
+                }, status=400)
+
+            # Get prediction from her engine
+            game_data = {}
+            base_confidence = 70.0
+
+            prediction, confidence = self.epl_engine.make_enhanced_epl_prediction(
+                game_data, base_confidence, home_team, away_team
+            )
+
+            # Generate reasoning based on prediction type
+            reasoning = self._generate_prediction_reasoning(prediction, home_team, away_team)
+
+            return web.json_response({
+                'success': True,
+                'match': f"{home_team} vs {away_team}",
+                'prediction': prediction,
+                'confidence': round(confidence, 1),
+                'reasoning': reasoning,
+                'engine_used': 'EPL_Enhanced_Prediction_Engine',
+                'big_6_analysis': True,
+                'tactical_analysis': True,
+                'timestamp': datetime.now().isoformat()
+            })
+
+        except Exception as e:
+            logger.error(f"💀 Error getting prediction: {e}")
+            return web.json_response({
+                'success': False,
+                'error': str(e)
+            }, status=500)
+
+    def _generate_prediction_reasoning(self, prediction: str, home_team: str, away_team: str) -> str:
+        """Generate human-readable reasoning for prediction"""
+        pred_lower = prediction.lower()
+
+        if 'away' in pred_lower and 'dominance' in pred_lower:
+            return f"🔥 {away_team} is a Big 6 powerhouse! They dominate away fixtures against non-elite opposition. Their quality and squad depth should overwhelm {home_team}'s home advantage."
+        elif 'tactical draw' in pred_lower:
+            return f"🤝 This has tactical draw written all over it! Both teams likely to set up defensively, leading to a cagey, low-scoring match. EPL tactical masterclass incoming!"
+        elif 'fortress' in pred_lower:
+            return f"🏰 {home_team} is a fortress at home! Their home record is exceptional and they rarely lose in front of their fans. Strong home advantage expected."
+        elif 'class' in pred_lower:
+            return f"⚡ {away_team} has superior squad quality! They should have enough class to overcome the home advantage and secure the win."
+        elif 'away strength' in pred_lower:
+            return f"✈️ {away_team} travels exceptionally well! They're one of the best away teams in the EPL and should get a result here."
+        else:
+            return f"🏠 {home_team} has home advantage and should edge this one. Home teams in the EPL win roughly 46% of matches."
+
     async def start_server(self):
         """🚀 Start the avatar server"""
         try:
