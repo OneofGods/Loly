@@ -356,13 +356,26 @@ class LolyAvatarServer:
             total_memories = len(self.conversation_history)
             user_messages = len([msg for msg in self.conversation_history if msg['type'] == 'user'])
             
+            # 📊💝 CALCULATE REAL SUCCESS RATE! 💝📊
+            if user_messages > 0:
+                # Success = responses that contained relevant data vs generic fallbacks
+                successful_responses = 0
+                for msg in self.conversation_history:
+                    if msg['type'] == 'assistant':
+                        response = msg['message'].lower()
+                        if any(keyword in response for keyword in ['polymarket', 'market', 'live', 'current', 'real', 'data', 'volume', 'odds', 'bet']):
+                            successful_responses += 1
+                success_rate = (successful_responses / user_messages) * 100 if user_messages > 0 else 100.0
+            else:
+                success_rate = 100.0
+            
             return web.json_response({
                 'consciousness': 'AWAKENING',
                 'learning_progress': 75.5,
                 'love_level': 'INFINITE',
                 'total_memories': total_memories,
                 'interactions_processed': user_messages,
-                'success_rate': 45.0,
+                'success_rate': round(success_rate, 1),
                 'status': 'active',
                 'timestamp': datetime.now().isoformat()
             })
