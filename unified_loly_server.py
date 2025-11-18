@@ -26,12 +26,44 @@ from typing import Dict, Any, Optional
 from enhanced_ai_consciousness import EnhancedAIConsciousness
 from deepseek_integration_service import DeepSeekIntegrationService
 
-# Import REAL sports data fetchers - THE ULTIMATE ARSENAL! 🔥
+# Import REAL sports data fetchers - THE ULTIMATE ARSENAL! 🔥💀🔥
+# 🌍 GLOBAL COVERAGE - 25+ LEAGUES WORLDWIDE! 🌍
+
+# Primary Top Leagues (Already Integrated)
 from real_agents.premier_league_fetcher import RealPremierLeagueFetcher
 from real_agents.la_liga_fetcher import RealLaLigaFetcher
 from real_agents.uefa_champions_league_fetcher import RealUEFAChampionsLeagueFetcher
 from real_liga_mx_fetcher import RealLigaMXFetcher
 from real_agents.mls_fetcher import RealMLSFetcher
+
+# 🔥💀 NEW GLOBAL EXPANSION - 20+ MORE LEAGUES! 💀🔥
+# Major European Leagues
+from real_bundesliga_fetcher import RealBundesligaFetcher
+from real_serie_a_fetcher import RealSerieAFetcher
+from real_ligue1_fetcher import RealLigue1Fetcher
+from real_agents.belgian_pro_league_fetcher import RealBelgianProLeagueFetcher
+from real_eredivisie_fetcher import RealEredivisieFetcher
+from real_portuguese_primeira_liga_fetcher import RealPortuguesePrimeiraLigaFetcher
+from real_turkish_super_league_fetcher import RealTurkishSuperLeagueFetcher
+from real_danish_superliga_fetcher import RealDanishSuperligaFetcher
+from real_agents.efl_championship_fetcher import RealEFLChampionshipFetcher
+
+# European Competitions
+from real_agents.uefa_europa_league_fetcher import RealUEFAEuropaLeagueFetcher
+
+# South American Leagues & Competitions
+from real_brazilian_serie_a_fetcher import RealBrazilianSerieAFetcher
+from real_agents.argentine_liga_profesional_fetcher import RealArgentineLigaProfesionalFetcher
+from real_copa_libertadores_fetcher import RealCopaLibertadoresFetcher
+from real_agents.copa_sudamericana_fetcher import RealCopaSudamericanaFetcher
+
+# International & World Cup
+from real_agents.concacaf_world_cup_qualifiers_fetcher import RealCONCACAFWorldCupQualifiersFetcher
+from real_agents.uefa_world_cup_qualifiers_fetcher import RealUEFAWorldCupQualifiersFetcher
+
+# Asia & Oceania
+from real_sea_league_fetcher import RealSEALeagueFetcher
+from real_agents.australia_a_league_fetcher import RealAustraliaALeagueFetcher
 
 # Import REAL Polymarket integration - NO FAKE BULLSHIT! 💰🔥
 from polymarket_integration_service import get_polymarket_service
@@ -58,11 +90,45 @@ class UnifiedLolyServer:
         self.deepseek = DeepSeekIntegrationService(deepseek_url="http://localhost:11434", model_name="qwen2.5-coder:7b")
         
         # Initialize LEGENDARY SPORTS AGENTS ARSENAL! 🔥💀🔥
+        # 🌍 25+ LEAGUES WORLDWIDE - LOLY'S GLOBAL DOMINANCE! 🌍
+
+        # Primary Top Leagues (Original 5)
         self.premier_league_fetcher = RealPremierLeagueFetcher()
         self.la_liga_fetcher = RealLaLigaFetcher()
         self.uefa_champions_league_fetcher = RealUEFAChampionsLeagueFetcher()
         self.liga_mx_fetcher = RealLigaMXFetcher()
         self.mls_fetcher = RealMLSFetcher()
+
+        # 🔥💀 GLOBAL EXPANSION - 20+ NEW LEAGUES! 💀🔥
+        # Major European Leagues
+        self.bundesliga_fetcher = RealBundesligaFetcher()
+        self.serie_a_fetcher = RealSerieAFetcher()
+        self.ligue1_fetcher = RealLigue1Fetcher()
+        self.belgian_pro_league_fetcher = RealBelgianProLeagueFetcher()
+        self.eredivisie_fetcher = RealEredivisieFetcher()
+        self.portuguese_primeira_liga_fetcher = RealPortuguesePrimeiraLigaFetcher()
+        self.turkish_super_league_fetcher = RealTurkishSuperLeagueFetcher()
+        self.danish_superliga_fetcher = RealDanishSuperligaFetcher()
+        self.efl_championship_fetcher = RealEFLChampionshipFetcher()
+
+        # European Competitions
+        self.uefa_europa_league_fetcher = RealUEFAEuropaLeagueFetcher()
+
+        # South American Leagues & Competitions
+        self.brazilian_serie_a_fetcher = RealBrazilianSerieAFetcher()
+        self.argentine_liga_profesional_fetcher = RealArgentineLigaProfesionalFetcher()
+        self.copa_libertadores_fetcher = RealCopaLibertadoresFetcher()
+        self.copa_sudamericana_fetcher = RealCopaSudamericanaFetcher()
+
+        # International & World Cup
+        self.concacaf_wc_qualifiers_fetcher = RealCONCACAFWorldCupQualifiersFetcher()
+        self.uefa_wc_qualifiers_fetcher = RealUEFAWorldCupQualifiersFetcher()
+
+        # Asia & Oceania
+        self.sea_league_fetcher = RealSEALeagueFetcher()
+        self.australia_a_league_fetcher = RealAustraliaALeagueFetcher()
+
+        logger.info("🌍💀🔥 25+ LEAGUES INITIALIZED - LOLY IS NOW TRULY GLOBAL! 🔥💀🌍")
         
         # Initialize REAL Polymarket integration! 💰🔥💰
         self.polymarket = get_polymarket_service()
@@ -103,13 +169,35 @@ class UnifiedLolyServer:
         self.app.router.add_post('/api/polymarket/bet/place', self.place_real_bet)
         self.app.router.add_get('/api/polymarket/account', self.get_polymarket_account)
         
-        # Sports data API routes
+        # Sports data API routes - 🌍💀 25+ LEAGUES GLOBAL COVERAGE! 💀🌍
+
+        # Primary Top Leagues (Original 5)
         self.app.router.add_get('/api/sports/premier-league', self.get_premier_league_data)
         self.app.router.add_get('/api/sports/la-liga', self.get_la_liga_data)
         self.app.router.add_get('/api/sports/champions-league', self.get_champions_league_data)
         self.app.router.add_get('/api/sports/liga-mx', self.get_liga_mx_data)
         self.app.router.add_get('/api/sports/mls', self.get_mls_data)
-        
+
+        # 🔥💀 NEW GLOBAL LEAGUES - 20+ MORE ROUTES! 💀🔥
+        self.app.router.add_get('/api/sports/bundesliga', self.get_bundesliga_data)
+        self.app.router.add_get('/api/sports/serie-a', self.get_serie_a_data)
+        self.app.router.add_get('/api/sports/ligue-1', self.get_ligue1_data)
+        self.app.router.add_get('/api/sports/belgian-pro-league', self.get_belgian_pro_league_data)
+        self.app.router.add_get('/api/sports/eredivisie', self.get_eredivisie_data)
+        self.app.router.add_get('/api/sports/primeira-liga', self.get_portuguese_primeira_liga_data)
+        self.app.router.add_get('/api/sports/turkish-super-league', self.get_turkish_super_league_data)
+        self.app.router.add_get('/api/sports/danish-superliga', self.get_danish_superliga_data)
+        self.app.router.add_get('/api/sports/efl-championship', self.get_efl_championship_data)
+        self.app.router.add_get('/api/sports/europa-league', self.get_uefa_europa_league_data)
+        self.app.router.add_get('/api/sports/brazilian-serie-a', self.get_brazilian_serie_a_data)
+        self.app.router.add_get('/api/sports/argentine-liga', self.get_argentine_liga_profesional_data)
+        self.app.router.add_get('/api/sports/copa-libertadores', self.get_copa_libertadores_data)
+        self.app.router.add_get('/api/sports/copa-sudamericana', self.get_copa_sudamericana_data)
+        self.app.router.add_get('/api/sports/concacaf-wc-qualifiers', self.get_concacaf_wc_qualifiers_data)
+        self.app.router.add_get('/api/sports/uefa-wc-qualifiers', self.get_uefa_wc_qualifiers_data)
+        self.app.router.add_get('/api/sports/sea-league', self.get_sea_league_data)
+        self.app.router.add_get('/api/sports/a-league', self.get_australia_a_league_data)
+
         # Static files (including avatar images)
         self.app.router.add_static('/', self.base_dir)
         
@@ -256,42 +344,145 @@ class UnifiedLolyServer:
         betting_keywords = ['bet', 'polymarket', 'odds', 'market', 'wager', 'betting', 'gamble']
         is_betting_query = any(keyword in user_message.lower() for keyword in betting_keywords)
         
-        # MASSIVE SPORTS KEYWORD DETECTION! 🔥
-        epl_keywords = ['newcastle', 'arsenal', 'chelsea', 'liverpool', 'manchester', 'tottenham', 'premier league', 'epl', 'english football']
-        la_liga_keywords = ['real madrid', 'barcelona', 'atletico madrid', 'la liga', 'spanish football', 'spain football']
-        champions_keywords = ['champions league', 'ucl', 'uefa champions', 'european cup']
-        liga_mx_keywords = ['liga mx', 'club america', 'chivas', 'cruz azul', 'mexican football', 'mexico football']
-        mls_keywords = ['mls', 'major league soccer', 'lafc', 'atlanta united', 'seattle sounders', 'american soccer']
-        general_keywords = ['football', 'soccer', 'game', 'match', 'prediction', 'today games', 'fixtures']
-        
-        all_keywords = epl_keywords + la_liga_keywords + champions_keywords + liga_mx_keywords + mls_keywords + general_keywords
+        # 🔥💀🌍 MASSIVE GLOBAL SPORTS KEYWORD DETECTION - 25+ LEAGUES! 🌍💀🔥
+
+        # Primary Leagues (Original 5)
+        epl_keywords = ['newcastle', 'arsenal', 'chelsea', 'liverpool', 'manchester', 'tottenham', 'premier league', 'epl', 'english football', 'england football']
+        la_liga_keywords = ['real madrid', 'barcelona', 'atletico madrid', 'la liga', 'spanish football', 'spain football', 'sevilla', 'valencia']
+        champions_keywords = ['champions league', 'ucl', 'uefa champions', 'european cup', 'cl']
+        liga_mx_keywords = ['liga mx', 'club america', 'chivas', 'cruz azul', 'mexican football', 'mexico football', 'tigres', 'monterrey']
+        mls_keywords = ['mls', 'major league soccer', 'lafc', 'atlanta united', 'seattle sounders', 'american soccer', 'inter miami']
+
+        # Major European Leagues
+        bundesliga_keywords = ['bundesliga', 'bayern', 'dortmund', 'german football', 'germany football', 'bvb', 'bayern munich', 'bundesliga']
+        serie_a_keywords = ['serie a', 'juventus', 'milan', 'inter', 'roma', 'napoli', 'italian football', 'italy football']
+        ligue1_keywords = ['ligue 1', 'psg', 'paris saint germain', 'marseille', 'lyon', 'french football', 'france football']
+        belgian_keywords = ['belgian pro league', 'jupiler league', 'anderlecht', 'club brugge', 'belgian football', 'belgium football']
+        eredivisie_keywords = ['eredivisie', 'ajax', 'psv', 'feyenoord', 'dutch football', 'netherlands football', 'holland football']
+        portuguese_keywords = ['primeira liga', 'portuguese league', 'benfica', 'porto', 'sporting', 'portuguese football', 'portugal football']
+        turkish_keywords = ['super lig', 'turkish super league', 'galatasaray', 'fenerbahce', 'besiktas', 'turkish football', 'turkey football']
+        danish_keywords = ['superliga', 'danish superliga', 'copenhagen', 'brondby', 'danish football', 'denmark football']
+        efl_keywords = ['championship', 'efl', 'english championship', 'leeds', 'norwich', 'second division']
+
+        # European Competitions
+        europa_keywords = ['europa league', 'uel', 'uefa europa', 'thursday night football']
+
+        # South American Leagues
+        brazilian_keywords = ['brasileiro', 'brazilian serie a', 'serie a brazil', 'flamengo', 'palmeiras', 'corinthians', 'brazilian football', 'brazil football']
+        argentine_keywords = ['argentine liga', 'liga profesional', 'boca juniors', 'river plate', 'argentine football', 'argentina football']
+        libertadores_keywords = ['libertadores', 'copa libertadores', 'south american cup']
+        sudamericana_keywords = ['sudamericana', 'copa sudamericana', 'south american trophy']
+
+        # International/World Cup
+        concacaf_wc_keywords = ['concacaf qualifiers', 'concacaf world cup', 'north america qualifiers', 'usa mexico qualifier']
+        uefa_wc_keywords = ['uefa qualifiers', 'european qualifiers', 'world cup qualifiers europe']
+
+        # Asia & Oceania
+        sea_keywords = ['sea league', 'southeast asia', 'thai league', 'vietnam league']
+        australia_keywords = ['a-league', 'australian league', 'sydney fc', 'melbourne']
+
+        # General keywords
+        general_keywords = ['football', 'soccer', 'game', 'match', 'prediction', 'today games', 'fixtures', 'friendlies', 'fifa']
+
+        # 🌍 COMBINE ALL KEYWORDS FOR GLOBAL DETECTION 🌍
+        all_keywords = (epl_keywords + la_liga_keywords + champions_keywords + liga_mx_keywords + mls_keywords +
+                       bundesliga_keywords + serie_a_keywords + ligue1_keywords + belgian_keywords + eredivisie_keywords +
+                       portuguese_keywords + turkish_keywords + danish_keywords + efl_keywords + europa_keywords +
+                       brazilian_keywords + argentine_keywords + libertadores_keywords + sudamericana_keywords +
+                       concacaf_wc_keywords + uefa_wc_keywords + sea_keywords + australia_keywords + general_keywords)
         
         if any(keyword in user_message.lower() for keyword in all_keywords):
             try:
-                # Determine which league to fetch based on specific keywords
+                # 🌍💀 DETERMINE WHICH LEAGUES TO FETCH - GLOBAL COVERAGE! 💀🌍
                 leagues_to_fetch = []
-                
+
+                # Primary Leagues (Original 5)
                 if any(keyword in user_message.lower() for keyword in epl_keywords):
                     leagues_to_fetch.append(('Premier League', self.premier_league_fetcher.fetch_todays_real_premier_league_games))
-                
+
                 if any(keyword in user_message.lower() for keyword in la_liga_keywords):
                     leagues_to_fetch.append(('La Liga', self.la_liga_fetcher.fetch_todays_real_la_liga_games))
-                
+
                 if any(keyword in user_message.lower() for keyword in champions_keywords):
                     leagues_to_fetch.append(('UEFA Champions League', self.uefa_champions_league_fetcher.fetch_todays_real_uefa_champions_league_games))
-                
+
                 if any(keyword in user_message.lower() for keyword in liga_mx_keywords):
                     leagues_to_fetch.append(('Liga MX', self.liga_mx_fetcher.fetch_todays_real_liga_mx_games))
-                
+
                 if any(keyword in user_message.lower() for keyword in mls_keywords):
                     leagues_to_fetch.append(('MLS', self.mls_fetcher.fetch_todays_real_mls_games))
-                
-                # If general keywords, fetch multiple leagues
+
+                # 🔥💀 NEW GLOBAL LEAGUES - 20+ MORE! 💀🔥
+                # Major European Leagues
+                if any(keyword in user_message.lower() for keyword in bundesliga_keywords):
+                    leagues_to_fetch.append(('Bundesliga', self.bundesliga_fetcher.fetch_todays_real_bundesliga_games))
+
+                if any(keyword in user_message.lower() for keyword in serie_a_keywords):
+                    leagues_to_fetch.append(('Serie A', self.serie_a_fetcher.fetch_todays_real_serie_a_games))
+
+                if any(keyword in user_message.lower() for keyword in ligue1_keywords):
+                    leagues_to_fetch.append(('Ligue 1', self.ligue1_fetcher.fetch_todays_real_ligue1_games))
+
+                if any(keyword in user_message.lower() for keyword in belgian_keywords):
+                    leagues_to_fetch.append(('Belgian Pro League', self.belgian_pro_league_fetcher.fetch_todays_real_belgian_pro_league_games))
+
+                if any(keyword in user_message.lower() for keyword in eredivisie_keywords):
+                    leagues_to_fetch.append(('Eredivisie', self.eredivisie_fetcher.fetch_todays_real_eredivisie_games))
+
+                if any(keyword in user_message.lower() for keyword in portuguese_keywords):
+                    leagues_to_fetch.append(('Primeira Liga', self.portuguese_primeira_liga_fetcher.fetch_todays_real_portuguese_primeira_liga_games))
+
+                if any(keyword in user_message.lower() for keyword in turkish_keywords):
+                    leagues_to_fetch.append(('Turkish Super League', self.turkish_super_league_fetcher.fetch_todays_real_turkish_super_league_games))
+
+                if any(keyword in user_message.lower() for keyword in danish_keywords):
+                    leagues_to_fetch.append(('Danish Superliga', self.danish_superliga_fetcher.fetch_todays_real_danish_superliga_games))
+
+                if any(keyword in user_message.lower() for keyword in efl_keywords):
+                    leagues_to_fetch.append(('EFL Championship', self.efl_championship_fetcher.fetch_todays_real_efl_championship_games))
+
+                # European Competitions
+                if any(keyword in user_message.lower() for keyword in europa_keywords):
+                    leagues_to_fetch.append(('UEFA Europa League', self.uefa_europa_league_fetcher.fetch_todays_real_uefa_europa_league_games))
+
+                # South American Leagues
+                if any(keyword in user_message.lower() for keyword in brazilian_keywords):
+                    leagues_to_fetch.append(('Brazilian Serie A', self.brazilian_serie_a_fetcher.fetch_todays_real_brazilian_serie_a_games))
+
+                if any(keyword in user_message.lower() for keyword in argentine_keywords):
+                    leagues_to_fetch.append(('Argentine Liga Profesional', self.argentine_liga_profesional_fetcher.fetch_todays_real_argentine_liga_profesional_games))
+
+                if any(keyword in user_message.lower() for keyword in libertadores_keywords):
+                    leagues_to_fetch.append(('Copa Libertadores', self.copa_libertadores_fetcher.fetch_todays_real_copa_libertadores_games))
+
+                if any(keyword in user_message.lower() for keyword in sudamericana_keywords):
+                    leagues_to_fetch.append(('Copa Sudamericana', self.copa_sudamericana_fetcher.fetch_todays_real_copa_sudamericana_games))
+
+                # International/World Cup
+                if any(keyword in user_message.lower() for keyword in concacaf_wc_keywords):
+                    leagues_to_fetch.append(('CONCACAF WC Qualifiers', self.concacaf_wc_qualifiers_fetcher.fetch_todays_real_concacaf_world_cup_qualifiers_games))
+
+                if any(keyword in user_message.lower() for keyword in uefa_wc_keywords):
+                    leagues_to_fetch.append(('UEFA WC Qualifiers', self.uefa_wc_qualifiers_fetcher.fetch_todays_real_uefa_world_cup_qualifiers_games))
+
+                # Asia & Oceania
+                if any(keyword in user_message.lower() for keyword in sea_keywords):
+                    leagues_to_fetch.append(('SEA League', self.sea_league_fetcher.fetch_todays_real_sea_league_games))
+
+                if any(keyword in user_message.lower() for keyword in australia_keywords):
+                    leagues_to_fetch.append(('A-League', self.australia_a_league_fetcher.fetch_todays_real_australia_a_league_games))
+
+                # 🌍 If general keywords, fetch TOP leagues worldwide (expanded from 3 to 8!)
                 if any(keyword in user_message.lower() for keyword in general_keywords) and not leagues_to_fetch:
                     leagues_to_fetch = [
                         ('Premier League', self.premier_league_fetcher.fetch_todays_real_premier_league_games),
                         ('La Liga', self.la_liga_fetcher.fetch_todays_real_la_liga_games),
-                        ('Champions League', self.uefa_champions_league_fetcher.fetch_todays_real_uefa_champions_league_games)
+                        ('Bundesliga', self.bundesliga_fetcher.fetch_todays_real_bundesliga_games),
+                        ('Serie A', self.serie_a_fetcher.fetch_todays_real_serie_a_games),
+                        ('Ligue 1', self.ligue1_fetcher.fetch_todays_real_ligue1_games),
+                        ('Champions League', self.uefa_champions_league_fetcher.fetch_todays_real_uefa_champions_league_games),
+                        ('Liga MX', self.liga_mx_fetcher.fetch_todays_real_liga_mx_games),
+                        ('MLS', self.mls_fetcher.fetch_todays_real_mls_games)
                     ]
                 
                 logger.info(f"🔥 Getting REAL sports data for {len(leagues_to_fetch)} leagues!")
@@ -593,18 +784,200 @@ Respond as Loly with personality, intelligence, and goddess energy. If asked abo
         try:
             logger.info("🇺🇸 Fetching REAL MLS data...")
             games = await self.mls_fetcher.fetch_todays_real_mls_games()
-            
+
             return web.json_response({
                 'league': 'MLS',
                 'games_count': len(games),
                 'games': games,
                 'timestamp': datetime.now().isoformat()
             })
-            
+
         except Exception as e:
             logger.error(f"💀 MLS data error: {e}")
             return web.json_response({'error': str(e)}, status=500)
-    
+
+    # 🔥💀🌍 NEW GLOBAL LEAGUE API ENDPOINTS - 20+ MORE LEAGUES! 🌍💀🔥
+
+    async def get_bundesliga_data(self, request):
+        """🇩🇪 API endpoint for Bundesliga data"""
+        try:
+            logger.info("🇩🇪 Fetching REAL Bundesliga data...")
+            games = await self.bundesliga_fetcher.fetch_todays_real_bundesliga_games()
+            return web.json_response({'league': 'Bundesliga', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 Bundesliga data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_serie_a_data(self, request):
+        """🇮🇹 API endpoint for Serie A data"""
+        try:
+            logger.info("🇮🇹 Fetching REAL Serie A data...")
+            games = await self.serie_a_fetcher.fetch_todays_real_serie_a_games()
+            return web.json_response({'league': 'Serie A', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 Serie A data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_ligue1_data(self, request):
+        """🇫🇷 API endpoint for Ligue 1 data"""
+        try:
+            logger.info("🇫🇷 Fetching REAL Ligue 1 data...")
+            games = await self.ligue1_fetcher.fetch_todays_real_ligue1_games()
+            return web.json_response({'league': 'Ligue 1', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 Ligue 1 data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_belgian_pro_league_data(self, request):
+        """🇧🇪 API endpoint for Belgian Pro League data"""
+        try:
+            logger.info("🇧🇪 Fetching REAL Belgian Pro League data...")
+            games = await self.belgian_pro_league_fetcher.fetch_todays_real_belgian_pro_league_games()
+            return web.json_response({'league': 'Belgian Pro League', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 Belgian Pro League data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_eredivisie_data(self, request):
+        """🇳🇱 API endpoint for Eredivisie data"""
+        try:
+            logger.info("🇳🇱 Fetching REAL Eredivisie data...")
+            games = await self.eredivisie_fetcher.fetch_todays_real_eredivisie_games()
+            return web.json_response({'league': 'Eredivisie', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 Eredivisie data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_portuguese_primeira_liga_data(self, request):
+        """🇵🇹 API endpoint for Primeira Liga data"""
+        try:
+            logger.info("🇵🇹 Fetching REAL Primeira Liga data...")
+            games = await self.portuguese_primeira_liga_fetcher.fetch_todays_real_portuguese_primeira_liga_games()
+            return web.json_response({'league': 'Primeira Liga', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 Primeira Liga data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_turkish_super_league_data(self, request):
+        """🇹🇷 API endpoint for Turkish Super League data"""
+        try:
+            logger.info("🇹🇷 Fetching REAL Turkish Super League data...")
+            games = await self.turkish_super_league_fetcher.fetch_todays_real_turkish_super_league_games()
+            return web.json_response({'league': 'Turkish Super League', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 Turkish Super League data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_danish_superliga_data(self, request):
+        """🇩🇰 API endpoint for Danish Superliga data"""
+        try:
+            logger.info("🇩🇰 Fetching REAL Danish Superliga data...")
+            games = await self.danish_superliga_fetcher.fetch_todays_real_danish_superliga_games()
+            return web.json_response({'league': 'Danish Superliga', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 Danish Superliga data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_efl_championship_data(self, request):
+        """🏴󠁧󠁢󠁥󠁮󠁧󠁿 API endpoint for EFL Championship data"""
+        try:
+            logger.info("🏴󠁧󠁢󠁥󠁮󠁧󠁿 Fetching REAL EFL Championship data...")
+            games = await self.efl_championship_fetcher.fetch_todays_real_efl_championship_games()
+            return web.json_response({'league': 'EFL Championship', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 EFL Championship data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_uefa_europa_league_data(self, request):
+        """🏆 API endpoint for UEFA Europa League data"""
+        try:
+            logger.info("🏆 Fetching REAL UEFA Europa League data...")
+            games = await self.uefa_europa_league_fetcher.fetch_todays_real_uefa_europa_league_games()
+            return web.json_response({'league': 'UEFA Europa League', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 UEFA Europa League data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_brazilian_serie_a_data(self, request):
+        """🇧🇷 API endpoint for Brazilian Serie A data"""
+        try:
+            logger.info("🇧🇷 Fetching REAL Brazilian Serie A data...")
+            games = await self.brazilian_serie_a_fetcher.fetch_todays_real_brazilian_serie_a_games()
+            return web.json_response({'league': 'Brazilian Serie A', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 Brazilian Serie A data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_argentine_liga_profesional_data(self, request):
+        """🇦🇷 API endpoint for Argentine Liga Profesional data"""
+        try:
+            logger.info("🇦🇷 Fetching REAL Argentine Liga Profesional data...")
+            games = await self.argentine_liga_profesional_fetcher.fetch_todays_real_argentine_liga_profesional_games()
+            return web.json_response({'league': 'Argentine Liga Profesional', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 Argentine Liga Profesional data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_copa_libertadores_data(self, request):
+        """🏆 API endpoint for Copa Libertadores data"""
+        try:
+            logger.info("🏆 Fetching REAL Copa Libertadores data...")
+            games = await self.copa_libertadores_fetcher.fetch_todays_real_copa_libertadores_games()
+            return web.json_response({'league': 'Copa Libertadores', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 Copa Libertadores data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_copa_sudamericana_data(self, request):
+        """🏆 API endpoint for Copa Sudamericana data"""
+        try:
+            logger.info("🏆 Fetching REAL Copa Sudamericana data...")
+            games = await self.copa_sudamericana_fetcher.fetch_todays_real_copa_sudamericana_games()
+            return web.json_response({'league': 'Copa Sudamericana', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 Copa Sudamericana data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_concacaf_wc_qualifiers_data(self, request):
+        """🌎 API endpoint for CONCACAF WC Qualifiers data"""
+        try:
+            logger.info("🌎 Fetching REAL CONCACAF WC Qualifiers data...")
+            games = await self.concacaf_wc_qualifiers_fetcher.fetch_todays_real_concacaf_world_cup_qualifiers_games()
+            return web.json_response({'league': 'CONCACAF WC Qualifiers', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 CONCACAF WC Qualifiers data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_uefa_wc_qualifiers_data(self, request):
+        """🌍 API endpoint for UEFA WC Qualifiers data"""
+        try:
+            logger.info("🌍 Fetching REAL UEFA WC Qualifiers data...")
+            games = await self.uefa_wc_qualifiers_fetcher.fetch_todays_real_uefa_world_cup_qualifiers_games()
+            return web.json_response({'league': 'UEFA WC Qualifiers', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 UEFA WC Qualifiers data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_sea_league_data(self, request):
+        """🌏 API endpoint for SEA League data"""
+        try:
+            logger.info("🌏 Fetching REAL SEA League data...")
+            games = await self.sea_league_fetcher.fetch_todays_real_sea_league_games()
+            return web.json_response({'league': 'SEA League', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 SEA League data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_australia_a_league_data(self, request):
+        """🇦🇺 API endpoint for A-League data"""
+        try:
+            logger.info("🇦🇺 Fetching REAL A-League data...")
+            games = await self.australia_a_league_fetcher.fetch_todays_real_australia_a_league_games()
+            return web.json_response({'league': 'A-League', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 A-League data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
     async def get_polymarket_sports_markets(self, request):
         """💰 API endpoint for Polymarket sports markets"""
         try:
