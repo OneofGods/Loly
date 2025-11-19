@@ -60,6 +60,7 @@ from real_agents.copa_sudamericana_fetcher import RealCopaSudamericanaFetcher
 # International & World Cup
 from real_agents.concacaf_world_cup_qualifiers_fetcher import RealCONCACAFWorldCupQualifiersFetcher
 from real_agents.uefa_world_cup_qualifiers_fetcher import RealUEFAWorldCupQualifiersFetcher
+from fifa_friendlies_real_fetcher import RealFIFAFriendliesFetcher
 
 # Asia & Oceania
 from real_sea_league_fetcher import RealSEALeagueFetcher
@@ -123,12 +124,13 @@ class UnifiedLolyServer:
         # International & World Cup
         self.concacaf_wc_qualifiers_fetcher = RealCONCACAFWorldCupQualifiersFetcher()
         self.uefa_wc_qualifiers_fetcher = RealUEFAWorldCupQualifiersFetcher()
+        self.fifa_friendlies_fetcher = RealFIFAFriendliesFetcher()
 
         # Asia & Oceania
         self.sea_league_fetcher = RealSEALeagueFetcher()
         self.australia_a_league_fetcher = RealAustraliaALeagueFetcher()
 
-        logger.info("🌍💀🔥 25+ LEAGUES INITIALIZED - LOLY IS NOW TRULY GLOBAL! 🔥💀🌍")
+        logger.info("🌍💀🔥 26+ LEAGUES INITIALIZED - LOLY IS NOW TRULY GLOBAL! 🔥💀🌍")
         
         # Initialize REAL Polymarket integration! 💰🔥💰
         self.polymarket = get_polymarket_service()
@@ -195,6 +197,7 @@ class UnifiedLolyServer:
         self.app.router.add_get('/api/sports/copa-sudamericana', self.get_copa_sudamericana_data)
         self.app.router.add_get('/api/sports/concacaf-wc-qualifiers', self.get_concacaf_wc_qualifiers_data)
         self.app.router.add_get('/api/sports/uefa-wc-qualifiers', self.get_uefa_wc_qualifiers_data)
+        self.app.router.add_get('/api/sports/fifa-friendlies', self.get_fifa_friendlies_data)
         self.app.router.add_get('/api/sports/sea-league', self.get_sea_league_data)
         self.app.router.add_get('/api/sports/a-league', self.get_australia_a_league_data)
 
@@ -376,6 +379,7 @@ class UnifiedLolyServer:
         # International/World Cup
         concacaf_wc_keywords = ['concacaf qualifiers', 'concacaf world cup', 'north america qualifiers', 'usa mexico qualifier']
         uefa_wc_keywords = ['uefa qualifiers', 'european qualifiers', 'world cup qualifiers europe']
+        fifa_friendlies_keywords = ['fifa friendlies', 'international friendlies', 'friendly match', 'international friendly', 'national team friendly', 'brazil argentina friendly', 'international test match']
 
         # Asia & Oceania
         sea_keywords = ['sea league', 'southeast asia', 'thai league', 'vietnam league']
@@ -389,7 +393,7 @@ class UnifiedLolyServer:
                        bundesliga_keywords + serie_a_keywords + ligue1_keywords + belgian_keywords + eredivisie_keywords +
                        portuguese_keywords + turkish_keywords + danish_keywords + efl_keywords + europa_keywords +
                        brazilian_keywords + argentine_keywords + libertadores_keywords + sudamericana_keywords +
-                       concacaf_wc_keywords + uefa_wc_keywords + sea_keywords + australia_keywords + general_keywords)
+                       concacaf_wc_keywords + uefa_wc_keywords + fifa_friendlies_keywords + sea_keywords + australia_keywords + general_keywords)
         
         if any(keyword in user_message.lower() for keyword in all_keywords):
             try:
@@ -464,6 +468,9 @@ class UnifiedLolyServer:
 
                 if any(keyword in user_message.lower() for keyword in uefa_wc_keywords):
                     leagues_to_fetch.append(('UEFA WC Qualifiers', self.uefa_wc_qualifiers_fetcher.fetch_todays_real_uefa_world_cup_qualifiers_games))
+
+                if any(keyword in user_message.lower() for keyword in fifa_friendlies_keywords):
+                    leagues_to_fetch.append(('FIFA Friendlies', self.fifa_friendlies_fetcher.get_todays_games))
 
                 # Asia & Oceania
                 if any(keyword in user_message.lower() for keyword in sea_keywords):
@@ -956,6 +963,16 @@ Respond as Loly with personality, intelligence, and goddess energy. If asked abo
             return web.json_response({'league': 'UEFA WC Qualifiers', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
         except Exception as e:
             logger.error(f"💀 UEFA WC Qualifiers data error: {e}")
+            return web.json_response({'error': str(e)}, status=500)
+
+    async def get_fifa_friendlies_data(self, request):
+        """🌍⚽ API endpoint for FIFA Friendlies data"""
+        try:
+            logger.info("🌍⚽ Fetching REAL FIFA Friendlies data...")
+            games = await self.fifa_friendlies_fetcher.get_todays_games()
+            return web.json_response({'league': 'FIFA Friendlies', 'games_count': len(games), 'games': games, 'timestamp': datetime.now().isoformat()})
+        except Exception as e:
+            logger.error(f"💀 FIFA Friendlies data error: {e}")
             return web.json_response({'error': str(e)}, status=500)
 
     async def get_sea_league_data(self, request):
