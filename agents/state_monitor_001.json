@@ -6,14 +6,14 @@
   "adaptations": [],
   "health_metrics": {
     "cpu_usage": 0.0,
-    "memory_usage": 325.8359375,
-    "disk_usage": "<agents.monitor_agent.HealthMetric object at 0x7ef154c12b50>",
-    "network_connections": "<agents.monitor_agent.HealthMetric object at 0x7ef151f45c50>",
-    "active_agents": "<agents.monitor_agent.HealthMetric object at 0x7ef151f45cd0>",
-    "agent_errors": "<agents.monitor_agent.HealthMetric object at 0x7ef151f45d10>",
-    "task_completion_rate": "<agents.monitor_agent.HealthMetric object at 0x7ef151f45d50>",
-    "prediction_accuracy": "<agents.monitor_agent.HealthMetric object at 0x7ef151f45d90>",
-    "data_freshness": "<agents.monitor_agent.HealthMetric object at 0x7ef151f45dd0>",
+    "memory_usage": 325.90625,
+    "disk_usage": 1.414340602995528,
+    "network_connections": 31,
+    "active_agents": 0,
+    "agent_errors": 0,
+    "task_completion_rate": 0.0,
+    "prediction_accuracy": 0.0,
+    "data_freshness": 0.0,
     "last_error": "'float' object has no attribute 'values'"
   }
 }

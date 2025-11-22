@@ -175,9 +175,9 @@ class LolyAvatarServer:
                 'timestamp': datetime.now().isoformat()
             })
             
-            # Keep only last 10 messages to avoid memory issues
+            # Keep only last 20 messages to avoid memory issues (Fixed: check > 20, keep 20)
             if len(self.conversation_history) > 20:
-                self.conversation_history = self.conversation_history[-10:]
+                self.conversation_history = self.conversation_history[-20:]
             
             # 🧠💝 CONTEXT-AWARE RESPONSES! 💝🧠
             # Check recent conversation context for better responses
@@ -335,7 +335,7 @@ class LolyAvatarServer:
                 'timestamp': datetime.now().isoformat()
             })
             
-            # Keep only last 20 messages to prevent memory overflow
+            # Keep only last 20 messages to prevent memory overflow (Fixed: consistent with above)
             if len(self.conversation_history) > 20:
                 self.conversation_history = self.conversation_history[-20:]
             

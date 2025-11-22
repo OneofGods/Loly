@@ -557,15 +557,30 @@ class AutonomousAgent(ABC):
     
     async def _save_agent_state(self):
         """💾 Save agent learning data"""
+        # Helper function to serialize HealthMetric objects
+        def serialize_health_metrics(metrics):
+            """Convert HealthMetric objects to their numeric values"""
+            serialized = {}
+            for key, value in metrics.items():
+                # Check if it's a HealthMetric object (has current_value attribute)
+                if hasattr(value, 'current_value'):
+                    serialized[key] = value.current_value
+                elif isinstance(value, (int, float, str, bool, type(None))):
+                    serialized[key] = value
+                else:
+                    # Fallback for unknown types
+                    serialized[key] = str(value)
+            return serialized
+
         state_data = {
             'agent_id': self.agent_id,
             'total_tasks': self.memory.total_tasks,
             'success_rate': self.memory.success_rate,
             'patterns': self.memory.patterns,
             'adaptations': self.memory.adaptations,
-            'health_metrics': self.health_metrics
+            'health_metrics': serialize_health_metrics(self.health_metrics)
         }
-        
+
         # Save to file or database
         state_file = f"agents/state_{self.agent_id}.json"
         try:
