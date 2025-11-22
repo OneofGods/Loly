@@ -9,12 +9,15 @@ AUTONOMOUS BEHAVIORS:
 - Real-time prediction accuracy monitoring
 - Self-improving ML algorithms
 - Proactive model retraining
+- 🔥💀 8D DIMENSIONAL ANALYSIS INTEGRATION 💀🔥
 """
 
 import asyncio
 import json
 import numpy as np
 import time
+import sys
+import os
 from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional, Tuple
 import logging
@@ -30,6 +33,18 @@ import warnings
 warnings.filterwarnings('ignore')
 
 from core.autonomous_agent import AutonomousAgent, AGENT_REGISTRY
+
+# 🔥💀🔥 IMPORT THE REAL 8D PREDICTION ENGINE! 💀🔥💀
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+try:
+    from real_agents.universal_prediction_engine import UniversalPredictionEngine
+    UNIVERSAL_ENGINE_AVAILABLE = True
+    logger = logging.getLogger(__name__)
+    logger.info("🔥💀🔥 UNIVERSAL 8D PREDICTION ENGINE LOADED! 💀🔥💀")
+except Exception as e:
+    UNIVERSAL_ENGINE_AVAILABLE = False
+    logger = logging.getLogger(__name__)
+    logger.warning(f"⚠️ Universal 8D engine not available: {e}")
 
 logger = logging.getLogger(__name__)
 
@@ -138,6 +153,15 @@ class PredictorAgent(AutonomousAgent):
             }
         }
         
+        # 🔥💀🔥 INITIALIZE UNIVERSAL 8D PREDICTION ENGINE! 💀🔥💀
+        self.universal_engine = None
+        if UNIVERSAL_ENGINE_AVAILABLE:
+            try:
+                self.universal_engine = UniversalPredictionEngine()
+                logger.info("🎯 Universal 8D Prediction Engine initialized in predictor agent!")
+            except Exception as e:
+                logger.error(f"❌ Failed to initialize 8D engine: {e}")
+
         # Feature engineering
         self.feature_extractors = {
             'team_performance': self._extract_team_performance_features,
@@ -547,16 +571,50 @@ class PredictorAgent(AutonomousAgent):
             return 0.0
     
     async def _make_prediction(self, sport: str, game_data: Dict[str, Any], prediction_type: str) -> Dict[str, Any]:
-        """🎯 Make prediction for game"""
-        # Check cache first
+        """🎯 Make prediction for game - USING 8D DIMENSIONAL ANALYSIS!"""
+        # 🔥💀🔥 PRIORITY #1: TRY UNIVERSAL 8D PREDICTION ENGINE FIRST! 💀🔥💀
+        if self.universal_engine:
+            try:
+                logger.info(f"🎯 Using Universal 8D Engine for {sport} prediction!")
+
+                # Determine league_id from sport
+                league_mapping = {
+                    'soccer': 'EPL',
+                    'football': 'NFL',
+                    'basketball': 'NBA',
+                    'uefa': 'UEFA',
+                    'liga_mx': 'LIGA_MX'
+                }
+                league_id = league_mapping.get(sport.lower(), sport.upper())
+
+                # Call the Universal 8D Engine
+                result = await self.universal_engine.analyze_game(game_data, league_id)
+
+                if result and 'confidence' in result:
+                    logger.info(f"✅ 8D Engine prediction successful! Confidence: {result['confidence']}%")
+                    return {
+                        'prediction': result.get('prediction'),
+                        'confidence': result.get('confidence', 0) / 100.0,  # Convert to 0-1 scale
+                        'model_info': {
+                            'engine': 'Universal_8D_Dimensional_Analysis',
+                            'dimensions_used': result.get('dimensions_summary', {}),
+                            'prediction_type': prediction_type
+                        },
+                        'cached': False,
+                        'engine_type': '8D_REAL'
+                    }
+            except Exception as e:
+                logger.warning(f"⚠️ 8D engine failed (will try ML fallback): {e}")
+
+        # Check cache (for ML predictions)
         cache_key = f"{sport}_{prediction_type}_{hash(str(game_data))}"
         if cache_key in self.prediction_cache:
             cached_result = self.prediction_cache[cache_key]
             if time.time() - self.cache_timestamps[cache_key] < self.cache_ttl:
                 cached_result['cached'] = True
                 return cached_result
-        
-        # Find best model for this prediction
+
+        # Find best model for this prediction (ML FALLBACK)
         best_model = await self._select_best_model(sport, prediction_type)
         
         if not best_model:
