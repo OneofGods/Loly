@@ -20,12 +20,11 @@ import logging
 import json
 import aiohttp
 import re
-import hashlib
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass
 import statistics
-import random
+# 🔥💀 Removed: import hashlib, import random - NO MORE FAKE DATA!
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -531,10 +530,10 @@ class D7XFactorMCP:
             elif any(word in content.lower() for word in ['counter', 'counterattack']):
                 playing_style = "counter_attacking"
             
-            # Generate realistic metrics based on content analysis
-            big_game_record = 0.7 + (random.random() * 0.2)  # 0.7-0.9
-            tactical_flexibility = 0.6 + (random.random() * 0.3)  # 0.6-0.9
-            pressure_handling = 0.65 + (random.random() * 0.25)  # 0.65-0.9
+            # 🔥💀 NO MORE RANDOM FAKE METRICS! Use neutral defaults
+            big_game_record = 0.5  # Neutral when no data available
+            tactical_flexibility = 0.5  # Neutral
+            pressure_handling = 0.5  # Neutral
             
             return ManagerTactics(
                 manager_name=manager_name,
@@ -567,83 +566,37 @@ class D7XFactorMCP:
         return manager_map.get(team, f"{team} Manager")
     
     def _generate_realistic_manager_data(self, team: str, sport: str) -> ManagerTactics:
-        """Generate realistic manager tactical data"""
-        import hashlib
-        
-        # Generate deterministic but varied data
-        team_hash = int(hashlib.md5(f"{team}manager".encode()).hexdigest()[:8], 16)
-        random.seed(team_hash % 1000)
-        
-        formations = ['4-3-3', '4-4-2', '3-5-2', '4-2-3-1', '3-4-3', '4-5-1']
-        styles = ['attacking', 'defensive', 'balanced', 'counter_attacking', 'possession']
-        
+        """Generate neutral fallback manager data when real data unavailable"""
+        # 🔥💀 NO MORE HASH/RANDOM FAKE DATA! Return honest neutral defaults
+        logger.warning(f"⚠️ No manager data available for {team}, using neutral defaults")
+
         return ManagerTactics(
             manager_name=f"{team} Manager",
-            formation=random.choice(formations),
-            playing_style=random.choice(styles),
-            big_game_record=0.6 + (random.random() * 0.3),
-            tactical_flexibility=0.5 + (random.random() * 0.4),
-            recent_form=[random.choice(['W', 'D', 'L']) for _ in range(5)],
-            pressure_handling=0.5 + (random.random() * 0.4),
-            derby_experience=0.4 + (random.random() * 0.5)
+            formation='4-3-3',  # Standard formation
+            playing_style='balanced',  # Neutral style
+            big_game_record=0.5,  # Neutral
+            tactical_flexibility=0.5,  # Neutral
+            recent_form=[],  # No fake data
+            pressure_handling=0.5,  # Neutral
+            derby_experience=0.5  # Neutral
         )
     
     async def _analyze_momentum_factors(self, team: str, sport: str, league: str) -> MomentumFactors:
         """
         📈 Analyze momentum and psychological factors
         """
-        try:
-            # Generate deterministic but realistic momentum data
-            import hashlib
-            team_hash = int(hashlib.md5(f"{team}momentum".encode()).hexdigest()[:8], 16)
-            random.seed(team_hash % 1000)
-            
-            # Team momentum based on recent form simulation
-            team_momentum = 0.3 + (random.random() * 0.6)  # 0.3 to 0.9
-            
-            # Confidence level often correlates with momentum
-            confidence_level = team_momentum + (random.random() * 0.2) - 0.1
-            confidence_level = max(0.1, min(0.9, confidence_level))
-            
-            # Pressure situation
-            pressure_situations = ['low', 'medium', 'high']
-            pressure_situation = random.choice(pressure_situations)
-            
-            # Recent results trend
-            trends = ['improving', 'stable', 'declining']
-            recent_results_trend = random.choice(trends)
-            
-            # Injury momentum (how injuries affect team morale)
-            injury_momentum = 0.4 + (random.random() * 0.5)
-            
-            # Media narrative
-            narratives = ['positive_momentum', 'pressure_building', 'bouncing_back', 'form_concerns', 'title_charge']
-            media_narrative = random.choice(narratives)
-            
-            # Fan expectation
-            fan_expectation = 0.4 + (random.random() * 0.5)
-            
-            return MomentumFactors(
-                team_momentum=team_momentum,
-                confidence_level=confidence_level,
-                pressure_situation=pressure_situation,
-                recent_results_trend=recent_results_trend,
-                injury_momentum=injury_momentum,
-                media_narrative=media_narrative,
-                fan_expectation=fan_expectation
-            )
-            
-        except Exception as e:
-            logger.error(f"❌ Momentum analysis error for {team}: {e}")
-            return MomentumFactors(
-                team_momentum=0.5,
-                confidence_level=0.5,
-                pressure_situation='medium',
-                recent_results_trend='stable',
-                injury_momentum=0.5,
-                media_narrative='neutral',
-                fan_expectation=0.5
-            )
+        # 🔥💀 NO MORE HASH/RANDOM FAKE DATA! Return honest neutral defaults
+        logger.warning(f"⚠️ No momentum data available for {team}, using neutral defaults")
+
+        return MomentumFactors(
+            team_momentum=0.5,  # Neutral momentum
+            confidence_level=0.5,  # Neutral confidence
+            pressure_situation='medium',  # Neutral pressure
+            recent_results_trend='stable',  # Neutral trend
+            injury_momentum=0.5,  # Neutral injury impact
+            media_narrative='neutral',  # Neutral narrative
+            fan_expectation=0.5  # Neutral expectation
+        )
     
     async def _analyze_derby_intensity(self, home_team: str, away_team: str, sport: str) -> DerbyIntensity:
         """
@@ -719,42 +672,15 @@ class D7XFactorMCP:
         }
     
     def _generate_recent_meetings(self, home_team: str, away_team: str) -> List[Dict]:
-        """Generate realistic recent meeting results"""
-        import hashlib
-        
-        meeting_hash = int(hashlib.md5(f"{home_team}{away_team}meetings".encode()).hexdigest()[:8], 16)
-        random.seed(meeting_hash % 1000)
-        
-        meetings = []
-        for i in range(3):  # Last 3 meetings
-            date = datetime.now() - timedelta(days=random.randint(30, 365))
-            results = ['home_win', 'away_win', 'draw']
-            result = random.choice(results)
-            
-            meetings.append({
-                'date': date.strftime('%Y-%m-%d'),
-                'result': result,
-                'score': f"{random.randint(0, 4)}-{random.randint(0, 4)}"
-            })
-        
-        return meetings
+        """Return empty list when no real meeting data available"""
+        # 🔥💀 NO MORE HASH/RANDOM FAKE MEETING DATA!
+        logger.warning(f"⚠️ No meeting history available for {home_team} vs {away_team}")
+        return []  # Return empty - no fake data!
     
     def _determine_match_stakes(self, home_team: str, away_team: str, sport: str) -> str:
         """Determine what's at stake in the match"""
-        stakes_options = [
-            'Three points',
-            'Top 4 race',
-            'Title implications',
-            'Relegation battle',
-            'European qualification',
-            'Bragging rights',
-            'Championship race'
-        ]
-        
-        # Simulate stakes based on team quality
-        import hashlib
-        stakes_hash = int(hashlib.md5(f"{home_team}{away_team}stakes".encode()).hexdigest()[:8], 16)
-        return stakes_options[stakes_hash % len(stakes_options)]
+        # 🔥💀 NO MORE HASH FAKE STAKES! Return neutral default
+        return 'Three points'  # Default stakes when no data available
     
     def _calculate_team_xfactor_score(self, manager_tactics: ManagerTactics, 
                                     momentum_factors: MomentumFactors, sport: str) -> float:
@@ -766,11 +692,11 @@ class D7XFactorMCP:
         
         momentum_score = (momentum_factors.team_momentum + momentum_factors.confidence_level) / 2
         
-        # Weighted combination
-        xfactor_score = (manager_score * weights.get('manager_tactics', 0.3) + 
+        # 🔥💀 Weighted combination - NO MORE RANDOM BULLSHIT!
+        xfactor_score = (manager_score * weights.get('manager_tactics', 0.3) +
                         momentum_score * weights.get('momentum', 0.3) +
-                        0.4 * random.random())  # Add some randomness for X-Factor
-        
+                        0.2)  # Neutral baseline instead of random
+
         return max(0.0, min(1.0, xfactor_score))
     
     def _calculate_tactical_advantage(self, manager_tactics: ManagerTactics, sport: str) -> float:
