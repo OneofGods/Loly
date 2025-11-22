@@ -34,6 +34,9 @@ warnings.filterwarnings('ignore')
 
 from core.autonomous_agent import AutonomousAgent, AGENT_REGISTRY
 
+# Initialize logger FIRST before using it!
+logger = logging.getLogger(__name__)
+
 # 🔥💀🔥 IMPORT THE REAL 8D PREDICTION ENGINE - NO MORE FAKE DATA! 💀🔥💀
 sys.path.insert(0, str(Path(__file__).parent.parent / 'real_agents'))
 try:
@@ -43,8 +46,6 @@ try:
 except Exception as e:
     EIGHT_D_ENGINE_AVAILABLE = False
     logger.warning(f"⚠️ 8D Prediction Engine not available: {e}")
-
-logger = logging.getLogger(__name__)
 
 class PredictionModel:
     """🤖 Individual ML prediction model"""
