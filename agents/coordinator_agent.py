@@ -839,9 +839,9 @@ class CoordinatorAgent(AutonomousAgent):
         for agent_id in self.discovered_agents:
             # Calculate performance metrics
             agent_tasks = [
-                task for task in self.task_history 
-                if task.get('agent_id') == agent_id and 
-                task.get('completion_time', datetime.min).timestamp() > current_time - 3600  # Last hour
+                task for task in self.task_history
+                if task.get('agent_id') == agent_id and
+                task.get('completion_time', 0) > current_time - 3600  # Last hour (Fixed: use 0 instead of datetime.min)
             ]
             
             if agent_tasks:
@@ -967,8 +967,8 @@ class CoordinatorAgent(AutonomousAgent):
         """📊 Update orchestration metrics"""
         if self.task_history:
             recent_tasks = [
-                t for t in self.task_history 
-                if t.get('completion_time', datetime.min).timestamp() > time.time() - 3600
+                t for t in self.task_history
+                if t.get('completion_time', 0) > time.time() - 3600  # Fixed: use 0 instead of datetime.min
             ]
             
             if recent_tasks:

@@ -1,12 +1,12 @@
 {
-  "agent_id": "predictor_001",
+  "agent_id": "analyzer_ce3ddf07",
   "total_tasks": 0,
   "success_rate": 0.0,
   "patterns": {},
   "adaptations": [],
   "health_metrics": {
     "cpu_usage": 0.0,
-    "memory_usage": 326.70703125,
+    "memory_usage": 329.1796875,
     "message_throughput": 0.0,
     "error_rate": 0.0,
     "last_error": null

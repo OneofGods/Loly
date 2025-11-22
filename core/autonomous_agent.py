@@ -198,8 +198,8 @@ class AutonomousAgent(ABC):
             
             # Start core loops
             self.start_time = datetime.now()
-            self.last_heartbeat = datetime.now()
-            
+            self.last_heartbeat = time.time()  # Fixed: use timestamp for comparisons
+
             # Start autonomous loops
             asyncio.create_task(self._main_loop())
             asyncio.create_task(self._communication_loop())
@@ -250,8 +250,8 @@ class AutonomousAgent(ABC):
                     await self._handle_issues(issues)
                 
                 # Update heartbeat
-                self.last_heartbeat = datetime.now()
-                
+                self.last_heartbeat = time.time()  # Fixed: use timestamp for comparisons
+
                 self.state = AgentState.RUNNING
                 await asyncio.sleep(5)  # Monitor every 5 seconds
                 

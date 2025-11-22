@@ -58,7 +58,7 @@ class AgentMetrics:
     avg_response_time: float = 0.0
     throughput: float = 0.0
     error_rate: float = 0.0
-    last_heartbeat: datetime = None
+    last_heartbeat: float = 0.0  # Fixed: use float timestamp, not datetime
     health_score: float = 1.0
 
 class DynamicScalingManager:
@@ -504,8 +504,8 @@ class DynamicScalingManager:
         agent_metrics.avg_response_time = metrics.get('avg_response_time', 0.0)
         agent_metrics.throughput = metrics.get('throughput', 0.0)
         agent_metrics.error_rate = metrics.get('error_rate', 0.0)
-        agent_metrics.last_heartbeat = datetime.now()
-        
+        agent_metrics.last_heartbeat = time.time()  # Fixed: use timestamp for comparisons
+
         # Calculate health score
         agent_metrics.health_score = await self._calculate_health_score(agent_metrics)
     

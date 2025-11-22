@@ -647,9 +647,9 @@ class MonitorAgent(AutonomousAgent):
             logger.error(f"❌ Invalid metric type for {metric_name}: {type(metric)}")
             # Recreate the metric if it's corrupted
             self.health_metrics[metric_name] = HealthMetric(
-                name=metric_name, 
-                metric_type='gauge', 
-                unit='percent'
+                metric_name,  # Fixed: positional argument, not name=
+                'gauge',
+                'percent'
             )
             metric = self.health_metrics[metric_name]
             

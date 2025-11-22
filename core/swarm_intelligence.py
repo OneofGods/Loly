@@ -39,7 +39,7 @@ class SwarmAgent:
     role: SwarmRole
     capabilities: Set[str]
     performance_score: float = 0.0
-    last_heartbeat: datetime = None
+    last_heartbeat: float = 0.0  # Fixed: use float timestamp, not datetime
     task_count: int = 0
     success_rate: float = 1.0
     communication_latency: float = 0.0
@@ -97,7 +97,7 @@ class SwarmIntelligenceCoordinator:
             agent_type=agent_type,
             role=role,
             capabilities=capabilities,
-            last_heartbeat=datetime.now()
+            last_heartbeat=time.time()  # Fixed: use timestamp for comparisons
         )
         
         self.agents[agent_id] = swarm_agent

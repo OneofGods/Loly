@@ -6,7 +6,7 @@
   "adaptations": [],
   "health_metrics": {
     "cpu_usage": 0.0,
-    "memory_usage": 329.1796875,
+    "memory_usage": 326.70703125,
     "message_throughput": 0.0,
     "error_rate": 0.0,
     "last_error": null
