@@ -6,9 +6,9 @@
   "adaptations": [],
   "health_metrics": {
     "cpu_usage": 0.0,
-    "memory_usage": 325.90625,
-    "disk_usage": 1.414340602995528,
-    "network_connections": 31,
+    "memory_usage": 329.7265625,
+    "disk_usage": 1.4295935505236996,
+    "network_connections": 7,
     "active_agents": 0,
     "agent_errors": 0,
     "task_completion_rate": 0.0,
