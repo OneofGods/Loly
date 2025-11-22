@@ -162,13 +162,10 @@ class UniversalPredictionEngine:
             return int(d4_confidence)
             
         except Exception as e:
-            logger.error(f"❌ D4 MCP failed, using fallback: {e}")
-            # Fallback to hash-based calculation
-            min_val, max_val = config['market_efficiency_range']
-            hash_val = generate_league_specific_hash(league_id, home_team, away_team, 'market')
-            fallback_value = min_val + (hash_val % (max_val - min_val + 1))
-            logger.info(f"🛡️ D4 Fallback: {home_team} vs {away_team} = {fallback_value}% (hash-based)")
-            return fallback_value
+            logger.error(f"❌ D4 MCP failed: {e}")
+            # 🔥💀 NO MORE HASH FALLBACKS! Return low confidence when data unavailable
+            logger.warning(f"⚠️ D4 data unavailable for {home_team} vs {away_team}, returning low confidence")
+            return 30  # Low confidence when real data unavailable
     
     async def _calculate_team_performance_d5_mcp(self, home_team: str, away_team: str, league_id: str, config: Dict) -> int:
         """📊 Dimension 5: Team Performance - REAL D5 MCP with ESPN team analytics!"""
@@ -217,9 +214,9 @@ class UniversalPredictionEngine:
     
     def _calculate_team_performance_fallback(self, home_team: str, away_team: str, league_id: str, config: Dict) -> int:
         """Fallback team performance calculation when D5 MCP fails"""
-        min_val, max_val = config.get('team_performance_range', (40, 80))
-        hash_val = generate_league_specific_hash(league_id, home_team, away_team, 'performance')
-        return min_val + (hash_val % (max_val - min_val + 1))
+        # 🔥💀 NO MORE HASH FALLBACKS! Return low confidence when data unavailable
+        logger.warning(f"⚠️ D5 fallback triggered for {home_team} vs {away_team}, returning low confidence")
+        return 30  # Low confidence when real data unavailable
     
     async def _calculate_key_players_d6_mcp(self, home_team: str, away_team: str, league_id: str, config: Dict) -> int:
         """📊 Dimension 6: Key Players - REAL D6 MCP with ESPN + Firecrawl player intelligence!"""
@@ -268,9 +265,9 @@ class UniversalPredictionEngine:
     
     def _calculate_key_players_fallback(self, home_team: str, away_team: str, league_id: str, config: Dict) -> int:
         """Fallback key players calculation when D6 MCP fails"""
-        min_val, max_val = config.get('key_players_range', (40, 80))
-        hash_val = generate_league_specific_hash(league_id, home_team, away_team, 'players')
-        return min_val + (hash_val % (max_val - min_val + 1))
+        # 🔥💀 NO MORE HASH FALLBACKS! Return low confidence when data unavailable
+        logger.warning(f"⚠️ D6 fallback triggered for {home_team} vs {away_team}, returning low confidence")
+        return 30  # Low confidence when real data unavailable
     
     # 🔥💀🔥 NEW DIMENSIONS - LEGENDARY 8D UPGRADE (8 DIMENSIONS: D0-D7)! 💀🔥💀
     
@@ -305,11 +302,10 @@ class UniversalPredictionEngine:
                 raise Exception("D0 MCP failed")
                 
         except Exception as e:
-            logger.warning(f"⚠️ D0 Polymarket MCP error: {e}, using fallback")
-            # Fallback to hash calculation
-            min_val, max_val = (45, 85)
-            hash_val = generate_league_specific_hash(league_id, home_team, away_team, 'polymarket')
-            return min_val + (hash_val % (max_val - min_val + 1))
+            logger.error(f"❌ D0 Polymarket MCP error: {e}")
+            # 🔥💀 NO MORE HASH FALLBACKS! Return low confidence when data unavailable
+            logger.warning(f"⚠️ D0 data unavailable for {home_team} vs {away_team}, returning low confidence")
+            return 30  # Low confidence when real data unavailable
     
     async def _calculate_historical_matchups(self, home_team: str, away_team: str, league_id: str, config: Dict) -> int:
         """📜 Dimension 1: Historical Matchups - REAL ESPN D1 MCP ANALYSIS"""
@@ -329,13 +325,9 @@ class UniversalPredictionEngine:
                 
         except Exception as e:
             logger.error(f"❌ D1 MCP error for {home_team} vs {away_team}: {e}")
-        
-        # Fallback to original hash-based calculation if D1 MCP fails
-        min_val, max_val = (40, 80)
-        hash_val = generate_league_specific_hash(league_id, home_team, away_team, 'historical')
-        fallback_value = min_val + (hash_val % (max_val - min_val + 1))
-        logger.info(f"🛡️ D1 Fallback: {home_team} vs {away_team} = {fallback_value}% (hash-based)")
-        return fallback_value
+            # 🔥💀 NO MORE HASH FALLBACKS! Return low confidence when data unavailable
+            logger.warning(f"⚠️ D1 data unavailable for {home_team} vs {away_team}, returning low confidence")
+            return 30  # Low confidence when real data unavailable
     
     async def _calculate_weather_venue(self, home_team: str, away_team: str, league_id: str, config: Dict) -> int:
         """🌤️ Dimension 2: Weather/Venue - Environmental factors and home advantage - REAL D2 MCP!"""
@@ -366,12 +358,10 @@ class UniversalPredictionEngine:
             return int(d2_confidence)
             
         except Exception as e:
-            logger.error(f"❌ D2 MCP failed, using fallback: {e}")
-            # Fallback to hash-based calculation
-            min_val, max_val = (50, 75)
-            hash_val = generate_league_specific_hash(league_id, home_team, away_team, 'weather')
-            home_boost = 5
-            return min(max_val, min_val + (hash_val % (max_val - min_val + 1)) + home_boost)
+            logger.error(f"❌ D2 MCP failed: {e}")
+            # 🔥💀 NO MORE HASH FALLBACKS! Return low confidence when data unavailable
+            logger.warning(f"⚠️ D2 data unavailable for {home_team} vs {away_team}, returning low confidence")
+            return 30  # Low confidence when real data unavailable
     
     async def _calculate_sentiment(self, home_team: str, away_team: str, league_id: str, config: Dict) -> int:
         """💬 Dimension 3: Sentiment - Social media buzz and news analysis - REAL D3 MCP!"""
@@ -400,13 +390,10 @@ class UniversalPredictionEngine:
             return int(d3_confidence)
             
         except Exception as e:
-            logger.error(f"❌ D3 MCP failed, using fallback: {e}")
-            # Fallback to hash-based calculation
-            min_val, max_val = (35, 75)
-            hash_val = generate_league_specific_hash(league_id, home_team, away_team, 'sentiment')
-            fallback_value = min_val + (hash_val % (max_val - min_val + 1))
-            logger.info(f"🛡️ D3 Fallback: {home_team} vs {away_team} = {fallback_value}% (hash-based)")
-            return fallback_value
+            logger.error(f"❌ D3 MCP failed: {e}")
+            # 🔥💀 NO MORE HASH FALLBACKS! Return low confidence when data unavailable
+            logger.warning(f"⚠️ D3 data unavailable for {home_team} vs {away_team}, returning low confidence")
+            return 30  # Low confidence when real data unavailable
     
     async def _calculate_x_factor_d7_mcp(self, home_team: str, away_team: str, league_id: str, config: Dict) -> int:
         """🎲 Dimension 7: X-Factor - REAL D7 MCP with AI-powered tactical intelligence!"""
@@ -455,13 +442,9 @@ class UniversalPredictionEngine:
     
     def _calculate_x_factor_fallback(self, home_team: str, away_team: str, league_id: str, config: Dict) -> int:
         """Fallback X-Factor calculation when D7 MCP fails"""
-        min_val, max_val = (30, 70)  # Wide range - represents chaos
-        hash_val = generate_league_specific_hash(league_id, home_team, away_team, 'xfactor')
-        base_chaos = min_val + (hash_val % (max_val - min_val + 1))
-        
-        # More chaos for elite matchups (higher tier teams)
-        tier_boost = 10 if config.get('elite_tier', False) else 0
-        return min(max_val, base_chaos + tier_boost)
+        # 🔥💀 NO MORE HASH FALLBACKS! Return low confidence when data unavailable
+        logger.warning(f"⚠️ D7 fallback triggered for {home_team} vs {away_team}, returning low confidence")
+        return 30  # Low confidence when real data unavailable
     
     def _calculate_8d_confidence(self, polymarket: int, historical: int, weather: int, sentiment: int,
                                  market_eff: int, team_perf: int, key_players: int, x_factor: int,
@@ -503,31 +486,40 @@ class UniversalPredictionEngine:
                            league_id: str, config: Dict) -> str:
         """Generate prediction using ALL 8 DIMENSIONS (D0-D7) - league-specific logic"""
         
-        # Generate probabilities based on ALL dimensions with weighted influence
-        market_hash = generate_league_specific_hash(league_id, home_team, away_team, 'market')
-        perf_hash = generate_league_specific_hash(league_id, home_team, away_team, 'performance')
-        poly_hash = generate_league_specific_hash(league_id, home_team, away_team, 'polymarket')
-        
-        # Enhanced probability calculation using ALL 8 dimensions (D0-D7)
-        # Weight polymarket odds heavily as they reflect real market consensus
-        base_home = 0.30 + (poly_hash % 30) / 100.0  # 30-59%
-        base_away = 0.25 + (market_hash % 35) / 100.0  # 25-59%
-        
-        # Factor in historical matchups
-        if historical > 65:  # Strong historical advantage
+        # 🔥💀 Generate probabilities based on REAL 8D dimensions - NO MORE HASH BULLSHIT! 💀🔥
+        # Start with neutral baseline (slight home advantage)
+        base_home = 0.40  # 40% home baseline
+        base_away = 0.35  # 35% away baseline
+
+        # 🔥💀 Use REAL D0-D7 values to modulate probabilities - REAL DATA POWER! 💀🔥
+        # Normalize dimension values to 0-1 range (dimensions are 30-95)
+        norm_poly = (polymarket - 30) / 65.0       # D0: Polymarket odds
+        norm_hist = (historical - 30) / 65.0        # D1: Historical matchups
+        norm_weather = (weather - 30) / 65.0        # D2: Weather/venue
+        norm_sentiment = (sentiment - 30) / 65.0    # D3: Sentiment
+        norm_market = (market_eff - 30) / 65.0      # D4: Market efficiency
+        norm_perf = (team_perf - 30) / 65.0         # D5: Team performance
+        norm_players = (key_players - 30) / 65.0    # D6: Key players
+        norm_xfactor = (x_factor - 30) / 65.0       # D7: X-Factor
+
+        # Weight polymarket heavily (most reliable indicator)
+        base_home += norm_poly * 0.10
+
+        # Historical matchups favor home team when high
+        if historical > 60:
             base_home += 0.05
-        
-        # Factor in weather/venue for home team
-        if weather > 65:  # Good home conditions
-            base_home += 0.08
-        
-        # Factor in sentiment
-        if sentiment > 60:  # Positive buzz
-            # Boost whichever team has momentum
-            if perf_hash % 2 == 0:
-                base_home += 0.03
-            else:
-                base_away += 0.03
+
+        # Weather/venue always favors home team
+        if weather > 60:
+            base_home += norm_weather * 0.08
+
+        # Sentiment and performance are neutral (could favor either team)
+        # Use them to increase competitiveness
+        if sentiment > 65 or team_perf > 65:
+            # High confidence = closer match (reduce gap)
+            gap = abs(base_home - base_away)
+            base_home -= gap * 0.1
+            base_away += gap * 0.1
         
         # Calculate draw probability
         draw_prob = 1.0 - base_home - base_away
