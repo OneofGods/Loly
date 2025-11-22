@@ -451,15 +451,39 @@ class MLAnalyticsCoordinator:
     
     async def _extract_load_features(self, data_point: Dict[str, Any]) -> Tuple[Optional[List[float]], Optional[float]]:
         """🔧 Extract features for load forecasting"""
-        # This would extract time-series features for load prediction
-        # For now, return dummy data
-        return [1.0, 2.0, 3.0], 1.0
-    
+        # Extract REAL time-series features for load prediction
+        try:
+            features = []
+            # Extract CPU/memory load if available
+            features.append(float(data_point.get('cpu_usage', 0.5)))
+            features.append(float(data_point.get('memory_usage', 0.5)))
+            features.append(float(data_point.get('active_agents', 5)))
+
+            # Extract target (future load)
+            target = float(data_point.get('predicted_load', 0.5))
+
+            return features, target
+        except Exception as e:
+            logger.warning(f"Failed to extract load features: {e}")
+            return None, None
+
     async def _extract_failure_features(self, data_point: Dict[str, Any]) -> Tuple[Optional[List[float]], Optional[float]]:
         """🔧 Extract features for failure prediction"""
-        # This would extract failure indicator features
-        # For now, return dummy data
-        return [1.0, 2.0, 3.0], 0.0
+        # Extract REAL failure indicator features
+        try:
+            features = []
+            # Extract error rates and health metrics
+            features.append(float(data_point.get('error_rate', 0.0)))
+            features.append(float(data_point.get('response_time', 1.0)))
+            features.append(float(data_point.get('timeout_rate', 0.0)))
+
+            # Extract target (did failure occur?)
+            target = float(data_point.get('failure_occurred', 0.0))
+
+            return features, target
+        except Exception as e:
+            logger.warning(f"Failed to extract failure features: {e}")
+            return None, None
     
     async def _check_model_degradation(self, model: MLModel) -> bool:
         """📉 Check if model performance has degraded"""

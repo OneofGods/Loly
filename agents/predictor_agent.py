@@ -21,6 +21,9 @@ import logging
 from collections import defaultdict, deque
 import pickle
 import hashlib
+import sys
+import os
+from pathlib import Path
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingRegressor
 from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn.metrics import accuracy_score, mean_squared_error, classification_report
@@ -30,6 +33,16 @@ import warnings
 warnings.filterwarnings('ignore')
 
 from core.autonomous_agent import AutonomousAgent, AGENT_REGISTRY
+
+# 🔥💀🔥 IMPORT THE REAL 8D PREDICTION ENGINE - NO MORE FAKE DATA! 💀🔥💀
+sys.path.insert(0, str(Path(__file__).parent.parent / 'real_agents'))
+try:
+    from universal_prediction_engine import UniversalPredictionEngine
+    EIGHT_D_ENGINE_AVAILABLE = True
+    logger.info("🔥💀🔥 8D PREDICTION ENGINE LOADED SUCCESSFULLY! 💀🔥💀")
+except Exception as e:
+    EIGHT_D_ENGINE_AVAILABLE = False
+    logger.warning(f"⚠️ 8D Prediction Engine not available: {e}")
 
 logger = logging.getLogger(__name__)
 
@@ -97,7 +110,16 @@ class PredictorAgent(AutonomousAgent):
     
     def __init__(self, agent_id: str = None, config: Dict[str, Any] = None):
         super().__init__(agent_id, config)
-        
+
+        # 🔥💀🔥 INITIALIZE THE REAL 8D PREDICTION ENGINE! 💀🔥💀
+        self.eight_d_engine = None
+        if EIGHT_D_ENGINE_AVAILABLE:
+            try:
+                self.eight_d_engine = UniversalPredictionEngine()
+                logger.info("🔥💀🔥 8D ENGINE INITIALIZED IN PREDICTOR AGENT! 💀🔥💀")
+            except Exception as e:
+                logger.error(f"❌ Failed to initialize 8D engine: {e}")
+
         # Prediction configuration
         self.prediction_targets = {
             'winner': {'type': 'classification', 'priority': 1},
@@ -105,27 +127,27 @@ class PredictorAgent(AutonomousAgent):
             'score_difference': {'type': 'regression', 'priority': 2},
             'home_advantage': {'type': 'classification', 'priority': 3}
         }
-        
+
         # Model portfolio
         self.models = {}  # model_id -> PredictionModel
         self.active_models = defaultdict(list)  # sport -> list of model_ids
         self.model_performance = defaultdict(dict)  # sport -> target -> performance_metrics
-        
+
         # Training data
         self.training_data = defaultdict(list)  # sport -> training_samples
         self.training_queue = deque()
         self.max_training_samples = 1000  # Per sport
-        
+
         # Prediction cache
         self.prediction_cache = {}  # cache_key -> prediction_result
         self.cache_timestamps = {}
         self.cache_ttl = 3600  # 1 hour
-        
+
         # Performance thresholds
         self.min_accuracy_threshold = 0.6
         self.retrain_threshold = 0.05  # Retrain if accuracy drops by 5%
         self.min_training_samples = 20
-        
+
         # Algorithm selection
         self.available_algorithms = {
             'classification': {
@@ -137,16 +159,18 @@ class PredictorAgent(AutonomousAgent):
                 'linear_regression': LinearRegression
             }
         }
-        
-        # Feature engineering
+
+        # Feature engineering (DEPRECATED - NOW USING 8D ENGINE!)
         self.feature_extractors = {
             'team_performance': self._extract_team_performance_features,
             'recent_form': self._extract_recent_form_features,
             'head_to_head': self._extract_head_to_head_features,
             'statistical': self._extract_statistical_features
         }
-        
+
         logger.info(f"🎯 PredictorAgent {self.agent_id} initialized with {len(self.prediction_targets)} targets")
+        if self.eight_d_engine:
+            logger.info("🔥 READY TO USE 8D ANALYSIS (D0-D7) FOR ALL PREDICTIONS! 🔥")
     
     async def _initialize_systems(self):
         """⚙️ Initialize prediction systems"""
@@ -547,7 +571,7 @@ class PredictorAgent(AutonomousAgent):
             return 0.0
     
     async def _make_prediction(self, sport: str, game_data: Dict[str, Any], prediction_type: str) -> Dict[str, Any]:
-        """🎯 Make prediction for game"""
+        """🎯 Make prediction for game - NOW USING 8D ENGINE FIRST!"""
         # Check cache first
         cache_key = f"{sport}_{prediction_type}_{hash(str(game_data))}"
         if cache_key in self.prediction_cache:
@@ -555,34 +579,74 @@ class PredictorAgent(AutonomousAgent):
             if time.time() - self.cache_timestamps[cache_key] < self.cache_ttl:
                 cached_result['cached'] = True
                 return cached_result
-        
+
+        # 🔥💀🔥 TRY 8D ENGINE FIRST - THE REAL DEAL! 💀🔥💀
+        if self.eight_d_engine:
+            try:
+                logger.info(f"🔥 Using 8D ENGINE for {sport}.{prediction_type} prediction!")
+
+                # Map sport to league_id for 8D engine
+                league_id = self._map_sport_to_league(sport)
+
+                # Use the 8D engine to analyze the game
+                eight_d_result = await self.eight_d_engine.analyze_game(game_data, league_id)
+
+                if eight_d_result and 'prediction' in eight_d_result:
+                    # Extract prediction from 8D result
+                    prediction = eight_d_result.get('prediction', 'Unknown')
+                    confidence = eight_d_result.get('confidence', 0.0) / 100.0  # Convert from percentage
+
+                    result = {
+                        'prediction': prediction,
+                        'confidence': confidence,
+                        'engine': '8D_DIMENSIONAL_ANALYSIS',
+                        'dimensions_used': 'D0-D7 (Polymarket, Historical, Venue, Sentiment, Market, Performance, KeyPlayers, XFactor)',
+                        'eight_d_details': eight_d_result,
+                        'cached': False
+                    }
+
+                    # Cache result
+                    self.prediction_cache[cache_key] = result.copy()
+                    self.cache_timestamps[cache_key] = time.time()
+
+                    logger.info(f"🔥💀 8D PREDICTION for {sport}.{prediction_type}: {prediction} ({confidence:.2f} confidence) 💀🔥")
+                    return result
+                else:
+                    logger.warning(f"⚠️ 8D engine returned invalid result, falling back to ML")
+
+            except Exception as e:
+                logger.error(f"❌ 8D engine prediction failed: {e}, falling back to ML models")
+
+        # FALLBACK: Use ML models if 8D engine not available or failed
+        logger.info(f"📊 Using ML FALLBACK for {sport}.{prediction_type}")
+
         # Find best model for this prediction
         best_model = await self._select_best_model(sport, prediction_type)
-        
+
         if not best_model:
             return {
                 'error': f'No trained model available for {sport}.{prediction_type}',
                 'confidence': 0.0
             }
-        
+
         try:
             # Extract features from game data
             features = await self._extract_game_features(game_data, prediction_type)
-            
+
             if not features:
                 return {
                     'error': 'Unable to extract features from game data',
                     'confidence': 0.0
                 }
-            
+
             # Make prediction
             features_array = np.array([features])
             features_scaled = best_model.scaler.transform(features_array)
-            
+
             if best_model.model_type in ['winner', 'classification']:
                 prediction_encoded = best_model.model.predict(features_scaled)[0]
                 prediction_proba = best_model.model.predict_proba(features_scaled)[0]
-                
+
                 # Decode prediction
                 prediction = best_model.label_encoder.inverse_transform([prediction_encoded])[0]
                 confidence = float(np.max(prediction_proba))
@@ -590,10 +654,11 @@ class PredictorAgent(AutonomousAgent):
                 prediction = float(best_model.model.predict(features_scaled)[0])
                 # For regression, confidence based on historical accuracy
                 confidence = best_model.accuracy
-            
+
             result = {
                 'prediction': prediction,
                 'confidence': confidence,
+                'engine': 'ML_FALLBACK',
                 'model_info': {
                     'model_id': best_model.model_id,
                     'model_type': best_model.model_type,
@@ -604,23 +669,40 @@ class PredictorAgent(AutonomousAgent):
                 'features_used': len(features),
                 'cached': False
             }
-            
+
             # Cache result
             self.prediction_cache[cache_key] = result.copy()
             self.cache_timestamps[cache_key] = time.time()
-            
+
             # Update model usage
             best_model.predictions_made += 1
-            
-            logger.info(f"🎯 Prediction for {sport}.{prediction_type}: {prediction} (confidence: {confidence:.2f})")
+
+            logger.info(f"📊 ML Prediction for {sport}.{prediction_type}: {prediction} (confidence: {confidence:.2f})")
             return result
-            
+
         except Exception as e:
             logger.error(f"❌ Prediction failed for {sport}.{prediction_type}: {e}")
             return {
                 'error': str(e),
                 'confidence': 0.0
             }
+
+    def _map_sport_to_league(self, sport: str) -> str:
+        """Map sport name to league_id for 8D engine"""
+        # Simple mapping - in production this would be more sophisticated
+        sport_lower = sport.lower()
+        if 'uefa' in sport_lower or 'champions' in sport_lower:
+            return 'UEFA'
+        elif 'liga mx' in sport_lower or 'ligamx' in sport_lower:
+            return 'LIGA_MX'
+        elif 'mls' in sport_lower:
+            return 'MLS'
+        elif 'epl' in sport_lower or 'premier' in sport_lower:
+            return 'EPL'
+        elif 'la liga' in sport_lower or 'laliga' in sport_lower:
+            return 'LA_LIGA'
+        else:
+            return sport.upper()
     
     async def _select_best_model(self, sport: str, prediction_type: str) -> Optional[PredictionModel]:
         """🏆 Select best model for prediction"""
