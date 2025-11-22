@@ -498,55 +498,80 @@ class UniversalPredictionEngine:
         return min(int(boosted_confidence), confidence_cap)
     
     def _generate_prediction(self, game_data: Dict, home_team: str, away_team: str,
-                           polymarket: int, historical: int, weather: int, sentiment: int, 
+                           polymarket: int, historical: int, weather: int, sentiment: int,
                            market_eff: int, team_perf: int, key_players: int, x_factor: int,
                            league_id: str, config: Dict) -> str:
-        """Generate prediction using ALL 8 DIMENSIONS (D0-D7) - league-specific logic"""
-        
-        # Generate probabilities based on ALL dimensions with weighted influence
-        market_hash = generate_league_specific_hash(league_id, home_team, away_team, 'market')
-        perf_hash = generate_league_specific_hash(league_id, home_team, away_team, 'performance')
-        poly_hash = generate_league_specific_hash(league_id, home_team, away_team, 'polymarket')
-        
-        # Enhanced probability calculation using ALL 8 dimensions (D0-D7)
-        # Weight polymarket odds heavily as they reflect real market consensus
-        base_home = 0.30 + (poly_hash % 30) / 100.0  # 30-59%
-        base_away = 0.25 + (market_hash % 35) / 100.0  # 25-59%
-        
-        # Factor in historical matchups
-        if historical > 65:  # Strong historical advantage
-            base_home += 0.05
-        
-        # Factor in weather/venue for home team
-        if weather > 65:  # Good home conditions
-            base_home += 0.08
-        
-        # Factor in sentiment
-        if sentiment > 60:  # Positive buzz
-            # Boost whichever team has momentum
-            if perf_hash % 2 == 0:
-                base_home += 0.03
-            else:
-                base_away += 0.03
+        """🔥💀🔥 Generate prediction using REAL 8D scores - NO MORE HASH BULLSHIT! 💀🔥💀"""
+
+        # 🔥💀 CALCULATE PROBABILITIES FROM REAL 8D DIMENSION SCORES! 💀🔥
+        # Each dimension contributes to home vs away probability
+
+        # Convert dimension scores (0-100) to probability contributions
+        # Scores > 50 favor one team, < 50 favor the other
+
+        # D0 Polymarket: Market consensus (highest weight)
+        poly_home_factor = (polymarket - 50) / 100.0 * 0.25  # ±12.5% max influence
+
+        # D1 Historical: Past matchups matter
+        hist_home_factor = (historical - 50) / 100.0 * 0.15  # ±7.5% max influence
+
+        # D2 Weather/Venue: Home advantage from conditions
+        venue_home_factor = (weather - 50) / 100.0 * 0.10  # ±5% max influence
+
+        # D3 Sentiment: Social buzz and morale
+        sentiment_home_factor = (sentiment - 50) / 100.0 * 0.10  # ±5% max influence
+
+        # D4 Market Efficiency: Sharp money indicators
+        market_home_factor = (market_eff - 50) / 100.0 * 0.20  # ±10% max influence
+
+        # D5 Team Performance: Current form
+        perf_home_factor = (team_perf - 50) / 100.0 * 0.15  # ±7.5% max influence
+
+        # D6 Key Players: Star power and injuries
+        players_home_factor = (key_players - 50) / 100.0 * 0.10  # ±5% max influence
+
+        # D7 X-Factor: Intangibles and chaos
+        xfactor_home_factor = (x_factor - 50) / 100.0 * 0.05  # ±2.5% max influence
+
+        # Sum all factors to get home team advantage
+        total_home_factor = (poly_home_factor + hist_home_factor + venue_home_factor +
+                            sentiment_home_factor + market_home_factor + perf_home_factor +
+                            players_home_factor + xfactor_home_factor)
+
+        # Convert to probabilities (base 40/40 with 20% draw potential)
+        base_home = 0.40 + total_home_factor
+        base_away = 0.40 - total_home_factor
         
         # Calculate draw probability
         draw_prob = 1.0 - base_home - base_away
         
         # Apply league-specific draw logic
         if config.get('draw_enabled', False):
-            draw_threshold = config.get('draw_threshold', 0.45)
-            close_threshold = config.get('close_game_threshold', 0.05)
-            
+            # 🔥💀 IMPROVED DRAW LOGIC - FIX THE 0% DRAW ACCURACY! 💀🔥
+
             # Normalize probabilities
             total = base_home + base_away + draw_prob
             home_prob = base_home / total
             away_prob = base_away / total
             draw_prob = draw_prob / total
-            
-            # Enhanced draw logic for leagues that support it
-            if draw_prob >= draw_threshold:
+
+            # Calculate how balanced the 8D scores are
+            dimension_scores = [polymarket, historical, weather, sentiment, market_eff, team_perf, key_players, x_factor]
+            avg_score = sum(dimension_scores) / len(dimension_scores)
+            dimension_variance = sum((score - avg_score) ** 2 for score in dimension_scores) / len(dimension_scores)
+
+            # Low variance = balanced game = draw likely
+            is_balanced = dimension_variance < 150  # Scores clustered around 50
+
+            # Predict DRAW if:
+            # 1. Draw probability is highest (> 33%)
+            # 2. OR teams are very evenly matched (difference < 8%) AND draw prob > 25%
+            # 3. OR dimensions are balanced AND draw prob > 28%
+            if draw_prob >= 0.33:
                 return "🤝 DRAW"
-            elif abs(home_prob - away_prob) < close_threshold and draw_prob > 0.35:
+            elif abs(home_prob - away_prob) < 0.08 and draw_prob > 0.25:
+                return "🤝 DRAW"
+            elif is_balanced and draw_prob > 0.28:
                 return "🤝 DRAW"
             elif away_prob > home_prob:
                 return f"✈️ {away_team}"
