@@ -26,9 +26,17 @@ from dataclasses import dataclass
 import statistics
 
 # Enhanced debugging system imports
-from enhanced_debugging_system import IntelligentDebugger, debug_capture, debug_monitor
-from enhanced_logging_system import StructuredLogger, with_correlation
-from self_healing_system import SelfHealingSystem, with_self_healing
+try:
+    from real_agents.enhanced_debugging_system import IntelligentDebugger, debug_capture, debug_monitor
+    from real_agents.enhanced_logging_system import StructuredLogger, with_correlation
+except ImportError:
+    # Fallback for when running as standalone script
+    from enhanced_debugging_system import IntelligentDebugger, debug_capture, debug_monitor
+    from enhanced_logging_system import StructuredLogger, with_correlation
+try:
+    from real_agents.self_healing_system import SelfHealingSystem, with_self_healing
+except ImportError:
+    from self_healing_system import SelfHealingSystem, with_self_healing
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

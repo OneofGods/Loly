@@ -25,8 +25,12 @@ import traceback
 import re
 from pathlib import Path
 
-from enhanced_logging_system import enhanced_logger, with_correlation
-from automated_debugging_assistant import assistant as debug_assistant
+try:
+    from real_agents.enhanced_logging_system import enhanced_logger, with_correlation
+    from real_agents.automated_debugging_assistant import assistant as debug_assistant
+except ImportError:
+    from enhanced_logging_system import enhanced_logger, with_correlation
+    from automated_debugging_assistant import assistant as debug_assistant
 
 @dataclass
 class HealingAction:
