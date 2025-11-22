@@ -569,21 +569,9 @@ class D5TeamPerformanceMCP:
             draw_prob = total_draws / total_games
             loss_prob = total_losses / total_games
             
-            # Generate form based on probabilities
-            form = []
-            import random
-            random.seed(hash(team_data['team_name']) % 1000)  # Deterministic but varied
-            
-            for _ in range(form_games):
-                rand_val = random.random()
-                if rand_val < win_prob:
-                    form.append('W')
-                elif rand_val < win_prob + draw_prob:
-                    form.append('D')
-                else:
-                    form.append('L')
-            
-            return form
+            # 🔥💀 NO MORE RANDOM FAKE FORM! Return neutral pattern
+            # Return balanced form: 2W, 2D, 1L (neutral recent form)
+            return ['W', 'D', 'W', 'D', 'L'][:form_games]
             
         except Exception as e:
             logger.error(f"❌ Form generation error: {e}")
@@ -591,10 +579,8 @@ class D5TeamPerformanceMCP:
     
     def _generate_realistic_team_data(self, team: str, sport: str) -> Dict[str, Any]:
         """Generate realistic team data for demonstration"""
-        import hashlib
-        
-        # Generate deterministic but realistic data
-        team_hash = int(hashlib.md5(f"{team}{sport}".encode()).hexdigest()[:8], 16)
+        # 🔥💀 NO MORE FAKE TEAM DATA! Return None when no real data
+        return None
         
         # Big teams get better stats
         big_teams = ['Manchester United', 'Barcelona', 'Real Madrid', 'Lakers', 'Celtics', 
@@ -690,21 +676,8 @@ class D5TeamPerformanceMCP:
     
     def _generate_fallback_form(self, team: str, games: int) -> List[str]:
         """Generate fallback form data"""
-        import hashlib
-        
-        form_hash = int(hashlib.md5(f"{team}form".encode()).hexdigest()[:8], 16)
-        form = []
-        
-        for i in range(games):
-            result_num = (form_hash + i) % 100
-            if result_num < 45:
-                form.append('W')
-            elif result_num < 70:
-                form.append('D')
-            else:
-                form.append('L')
-        
-        return form
+        # 🔥💀 NO MORE HASH-BASED FAKE FORM! Return neutral pattern
+        return ['W', 'D', 'W', 'D', 'L'][:games]
     
     def _calculate_form_score(self, recent_form: List[str]) -> float:
         """Calculate form score from recent results"""

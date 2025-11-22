@@ -405,12 +405,7 @@ class D1HistoricalAnalysisMCP:
         """
         🛡️ Fallback D1 data when no historical data is available
         """
-        # Generate consistent but varied fallback based on team names
-        seed = f"d1_mcp_fallback_{home_team}_{away_team}_{league}"
-        hash_val = int(hashlib.md5(seed.encode()).hexdigest()[:8], 16)
-        
-        fallback_confidence = 45 + (hash_val % 30)  # 45-75% range
-        
+        # 🔥💀 NO MORE HASH-BASED FAKE FALLBACK! Return neutral defaults
         return {
             # MCP Metadata
             'success': True,
@@ -418,11 +413,11 @@ class D1HistoricalAnalysisMCP:
             'mcp_version': self.version,
             'data_source': 'ESPN_D1_HISTORICAL_MCP_FALLBACK',
             'analysis_timestamp': datetime.now().isoformat(),
-            
+
             # D1 Core Results
-            'd1_confidence': fallback_confidence,
-            'd1_prediction': f"🏠 {home_team}" if hash_val % 2 == 0 else f"✈️ {away_team}",
-            'd1_reasoning': "Limited historical data - using analytical fallback",
+            'd1_confidence': 50,  # Neutral confidence
+            'd1_prediction': f"🏠 {home_team}",  # Default home advantage
+            'd1_reasoning': "No historical data available - neutral fallback",
             
             # Historical Analysis (empty)
             'historical_analysis': {
