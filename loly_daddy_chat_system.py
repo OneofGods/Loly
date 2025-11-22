@@ -139,6 +139,31 @@ class LolyDaddyChatSystem:
         response_text = ""
         emotion = "joy"
         intensity = 0.8
+
+        # 🔥💀 PRIORITY #1: Check for COMMAND EXECUTION! 💀🔥
+        try:
+            from core.command_executor import get_command_executor
+            command_executor = get_command_executor()
+
+            # Try to parse as a command
+            command_result = command_executor.parse_command(daddy_message)
+            if command_result:
+                command_type, content = command_result
+                print(f"🎯 LOLY: Executing command: {command_type}")
+
+                # Execute the command
+                response_text = await command_executor.execute_command(command_type, content)
+                print(f"✅ LOLY: Command executed: {response_text}")
+
+                # Set appropriate emotion for command execution
+                emotion = "helpful"
+                intensity = 0.9
+
+                # Return immediately - don't fall through to templates!
+                return response_text
+
+        except Exception as e:
+            print(f"⚠️ LOLY: Command executor error (continuing with normal flow): {e}")
         
         # 🏆 HIGHEST PRIORITY: Check for UEFA Champions League requests FIRST
         if any(word in daddy_lower for word in ['uefa', 'champions league', 'champions', 'football', 'soccer']):
