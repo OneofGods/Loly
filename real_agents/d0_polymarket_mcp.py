@@ -567,57 +567,14 @@ class D0PolymarketMCP:
             logger.error(f"❌ Generic sports market data error: {e}")
             return self._generate_realistic_market_data(home_team, away_team, sport, league)
     
-    def _generate_calibrated_market_data(self, home_team: str, away_team: str, 
-                                       sport: str, league: str, 
+    def _generate_calibrated_market_data(self, home_team: str, away_team: str,
+                                       sport: str, league: str,
                                        avg_volume: float, avg_liquidity: float) -> PolymarketOdds:
         """
         🎲 Generate market data calibrated with real Polymarket statistics
         """
-        import hashlib
-        import random
-        
-        # Generate deterministic but realistic data
-        market_hash = int(hashlib.md5(f"{home_team}{away_team}market".encode()).hexdigest()[:8], 16)
-        random.seed(market_hash % 1000)
-        
-        # Generate realistic odds (ensuring they sum to approximately 1.0)
-        base_home_odds = 0.3 + (random.random() * 0.4)  # 0.3 to 0.7
-        base_away_odds = 0.3 + (random.random() * 0.4)  # 0.3 to 0.7
-        
-        # Normalize odds
-        if sport in ['SOCCER']:
-            # Soccer can have draws
-            draw_odds = 0.1 + (random.random() * 0.3)  # 0.1 to 0.4
-            total = base_home_odds + base_away_odds + draw_odds
-            home_odds = base_home_odds / total
-            away_odds = base_away_odds / total
-            draw_odds = draw_odds / total
-        else:
-            # No draws in other sports
-            total = base_home_odds + base_away_odds
-            home_odds = base_home_odds / total
-            away_odds = base_away_odds / total
-            draw_odds = None
-        
-        # Use real market statistics with some variation
-        volume_multiplier = random.uniform(0.5, 2.0)
-        total_volume = avg_volume * volume_multiplier
-        
-        liquidity_multiplier = random.uniform(0.3, 1.2)
-        liquidity = avg_liquidity * liquidity_multiplier
-        
-        return PolymarketOdds(
-            event_id=f"poly_real_{market_hash % 100000}",
-            market_title=f"{away_team} vs {home_team} - {sport} Match Winner",
-            home_team=home_team,
-            away_team=away_team,
-            home_odds=home_odds,
-            away_odds=away_odds,
-            draw_odds=draw_odds,
-            total_volume=total_volume,
-            liquidity=liquidity,
-            last_updated=datetime.now()
-        )
+        # 🔥💀 NO MORE FAKE MARKET DATA! Return None when no real data available
+        return None
     
     def _parse_polymarket_response(self, data: Dict[str, Any], home_team: str, away_team: str) -> Optional[PolymarketOdds]:
         """
@@ -676,56 +633,13 @@ class D0PolymarketMCP:
             logger.error(f"❌ Polymarket response parsing error: {e}")
             return None
     
-    def _generate_realistic_market_data(self, home_team: str, away_team: str, 
+    def _generate_realistic_market_data(self, home_team: str, away_team: str,
                                       sport: str, league: str) -> PolymarketOdds:
         """
         🎲 Generate realistic Polymarket data for demonstration
         """
-        import hashlib
-        import random
-        
-        # Generate deterministic but realistic data
-        market_hash = int(hashlib.md5(f"{home_team}{away_team}market".encode()).hexdigest()[:8], 16)
-        random.seed(market_hash % 1000)
-        
-        # Generate realistic odds (ensuring they sum to approximately 1.0)
-        base_home_odds = 0.3 + (random.random() * 0.4)  # 0.3 to 0.7
-        base_away_odds = 0.3 + (random.random() * 0.4)  # 0.3 to 0.7
-        
-        # Normalize odds
-        if sport in ['SOCCER']:
-            # Soccer can have draws
-            draw_odds = 0.1 + (random.random() * 0.3)  # 0.1 to 0.4
-            total = base_home_odds + base_away_odds + draw_odds
-            home_odds = base_home_odds / total
-            away_odds = base_away_odds / total
-            draw_odds = draw_odds / total
-        else:
-            # No draws in other sports
-            total = base_home_odds + base_away_odds
-            home_odds = base_home_odds / total
-            away_odds = base_away_odds / total
-            draw_odds = None
-        
-        # Generate realistic volume and liquidity
-        volume_multiplier = random.uniform(0.5, 2.0)
-        base_volume = 50000 + (random.randint(0, 500000))  # $50K to $550K
-        total_volume = base_volume * volume_multiplier
-        
-        liquidity = total_volume * random.uniform(0.3, 0.8)  # 30-80% of volume
-        
-        return PolymarketOdds(
-            event_id=f"poly_{market_hash % 100000}",
-            market_title=f"{away_team} vs {home_team} - {sport} Match Winner",
-            home_team=home_team,
-            away_team=away_team,
-            home_odds=home_odds,
-            away_odds=away_odds,
-            draw_odds=draw_odds,
-            total_volume=total_volume,
-            liquidity=liquidity,
-            last_updated=datetime.now()
-        )
+        # 🔥💀 NO MORE FAKE MARKET DATA! Return None when no real data available
+        return None
     
     async def _analyze_market_confidence(self, market_data: PolymarketOdds) -> MarketConfidence:
         """
@@ -809,9 +723,8 @@ class D0PolymarketMCP:
                 sentiment_strength = 0.5
             
             # Momentum indicator (simulated - would be based on historical data)
-            import random
-            momentum_options = ['rising', 'falling', 'stable']
-            momentum_indicator = random.choice(momentum_options)
+            # 🔥💀 NO MORE RANDOM MOMENTUM! Use 'stable' default
+            momentum_indicator = 'stable'
             
             # Market bias calculation
             odds_diff = market_data.home_odds - market_data.away_odds
