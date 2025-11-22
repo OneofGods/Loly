@@ -308,52 +308,17 @@ class D3SentimentMCP:
     
     def _generate_realistic_news_events(self, team: str, sport: str) -> List[Dict[str, Any]]:
         """Generate realistic news events for demonstration"""
-        import hashlib
-        
-        # Generate deterministic but realistic events
-        seed = int(hashlib.md5(f"{team}{sport}".encode()).hexdigest()[:8], 16)
-        
-        possible_events = [
-            {'type': 'performance', 'sentiment': 0.8, 'description': f'{team} wins crucial match with dominant performance'},
-            {'type': 'injury', 'sentiment': 0.2, 'description': f'Key {team} player suffers injury concern'},
-            {'type': 'transfer', 'sentiment': 0.7, 'description': f'{team} completes important signing'},
-            {'type': 'coaching', 'sentiment': 0.6, 'description': f'{team} coach expresses confidence in team'},
-            {'type': 'fan', 'sentiment': 0.75, 'description': f'{team} fans show strong support at recent match'}
-        ]
-        
-        # Select 2-3 events based on team hash
-        selected_events = []
-        for i in range(min(3, len(possible_events))):
-            event_idx = (seed + i) % len(possible_events)
-            event = possible_events[event_idx].copy()
-            event['timestamp'] = (datetime.now() - timedelta(days=i+1)).isoformat()
-            selected_events.append(event)
-        
-        return selected_events
+        # 🔥💀 NO MORE FAKE NEWS EVENTS! Return empty when no real data
+        return []
     
     async def _fallback_news_analysis(self, team: str, sport: str) -> Dict[str, Any]:
         """Fallback news analysis when Perplexity AI unavailable"""
         try:
-            # Generate basic sentiment based on team characteristics
-            import hashlib
-            team_hash = int(hashlib.md5(f"{team}{sport}".encode()).hexdigest()[:8], 16)
-            
-            # Generate sentiment between 0.3 and 0.7 (realistic range)
-            base_sentiment = 0.3 + (team_hash % 40) / 100.0
-            
-            events = [
-                {
-                    'type': 'general',
-                    'sentiment': base_sentiment,
-                    'description': f'Recent {team} updates and team news',
-                    'timestamp': datetime.now().isoformat()
-                }
-            ]
-            
+            # 🔥💀 NO MORE HASH-BASED FAKE SENTIMENT! Return neutral defaults
             return {
-                'content': f'General sentiment analysis for {team}',
-                'events': events,
-                'source': 'Fallback Analysis'
+                'content': '',
+                'events': [],  # No fake events
+                'source': 'Fallback - No Data'
             }
             
         except Exception as e:
@@ -427,24 +392,8 @@ class D3SentimentMCP:
     
     async def _get_morale_factor_score(self, team: str, factor: str, sport: str, league: str) -> float:
         """Get score for specific morale factor"""
-        import hashlib
-        
-        # Generate deterministic but realistic scores
-        seed = int(hashlib.md5(f"{team}{factor}{sport}".encode()).hexdigest()[:8], 16)
-        
-        # Different factors have different typical ranges
-        factor_ranges = {
-            'recent_form': (0.3, 0.8),  # Form can vary widely
-            'key_players': (0.4, 0.7),  # Usually moderate impact
-            'coaching': (0.4, 0.7),     # Coaching stability
-            'transfers': (0.45, 0.65),  # Usually neutral to positive
-            'fan_support': (0.5, 0.8)   # Fans usually supportive
-        }
-        
-        min_val, max_val = factor_ranges.get(factor, (0.4, 0.6))
-        score = min_val + (seed % 100) / 100.0 * (max_val - min_val)
-        
-        return round(score, 3)
+        # 🔥💀 NO MORE HASH-BASED FAKE MORALE! Return neutral default
+        return 0.5  # Neutral morale when no real data
     
     async def _analyze_fan_sentiment(self, team: str, sport: str) -> Dict[str, Any]:
         """
@@ -457,24 +406,13 @@ class D3SentimentMCP:
             # - Fan forum discussions
             # - Attendance figures
             
-            # Generate realistic fan sentiment
-            import hashlib
-            team_hash = int(hashlib.md5(f"{team}{sport}fan".encode()).hexdigest()[:8], 16)
-            
-            # Fan sentiment typically ranges from 0.4 to 0.8
-            fan_sentiment = 0.4 + (team_hash % 40) / 100.0
-            
-            # Add some boost for popular teams
-            popular_teams = ['Manchester United', 'Barcelona', 'Real Madrid', 'Lakers', 'Celtics']
-            if any(popular in team for popular in popular_teams):
-                fan_sentiment = min(0.8, fan_sentiment + 0.1)
-            
+            # 🔥💀 NO MORE HASH-BASED FAKE FAN SENTIMENT! Return neutral default
             return {
-                'sentiment': fan_sentiment,
-                'confidence': 60,  # Medium confidence for fan analysis
-                'social_media_buzz': fan_sentiment + 0.1,
-                'attendance_trend': fan_sentiment,
-                'overall_support': fan_sentiment
+                'sentiment': 0.5,  # Neutral fan sentiment
+                'confidence': 30,  # Low confidence without real data
+                'social_media_buzz': 0.5,
+                'attendance_trend': 0.5,
+                'overall_support': 0.5
             }
             
         except Exception as e:
@@ -524,16 +462,13 @@ class D3SentimentMCP:
             if (team1 in home_team and team2 in away_team) or (team2 in home_team and team1 in away_team):
                 return 0.9  # High rivalry
         
-        # Generate moderate rivalry for other matchups
-        import hashlib
-        rivalry_hash = int(hashlib.md5(f"{home_team}{away_team}rivalry".encode()).hexdigest()[:8], 16)
-        return 0.4 + (rivalry_hash % 30) / 100.0  # 0.4 to 0.7 range
+        # 🔥💀 NO MORE HASH-BASED FAKE RIVALRY! Return neutral for unknown matchups
+        return 0.3  # Neutral/low rivalry when not in database
     
     def _calculate_historical_tension(self, home_team: str, away_team: str) -> float:
         """Calculate historical tension between teams"""
-        import hashlib
-        tension_hash = int(hashlib.md5(f"{home_team}{away_team}tension".encode()).hexdigest()[:8], 16)
-        return 0.3 + (tension_hash % 40) / 100.0  # 0.3 to 0.7 range
+        # 🔥💀 NO MORE HASH-BASED FAKE TENSION! Return neutral default
+        return 0.3  # Neutral/low tension when no data available
     
     def _calculate_media_attention(self, home_team: str, away_team: str, sport: str) -> float:
         """Calculate media attention for this matchup"""
