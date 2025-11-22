@@ -450,16 +450,58 @@ class MLAnalyticsCoordinator:
             return None, None
     
     async def _extract_load_features(self, data_point: Dict[str, Any]) -> Tuple[Optional[List[float]], Optional[float]]:
-        """🔧 Extract features for load forecasting"""
-        # This would extract time-series features for load prediction
-        # For now, return dummy data
-        return [1.0, 2.0, 3.0], 1.0
+        """🔧 Extract features for load forecasting - NO MORE DUMMY DATA!"""
+        try:
+            # 🔥💀 EXTRACT REAL LOAD FEATURES ONLY! 💀🔥
+            features = []
+
+            # Extract real time-series features
+            if 'cpu_usage' in data_point:
+                features.append(float(data_point['cpu_usage']))
+            if 'memory_usage' in data_point:
+                features.append(float(data_point['memory_usage']))
+            if 'active_tasks' in data_point:
+                features.append(float(data_point['active_tasks']))
+
+            target = data_point.get('target_load', data_point.get('cpu_usage'))
+
+            # 🔥💀 NO DUMMY DATA! Return None if no real features! 💀🔥
+            if not features or target is None:
+                logger.warning("❌ NO DUMMY DATA! Insufficient real load features")
+                return None, None
+
+            return features, float(target)
+
+        except Exception as e:
+            logger.error(f"Error extracting load features: {e}")
+            return None, None
     
     async def _extract_failure_features(self, data_point: Dict[str, Any]) -> Tuple[Optional[List[float]], Optional[float]]:
-        """🔧 Extract features for failure prediction"""
-        # This would extract failure indicator features
-        # For now, return dummy data
-        return [1.0, 2.0, 3.0], 0.0
+        """🔧 Extract features for failure prediction - NO MORE DUMMY DATA!"""
+        try:
+            # 🔥💀 EXTRACT REAL FAILURE INDICATOR FEATURES ONLY! 💀🔥
+            features = []
+
+            # Extract real failure indicators
+            if 'error_rate' in data_point:
+                features.append(float(data_point['error_rate']))
+            if 'response_time' in data_point:
+                features.append(float(data_point['response_time']))
+            if 'memory_usage' in data_point:
+                features.append(float(data_point['memory_usage']))
+
+            target = data_point.get('failed', data_point.get('error_rate'))
+
+            # 🔥💀 NO DUMMY DATA! Return None if no real features! 💀🔥
+            if not features or target is None:
+                logger.warning("❌ NO DUMMY DATA! Insufficient real failure features")
+                return None, None
+
+            return features, float(target)
+
+        except Exception as e:
+            logger.error(f"Error extracting failure features: {e}")
+            return None, None
     
     async def _check_model_degradation(self, model: MLModel) -> bool:
         """📉 Check if model performance has degraded"""
