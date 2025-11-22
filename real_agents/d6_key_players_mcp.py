@@ -610,67 +610,10 @@ class D6KeyPlayersMCP:
         return False
     
     def _generate_realistic_player_data(self, team: str, sport: str) -> List[PlayerStatus]:
-        """Generate realistic player data for demonstration"""
-        import hashlib
-        import random
-        
-        # Generate deterministic but realistic data
-        team_hash = int(hashlib.md5(f"{team}{sport}".encode()).hexdigest()[:8], 16)
-        random.seed(team_hash % 1000)
-        
-        players = []
-        sport_config = self.sport_configs.get(sport, self.sport_configs['SOCCER'])
-        positions = sport_config.get('key_positions', ['unknown'])
-        squad_size = sport_config.get('typical_squad_size', 11) * 2  # Full squad
-        
-        # Generate realistic player names and data
-        first_names = ['James', 'John', 'Robert', 'Michael', 'David', 'William', 'Richard', 'Joseph', 'Thomas', 'Alex',
-                      'Daniel', 'Matthew', 'Anthony', 'Mark', 'Steven', 'Kevin', 'Brian', 'George', 'Edward', 'Carlos',
-                      'Luis', 'Diego', 'Pablo', 'Mario', 'Francesco', 'Antonio', 'Marco', 'Andrea', 'Mohamed', 'Ahmed']
-        
-        last_names = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez',
-                     'Hernandez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson', 'Thomas', 'Taylor', 'Moore', 'Jackson', 'Martin',
-                     'Lee', 'Perez', 'Thompson', 'White', 'Harris', 'Sanchez', 'Clark', 'Ramirez', 'Lewis', 'Robinson']
-        
-        for i in range(squad_size):
-            name = f"{random.choice(first_names)} {random.choice(last_names)}"
-            position = random.choice(positions)
-            
-            # Determine player status (most available, some injured/suspended)
-            status_roll = random.random()
-            if status_roll < 0.10:  # 10% injured
-                status = 'injured'
-                injury_type = random.choice(['Hamstring', 'Knee', 'Ankle', 'Back', 'Groin', 'Shoulder'])
-            elif status_roll < 0.12:  # 2% suspended
-                status = 'suspended'
-                injury_type = None
-            else:
-                status = 'available'
-                injury_type = None
-            
-            # Generate impact rating (some star players, most average)
-            impact_roll = random.random()
-            if impact_roll < 0.1:  # 10% star players
-                impact_rating = 0.8 + (random.random() * 0.2)
-            elif impact_roll < 0.3:  # 20% key players
-                impact_rating = 0.6 + (random.random() * 0.2)
-            else:  # 70% regular players
-                impact_rating = 0.2 + (random.random() * 0.4)
-            
-            player = PlayerStatus(
-                name=name,
-                position=position,
-                status=status,
-                injury_type=injury_type,
-                impact_rating=impact_rating,
-                games_missed=random.randint(0, 5) if status == 'injured' else 0,
-                replacement_quality=random.uniform(0.3, 0.7)
-            )
-            
-            players.append(player)
-        
-        logger.info(f"📊 Generated {len(players)} realistic players for {team}")
-        return players
+        """Return empty list when no real player data available"""
+        # 🔥💀 NO MORE HASH/RANDOM FAKE PLAYER GENERATION!
+        logger.warning(f"⚠️ No player data available for {team}, returning empty squad")
+        return []  # No fake players!
     
     def _calculate_star_power(self, available_players: List[PlayerStatus]) -> float:
         """Calculate team's available star power"""
