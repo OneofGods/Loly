@@ -294,119 +294,26 @@ class D4MarketEfficiencyMCP:
     async def _fetch_sportsbook_odds(self, sportsbook: str, home_team: str, away_team: str, sport: str) -> Optional[OddsData]:
         """Fetch odds from a specific sportsbook"""
         try:
-            # In production, this would make real API calls to each sportsbook
-            # For now, simulate realistic odds with some variation
-            
-            import hashlib
-            team_hash = int(hashlib.md5(f"{home_team}{away_team}{sportsbook}".encode()).hexdigest()[:8], 16)
-            
-            # Generate base odds (around 1.85-2.15 for competitive matchups)
-            base_home_odds = 1.75 + (team_hash % 40) / 100.0
-            base_away_odds = 1.75 + ((team_hash * 7) % 40) / 100.0
-            
-            # Adjust odds based on sportsbook characteristics
-            if sportsbook == 'pinnacle':
-                # Pinnacle has sharper lines, less vig
-                home_odds = base_home_odds + 0.05
-                away_odds = base_away_odds + 0.05
-                volume_indicator = 0.8  # High sharp volume
-            elif sportsbook == 'betfair':
-                # Exchange, better odds but can have gaps
-                home_odds = base_home_odds + 0.08
-                away_odds = base_away_odds + 0.08  
-                volume_indicator = 0.7  # Good volume
-            else:
-                # Public books, more vig
-                home_odds = base_home_odds - 0.05
-                away_odds = base_away_odds - 0.05
-                volume_indicator = 0.5  # Moderate volume
-            
-            return OddsData(
-                sportsbook=sportsbook,
-                home_odds=round(home_odds, 2),
-                away_odds=round(away_odds, 2),
-                timestamp=datetime.now(),
-                volume_indicator=volume_indicator
-            )
-            
+            # 🔥💀 NO MORE FAKE SPORTSBOOK ODDS! Return None when no real data
+            return None
         except Exception as e:
             logger.error(f"❌ Error fetching {sportsbook} odds: {e}")
             return None
     
     def _generate_realistic_odds(self, home_team: str, away_team: str, sport: str) -> List[OddsData]:
         """Generate realistic odds for demonstration"""
-        import hashlib
-        
-        team_hash = int(hashlib.md5(f"{home_team}{away_team}".encode()).hexdigest()[:8], 16)
-        
-        # Generate base competitive odds
-        base_home = 1.80 + (team_hash % 30) / 100.0
-        base_away = 1.80 + ((team_hash * 3) % 30) / 100.0
-        
-        odds_data = []
-        
-        # Generate odds for different sportsbook types
-        sportsbooks = ['pinnacle', 'betfair', 'draftkings', 'fanduel', 'caesars']
-        
-        for i, book in enumerate(sportsbooks):
-            variation = (team_hash + i) % 20 / 1000.0  # Small variation between books
-            
-            if book == 'pinnacle':
-                # Sharp book - better odds
-                home_odds = base_home + 0.05 + variation
-                away_odds = base_away + 0.05 + variation
-                volume = 0.85
-            elif book == 'betfair':
-                # Exchange - competitive
-                home_odds = base_home + 0.03 + variation
-                away_odds = base_away + 0.03 + variation
-                volume = 0.75
-            else:
-                # Public books - more vig
-                home_odds = base_home - 0.03 + variation
-                away_odds = base_away - 0.03 + variation
-                volume = 0.5 + (i * 0.1)
-            
-            odds_data.append(OddsData(
-                sportsbook=book,
-                home_odds=round(home_odds, 2),
-                away_odds=round(away_odds, 2),
-                timestamp=datetime.now(),
-                volume_indicator=volume
-            ))
-        
-        return odds_data
+        # 🔥💀 NO MORE FAKE MULTI-BOOK ODDS! Return empty when no real data
+        return []
     
     async def _analyze_line_movement(self, home_team: str, away_team: str, current_odds: List[OddsData]) -> Dict[str, Any]:
         """
         📈 Analyze line movement patterns
         """
         try:
-            # In production, this would track historical line movements
-            # For now, simulate realistic line movement analysis
-            
-            import hashlib
-            movement_hash = int(hashlib.md5(f"{home_team}{away_team}movement".encode()).hexdigest()[:8], 16)
-            
-            # Generate realistic movement patterns
-            movement_magnitude = (movement_hash % 20) / 100.0  # 0-20% movement
-            movement_direction = 'home' if movement_hash % 2 == 0 else 'away'
-            
-            # Different movement patterns
-            patterns = ['steady', 'sharp_move', 'gradual_drift', 'reverse', 'volatile']
-            time_pattern = patterns[movement_hash % len(patterns)]
-            
-            # Calculate movement score (higher = more significant movement)
-            if time_pattern == 'sharp_move':
-                movement_score = 0.8 + (movement_magnitude * 2)
-            elif time_pattern == 'reverse':
-                movement_score = 0.7 + movement_magnitude
-            elif time_pattern == 'volatile':
-                movement_score = 0.6 + movement_magnitude
-            else:
-                movement_score = 0.3 + movement_magnitude
-            
-            movement_score = min(1.0, movement_score)
+            # 🔥💀 NO MORE FAKE LINE MOVEMENT! Return neutral defaults when no real data
+            movement_score = 0.5  # Neutral
+            movement_direction = 'neutral'
+            time_pattern = 'stable'
             
             return {
                 'movement_score': round(movement_score, 3),
@@ -513,10 +420,8 @@ class D4MarketEfficiencyMCP:
                 return 0.5
             
             elif indicator == 'closing_line_value':
-                # Historical closing line movement patterns
-                import hashlib
-                clv_hash = int(hashlib.md5(f"clv{len(odds_data)}".encode()).hexdigest()[:8], 16)
-                return (clv_hash % 60 + 20) / 100.0  # 0.2 to 0.8 range
+                # 🔥💀 NO MORE HASH-BASED FAKE CLV! Return neutral default
+                return 0.5  # Neutral CLV when no historical data
             
             else:
                 return 0.5  # Default neutral score
