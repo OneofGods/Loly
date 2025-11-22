@@ -397,27 +397,13 @@ class D2VenueWeatherMCP:
         """
         🛡️ Fallback weather analysis
         """
-        # Generate consistent weather based on city/venue
-        seed = f"weather_{city}_{venue_data.get('city', '')}"
-        hash_val = int(hashlib.md5(seed.encode()).hexdigest()[:8], 16)
-        
-        conditions = ['clear', 'cloudy', 'windy', 'rain'][hash_val % 4]
-        temperature = 50 + (hash_val % 40)  # 50-90°F
-        wind_speed = hash_val % 20  # 0-20 mph
-        
-        impact = 'low'
-        if conditions == 'rain':
-            impact = 'high'
-        elif conditions in ['cloudy', 'windy'] or wind_speed > 10:
-            impact = 'medium'
-        
+        # 🔥💀 NO MORE HASH-BASED FAKE WEATHER! Return neutral defaults
         return {
-            'conditions': conditions,
-            'temperature': temperature,
-            'humidity': 45 + (hash_val % 30),  # 45-75%
-            'wind_speed': wind_speed,
-            'precipitation': 1 if conditions == 'rain' else 0,
-            'weather_impact': impact,
+            'conditions': 'unknown',
+            'temperature': 70,  # Neutral temperature
+            'wind_speed': 0,
+            'precipitation': 0,
+            'weather_impact': 'low',
             'data_source': 'FALLBACK_WEATHER',
             'data_quality': 'FALLBACK'
         }
@@ -532,17 +518,13 @@ class D2VenueWeatherMCP:
     
     def _get_d2_fallback(self, home_team: str, away_team: str, venue: str, city: str, sport: str) -> Dict[str, Any]:
         """🛡️ Complete D2 fallback response"""
-        seed = f"d2_fallback_{home_team}_{away_team}_{venue}_{sport}"
-        hash_val = int(hashlib.md5(seed.encode()).hexdigest()[:8], 16)
-        
-        fallback_confidence = 45 + (hash_val % 25)  # 45-70%
-        
+        # 🔥💀 NO MORE HASH-BASED FAKE PREDICTION! Return neutral defaults
         return {
             'success': True,
             'mcp_name': f'{self.mcp_name}_FALLBACK',
-            'd2_confidence': fallback_confidence,
-            'd2_prediction': f"🏠 {home_team}" if hash_val % 2 == 0 else f"✈️ {away_team}",
-            'd2_reasoning': f"Fallback venue/weather analysis for {sport}",
+            'd2_confidence': 50,  # Neutral confidence
+            'd2_prediction': f"🏠 {home_team}",  # Default home advantage
+            'd2_reasoning': f"Neutral fallback - no real venue/weather data available",
             'venue_analysis': self._get_fallback_venue(venue, city, sport),
             'weather_analysis': {
                 'conditions': 'unknown',
