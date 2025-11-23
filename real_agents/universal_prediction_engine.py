@@ -137,9 +137,8 @@ class UniversalPredictionEngine:
             # 🔥💀🔥 REAL D4 MARKET EFFICIENCY MCP INTEGRATION - SHARP MONEY POWER! 💀🔥💀
             from real_agents.d4_market_efficiency_mcp import fetch_d4_market_efficiency_data
             
-            # Map league to sport
-            from leagues_registry import LEAGUES_REGISTRY
-            league_config = LEAGUES_REGISTRY.get(league_id, {})
+            # Map league to sport using alias-aware helper
+            league_config = get_league_config(league_id)
             sport = league_config.get('sport', 'Soccer')
             
             # We need our current prediction confidence to compare vs market
@@ -176,9 +175,8 @@ class UniversalPredictionEngine:
             # 🔥💀🔥 REAL D5 TEAM PERFORMANCE MCP INTEGRATION - ESPN POWER! 💀🔥💀
             from real_agents.d5_team_performance_mcp import fetch_d5_team_performance_data
             
-            # Map league to sport
-            from leagues_registry import LEAGUES_REGISTRY
-            league_config = LEAGUES_REGISTRY.get(league_id, {})
+            # Map league to sport using alias-aware helper
+            league_config = get_league_config(league_id)
             sport = league_config.get('sport', 'SOCCER')
             
             # Convert sport to D5 format
@@ -227,9 +225,8 @@ class UniversalPredictionEngine:
             # 🔥💀🔥 REAL D6 KEY PLAYERS MCP INTEGRATION - PLAYER INTELLIGENCE POWER! 💀🔥💀
             from real_agents.d6_key_players_mcp import fetch_d6_key_players_data
             
-            # Map league to sport
-            from leagues_registry import LEAGUES_REGISTRY
-            league_config = LEAGUES_REGISTRY.get(league_id, {})
+            # Map league to sport using alias-aware helper
+            league_config = get_league_config(league_id)
             sport = league_config.get('sport', 'SOCCER')
             
             # Convert sport to D6 format
@@ -343,9 +340,8 @@ class UniversalPredictionEngine:
             # 🔥💀🔥 REAL D2 MCP INTEGRATION - NO MORE FAKE DATA! 💀🔥💀
             from real_agents.d2_venue_weather_mcp import fetch_d2_venue_weather_data
             
-            # Map league to sport and get venue info  
-            from leagues_registry import LEAGUES_REGISTRY
-            league_config = LEAGUES_REGISTRY.get(league_id, {})
+            # Map league to sport and get venue info using alias-aware helper
+            league_config = get_league_config(league_id)
             sport = league_config.get('sport', 'Soccer')
             city = config.get('city', '')
             venue = config.get('venue', '')
@@ -379,9 +375,8 @@ class UniversalPredictionEngine:
             # 🔥💀🔥 REAL D3 SENTIMENT MCP INTEGRATION - PERPLEXITY AI POWER! 💀🔥💀
             from real_agents.d3_sentiment_mcp import fetch_d3_sentiment_data
             
-            # Map league to sport and get analysis period
-            from leagues_registry import LEAGUES_REGISTRY
-            league_config = LEAGUES_REGISTRY.get(league_id, {})
+            # Map league to sport and get analysis period using alias-aware helper
+            league_config = get_league_config(league_id)
             sport = league_config.get('sport', 'Soccer')
             
             # Fetch REAL D3 sentiment data with Perplexity AI
@@ -414,9 +409,8 @@ class UniversalPredictionEngine:
             # 🔥💀🔥 REAL D7 X-FACTOR MCP INTEGRATION - AI TACTICAL POWER! 💀🔥💀
             from real_agents.d7_x_factor_mcp import fetch_d7_x_factor_data
             
-            # Map league to sport
-            from leagues_registry import LEAGUES_REGISTRY
-            league_config = LEAGUES_REGISTRY.get(league_id, {})
+            # Map league to sport using alias-aware helper
+            league_config = get_league_config(league_id)
             sport = league_config.get('sport', 'SOCCER')
             
             # Convert sport to D7 format
