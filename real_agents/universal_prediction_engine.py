@@ -664,7 +664,7 @@ class UniversalPredictionEngine:
         # Generate unique ID
         game_id = f"{league_id.lower()}_game_{hash(f'{home_team}_{away_team}_{datetime.now().date()}') % 10000}"
         
-        # Create unified game data with ALL 7 DIMENSIONS
+        # Create unified game data with ALL 8 DIMENSIONS
         unified_game = {
             # Core identifiers
             'id': game_id,
@@ -676,12 +676,13 @@ class UniversalPredictionEngine:
             'matchup': f"{away_team} @ {home_team}",
             'venue': original_data.get('venue', 'TBD'),
             'country_flag': config.get('country_flag', '⚽'),
-            
+
             # Prediction results
             'prediction': prediction,
             'confidence': confidence,
             'reasoning': reasoning,
-            
+            'algorithm': '8D_DIMENSIONAL_ANALYSIS',  # 🔥💀 FIXED: Algorithm field was missing!!
+
             # 🔥💀🔥 ALL 8 DIMENSIONS (D0-D7) - REAL POWER! 💀🔥💀
             'polymarket_odds': polymarket,        # Dimension 0
             'historical_matchups': historical,     # Dimension 1
@@ -691,7 +692,7 @@ class UniversalPredictionEngine:
             'team_performance': team_perf,         # Dimension 5
             'key_players': key_players,            # Dimension 6
             'x_factor': x_factor,                  # Dimension 7
-            
+
             # System metadata
             'nuclear_powered': True,
             'brother_fix': True,

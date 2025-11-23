@@ -263,7 +263,44 @@ LEAGUES_REGISTRY = {
         'data_source_name': 'ESPN_COPA_SUDAMERICANA_API',
         'brother_fix_flag': 'brother_league8_copa_sudamericana_integration'
     },
-    
+
+    'COPA_LIBERTADORES': {
+        'display_name': 'Copa Libertadores',
+        'emoji': '🏆',
+        'country_flag': '🇦🇷',
+        'sport': 'Soccer',
+        'league_type': 'SOUTH_AMERICAN_ELITE_CONTINENTAL_TOURNAMENT',
+
+        # Prediction Engine Config
+        'market_efficiency_range': (50, 84),      # 50-84% (Elite South American tournament)
+        'team_performance_range': (54, 84),       # 54-84%
+        'key_players_range': (60, 84),            # 60-84%
+        'confidence_boost': 9,                    # +9% Elite Continental boost
+        'confidence_cap': 85,                     # Max 85% for Copa Libertadores
+        'draw_enabled': True,                     # Continental tournament allows draws
+        'draw_threshold': 0.46,                   # 46%+ = draw prediction
+        'close_game_threshold': 0.06,             # <6% difference = close game
+
+        # Midnight Special Config
+        'minion_type': 'COPA_LIBERTADORES_ELITE',
+        'championship_status': 'CONMEBOL_LIBERTADORES_CUP',
+        'accuracy_rate': 0.80,                    # 80% accuracy for Copa Libertadores
+        'improvement_rate': 17.2,                 # Copa Libertadores improvement rate
+        'confidence_growth': 12.5,                # Copa Libertadores confidence growth
+
+        # Automation Config
+        'automation_enabled': True,
+        'auto_start_automation': True,
+        'bypass_agent_detection': True,
+
+        # Data Source Config
+        'fetcher_module': 'real_agents.copa_libertadores_fetcher',
+        'fetcher_class': 'RealCopaLibertadoresFetcher',
+        'fetcher_method': 'fetch_todays_real_copa_libertadores_games',
+        'data_source_name': 'ESPN_COPA_LIBERTADORES_API',
+        'brother_fix_flag': 'brother_copa_libertadores_elite_addition'
+    },
+
     # 🔥💀🔥 BASKETBALL LEAGUES 💀🔥💀
     'NBA': {
         'display_name': 'National Basketball Association',
@@ -1594,19 +1631,49 @@ LEAGUES_REGISTRY = {
     }
 }
 
+# 🔥💀🔥 LEAGUE ALIASES - Map alternative names to canonical league IDs 💀🔥💀
+LEAGUE_ALIASES = {
+    'EPL': 'PREMIER_LEAGUE',
+    'ENGLISH_PREMIER_LEAGUE': 'PREMIER_LEAGUE',
+    'PL': 'PREMIER_LEAGUE',
+    'CHAMPIONSHIP': 'EFL_CHAMPIONSHIP',
+    'UCL': 'UEFA',
+    'CHAMPIONS_LEAGUE': 'UEFA',
+    'UEFA_CHAMPIONS': 'UEFA',
+    'UEFA_EUROPA': 'UEFA_EUROPA_LEAGUE',
+    'EUROPA_LEAGUE': 'UEFA_EUROPA_LEAGUE',
+    'BUNDESLIGA_1': 'BUNDESLIGA',
+    'SERIEA': 'SERIE_A',
+    'LIGUE1': 'LIGUE_1',
+    'LALIGA': 'LA_LIGA',
+    'LIGAMX': 'LIGA_MX',
+    'MAJOR_LEAGUE_SOCCER': 'MLS',
+    'AUSTRALIA_A_LEAGUE': 'AUSTRALIAN_A_LEAGUE',
+    'A_LEAGUE': 'AUSTRALIAN_A_LEAGUE',
+}
+
 # 🔥💀🔥 HELPER FUNCTIONS FOR LEAGUE MANAGEMENT 💀🔥💀
 
 def get_league_config(league_id: str) -> Dict[str, Any]:
-    """Get configuration for a specific league"""
-    return LEAGUES_REGISTRY.get(league_id.upper(), {})
+    """Get configuration for a specific league (supports aliases)"""
+    # Normalize to uppercase
+    normalized_id = league_id.upper()
+
+    # Check if it's an alias first
+    canonical_id = LEAGUE_ALIASES.get(normalized_id, normalized_id)
+
+    # Return the config for the canonical league ID
+    return LEAGUES_REGISTRY.get(canonical_id, {})
 
 def get_all_leagues() -> List[str]:
     """Get list of all registered league IDs"""
     return list(LEAGUES_REGISTRY.keys())
 
 def is_league_registered(league_id: str) -> bool:
-    """Check if a league is registered"""
-    return league_id.upper() in LEAGUES_REGISTRY
+    """Check if a league is registered (supports aliases)"""
+    normalized_id = league_id.upper()
+    canonical_id = LEAGUE_ALIASES.get(normalized_id, normalized_id)
+    return canonical_id in LEAGUES_REGISTRY
 
 def get_league_display_name(league_id: str) -> str:
     """Get display name for a league"""
